@@ -843,18 +843,30 @@
             return Promise.resolve();
         }
 
-        // Initialize with saved language preference or default to English
+        // Initialize with browser language preference
         document.addEventListener('DOMContentLoaded', function () {
-            // Get saved language preference or default to English
-            const savedLang = localStorage.getItem('preferred-language') || 'en';
+            // Check if user has a saved preference
+            const savedLang = localStorage.getItem('preferred-language');
+            let defaultLang;
+            
+            if (savedLang) {
+                // Use saved preference if exists
+                defaultLang = savedLang;
+            } else {
+                // Detect browser language preference
+                const browserLang = navigator.language || navigator.userLanguage || 'en';
+                // Default to Japanese if browser language is Japanese, otherwise English
+                defaultLang = browserLang.startsWith('ja') ? 'ja' : 'en';
+            }
+            
             const langText = document.getElementById('lang-text');
 
             // Set the document language and toggle button text
-            document.documentElement.lang = savedLang;
-            langText.textContent = savedLang === 'ja' ? 'English' : '日本語';
+            document.documentElement.lang = defaultLang;
+            langText.textContent = defaultLang === 'ja' ? 'English' : '日本語';
 
             // Switch to the preferred language
-            switchToLanguage(savedLang);
+            switchToLanguage(defaultLang);
             handleSubscriptionForm();
 
             // Handle scroll to subscription form from other pages
