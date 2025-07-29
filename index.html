@@ -30,10 +30,10 @@ title: Home
     {% for issue in limited_issues %}
     <!-- English Volume -->
     <div class="weekly-item" data-lang="en">
-        <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}"
-            style="text-decoration: none; color: inherit;">
+        <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}">
             <img src="{{ '/img/weekly/en/' | append: issue.slug | append: '-en.jpg' | relative_url }}"
-                alt="AfterAI Weekly Vol.{{ issue.number }} English">
+                alt="AfterAI Weekly Vol.{{ issue.number }} English"
+                loading="lazy">
             <h3 class="weekly-title">Volume {{ issue.number }}{% if forloop.first %} - Latest!{% endif %}</h3>
         </a>
     </div>
@@ -42,10 +42,10 @@ title: Home
     <!-- Japanese Volumes -->
     {% for issue in limited_issues %}
     <div class="weekly-item" data-lang="ja">
-        <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}"
-            style="text-decoration: none; color: inherit;">
+        <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}">
             <img src="{{ '/img/weekly/ja/' | append: issue.slug | append: '-ja.jpg' | relative_url }}"
-                alt="AfterAI Weekly Vol.{{ issue.number }} Japanese">
+                alt="AfterAI Weekly Vol.{{ issue.number }} Japanese"
+                loading="lazy">
             <h3 class="weekly-title">第{{ issue.number }}号{% if forloop.first %} - 最新！{% endif %}</h3>
         </a>
     </div>
@@ -72,7 +72,8 @@ title: Home
     </div>
     
     <img src="{{ '/img/flyer/maker-faire-bay-area-2025-afterai-flyer.jpg' | relative_url }}" 
-         alt="AfterAI at Maker Faire Bay Area 2025 - Let's Write and Share News Cards!" 
+         alt="AfterAI at Maker Faire Bay Area 2025 - Let's Write and Share News Cards!"
+         loading="lazy"
          style="max-width: 100%; height: auto; border-radius: 15px; box-shadow: 5px 5px 15px rgba(0,0,0,0.2); transform: rotate(-0.5deg); margin: 20px 0;">
 </div>
 

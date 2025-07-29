@@ -19,19 +19,101 @@ layout: default
   {% endif %}
 {% endfor %}
 
-<div class="content">
-    <!-- Navigation -->
-    <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-        <a href="{{ '/weekly.html' | relative_url }}" 
-           style="display: inline-block; padding: 8px 16px; background: var(--sketch-brown); color: white; text-decoration: none; border-radius: 8px; font-family: 'Caveat', cursive; font-size: 1.1rem; transform: rotate(-1deg);">
-            <span data-lang="en">← Back to Archive</span>
-            <span data-lang="ja" style="display: none;">← アーカイブに戻る</span>
-        </a>
+<style>
+    .issue-header-with-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
+    
+    .nav-buttons {
+        display: none; /* Hidden on desktop */
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .nav-button-left {
+        position: absolute;
+        left: 0;
+    }
+    
+    .nav-button-right {
+        position: absolute;
+        right: 0;
+    }
+    
+    .issue-header {
+        text-align: center;
+        flex: 1;
+    }
+    
+    /* Mobile responsive navigation */
+    @media (max-width: 768px) {
+        .issue-header-with-nav {
+            flex-direction: column;
+            gap: 20px;
+        }
         
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        .nav-button-left,
+        .nav-button-right {
+            display: none !important; /* Hide desktop nav buttons */
+        }
+        
+        .nav-buttons {
+            display: flex !important; /* Show mobile nav buttons */
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            order: -1; /* Put navigation above header on mobile */
+        }
+    }
+    
+    /* Very small screens */
+    @media (max-width: 480px) {
+        .nav-buttons {
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+    }
+</style>
+
+<div class="content">
+    <!-- Issue Header with Navigation -->
+    <div class="issue-header-with-nav">
+        {% if prev_issue %}
+        <div class="nav-button-left">
+            <a href="{{ '/weekly/' | append: prev_issue.slug | append: '.html' | relative_url }}" 
+               style="display: inline-block; padding: 12px 24px; background: var(--ink-blue); color: white; text-decoration: none; border-radius: 10px; font-family: 'Caveat', cursive; font-size: 1.2rem; transform: rotate(0.5deg);">
+                <span data-lang="en">← Vol.{{ prev_issue.number }}</span>
+                <span data-lang="ja" style="display: none;">← 第{{ prev_issue.number }}号</span>
+            </a>
+        </div>
+        {% endif %}
+        
+        <div class="issue-header">
+            <h1 style="font-family: 'Caveat', cursive; font-size: 3.5rem; color: var(--marker-red); margin-bottom: 10px; transform: rotate(-1deg);">
+                <span data-lang="en">AfterAI Weekly Vol.{{ issue_data.number }} 📚</span>
+                <span data-lang="ja" style="display: none;">AfterAI Weekly 第{{ issue_data.number }}号 📚</span>
+            </h1>
+        </div>
+        
+        {% if next_issue %}
+        <div class="nav-button-right">
+            <a href="{{ '/weekly/' | append: next_issue.slug | append: '.html' | relative_url }}" 
+               style="display: inline-block; padding: 12px 24px; background: var(--marker-red); color: white; text-decoration: none; border-radius: 10px; font-family: 'Caveat', cursive; font-size: 1.2rem; transform: rotate(-0.5deg);">
+                <span data-lang="en">Vol.{{ next_issue.number }} →</span>
+                <span data-lang="ja" style="display: none;">第{{ next_issue.number }}号 →</span>
+            </a>
+        </div>
+        {% endif %}
+        
+        <!-- Mobile navigation - only visible on small screens -->
+        <div class="nav-buttons" style="display: none;">
             {% if prev_issue %}
             <a href="{{ '/weekly/' | append: prev_issue.slug | append: '.html' | relative_url }}" 
-               style="display: inline-block; padding: 8px 16px; background: var(--ink-blue); color: white; text-decoration: none; border-radius: 8px; font-family: 'Caveat', cursive; font-size: 1rem; transform: rotate(0.5deg);">
+               style="display: inline-block; padding: 12px 24px; background: var(--ink-blue); color: white; text-decoration: none; border-radius: 10px; font-family: 'Caveat', cursive; font-size: 1.2rem; transform: rotate(0.5deg);">
                 <span data-lang="en">← Vol.{{ prev_issue.number }}</span>
                 <span data-lang="ja" style="display: none;">← 第{{ prev_issue.number }}号</span>
             </a>
@@ -39,7 +121,7 @@ layout: default
             
             {% if next_issue %}
             <a href="{{ '/weekly/' | append: next_issue.slug | append: '.html' | relative_url }}" 
-               style="display: inline-block; padding: 8px 16px; background: var(--marker-red); color: white; text-decoration: none; border-radius: 8px; font-family: 'Caveat', cursive; font-size: 1rem; transform: rotate(-0.5deg);">
+               style="display: inline-block; padding: 12px 24px; background: var(--marker-red); color: white; text-decoration: none; border-radius: 10px; font-family: 'Caveat', cursive; font-size: 1.2rem; transform: rotate(-0.5deg);">
                 <span data-lang="en">Vol.{{ next_issue.number }} →</span>
                 <span data-lang="ja" style="display: none;">第{{ next_issue.number }}号 →</span>
             </a>
@@ -47,25 +129,18 @@ layout: default
         </div>
     </div>
 
-    <!-- Issue Header -->
-    <div style="text-align: center; margin-bottom: 40px;">
-        <h1 style="font-family: 'Caveat', cursive; font-size: 3.5rem; color: var(--marker-red); margin-bottom: 10px; transform: rotate(-1deg);">
-            <span data-lang="en">AfterAI Weekly Vol.{{ issue_data.number }} 📚</span>
-            <span data-lang="ja" style="display: none;">AfterAI Weekly 第{{ issue_data.number }}号 📚</span>
-        </h1>
-    </div>
-
     <!-- Main Content -->
     <div style="display: flex; flex-direction: column; align-items: center; gap: 30px;">
         
         <!-- English Version -->
         <div data-lang="en" style="max-width: 800px; width: 100%;">
-            <div style="padding: 30px;">
+            <div class="issue-content" style="padding: 30px;">
                 <img src="{{ '/img/weekly/en/' | append: issue_data.slug | append: '-en.jpg' | relative_url }}" 
-                     alt="AfterAI Weekly Vol.{{ issue_data.number }} English" 
+                     alt="AfterAI Weekly Vol.{{ issue_data.number }} English"
+                     loading="lazy"
                      style="width: 100%; height: auto; border-radius: 10px; box-shadow: 3px 3px 10px rgba(0,0,0,0.2);">
                 
-                <div style="margin-top: 25px; padding: 20px; background: rgba(245,245,220,0.7); border-radius: 10px;">
+                <div class="transcription-box" style="margin-top: 25px; padding: 20px; background: rgba(245,245,220,0.7); border-radius: 10px;">
                     <h3 style="font-family: 'Caveat', cursive; font-size: 2rem; color: var(--marker-red); margin-bottom: 15px;">
                         Transcriptions 📝
                     </h3>
@@ -76,12 +151,13 @@ layout: default
 
         <!-- Japanese Version -->
         <div data-lang="ja" style="max-width: 800px; width: 100%; display: none;">
-            <div style="padding: 30px;">
+            <div class="issue-content" style="padding: 30px;">
                 <img src="{{ '/img/weekly/ja/' | append: issue_data.slug | append: '-ja.jpg' | relative_url }}" 
-                     alt="AfterAI Weekly Vol.{{ issue_data.number }} Japanese" 
+                     alt="AfterAI Weekly Vol.{{ issue_data.number }} Japanese"
+                     loading="lazy"
                      style="width: 100%; height: auto; border-radius: 10px; box-shadow: 3px 3px 10px rgba(0,0,0,0.2);">
                 
-                <div style="margin-top: 25px; padding: 20px; background: rgba(245,245,220,0.7); border-radius: 10px;">
+                <div class="transcription-box" style="margin-top: 25px; padding: 20px; background: rgba(245,245,220,0.7); border-radius: 10px;">
                     <h3 style="font-family: 'Caveat', cursive; font-size: 2rem; color: var(--marker-red); margin-bottom: 15px;">
                         文字起こし 📝
                     </h3>
@@ -92,7 +168,7 @@ layout: default
     </div>
 
     <!-- Subscribe CTA -->
-    <div style="text-align: center; margin: 40px 0; padding: 30px; background: rgba(255,255,255,0.9); border: 3px dashed var(--sketch-brown); border-radius: 20px;">
+    <div class="subscribe-cta" style="text-align: center; margin: 40px 0; padding: 30px; background: rgba(255,255,255,0.9); border: 3px dashed var(--sketch-brown); border-radius: 20px;">
         <h3 style="font-family: 'Caveat', cursive; font-size: 2.2rem; color: var(--marker-red); margin-bottom: 15px;">
             <span data-lang="en">Don't Miss Future Issues! ✉️</span>
             <span data-lang="ja" style="display: none;">今後の号をお見逃しなく！ ✉️</span>

@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.default_lang | default: "en" }}">
+<html lang="{{ page.lang | default: site.default_lang | default: " en" }}">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% if page.title %}{{ page.title | escape }} - {{ site.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
-    <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
-    
+    <title>{% if page.title %}{{ page.title | escape }} - {{ site.title | escape }}{% else %}{{ site.title | escape }}{%
+        endif %}</title>
+    <meta name="description"
+        content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+
     <!-- Handwritten-style fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Caveat:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
     <style>
         :root {
             --sketch-brown: #8B4513;
@@ -28,7 +33,7 @@
         body {
             font-family: 'Kalam', cursive;
             background: var(--paper-cream);
-            background-image: 
+            background-image:
                 linear-gradient(90deg, rgba(139, 69, 19, 0.1) 1px, transparent 1px),
                 linear-gradient(rgba(139, 69, 19, 0.1) 1px, transparent 1px);
             background-size: 20px 20px;
@@ -54,7 +59,7 @@
             font-size: 3.5rem;
             font-weight: 700;
             color: var(--sketch-brown);
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
             transform: rotate(-2deg);
             display: inline-block;
             margin-bottom: 10px;
@@ -90,16 +95,16 @@
             padding: 10px 20px;
             border: 3px solid var(--sketch-brown);
             border-radius: 15px;
-            background: rgba(255,255,255,0.7);
+            background: rgba(255, 255, 255, 0.7);
             transform: rotate(-1deg);
             transition: all 0.3s ease;
-            box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
         }
 
         nav a:hover {
             transform: rotate(1deg) scale(1.05);
-            background: rgba(255,255,255,0.9);
-            box-shadow: 5px 5px 0px rgba(0,0,0,0.15);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.15);
         }
 
         nav a:nth-child(even) {
@@ -118,14 +123,23 @@
         }
 
         .weekly-item {
-            background: rgba(255,255,255,0.8);
+            background: rgba(255, 255, 255, 0.8);
             border: 3px solid var(--sketch-brown);
             border-radius: 20px;
             padding: 20px;
             text-align: center;
             transform: rotate(-1deg);
-            box-shadow: 5px 5px 0px rgba(0,0,0,0.1);
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+        }
+
+        .weekly-item a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            height: 100%;
         }
 
         .weekly-item:nth-child(even) {
@@ -134,22 +148,25 @@
 
         .weekly-item:hover {
             transform: rotate(0deg) scale(1.02);
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.15);
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.15);
         }
 
         .weekly-item img {
+            display: block;
             max-width: 100%;
             height: auto;
             border: 2px solid var(--pencil-gray);
             border-radius: 10px;
-            margin-bottom: 15px;
+            margin: 0 auto 15px auto;
         }
 
         .weekly-title {
+            display: block;
             font-family: 'Caveat', cursive;
             font-size: 1.5rem;
             color: var(--marker-red);
-            margin-bottom: 10px;
+            margin: 0 0 10px 0;
+            clear: both;
         }
 
         .language-toggle {
@@ -165,7 +182,7 @@
             font-size: 1.2rem;
             cursor: pointer;
             transform: rotate(-5deg);
-            box-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
             z-index: 1000;
         }
 
@@ -203,83 +220,501 @@
         }
 
         .content {
-            background: rgba(255,255,255,0.6);
+            background: rgba(255, 255, 255, 0.6);
             border: 2px solid var(--sketch-brown);
             border-radius: 15px;
             padding: 30px;
             margin: 30px 0;
             transform: rotate(-0.5deg);
-            box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
         }
 
+        /* Mobile-first responsive design */
         @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
             .logo {
                 font-size: 2.5rem;
             }
-            
-            nav ul {
-                flex-direction: column;
-                gap: 15px;
+
+            .tagline {
+                font-size: 1rem;
             }
-            
+
+            nav ul {
+                flex-direction: row;
+                gap: 10px;
+                padding: 0 10px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            nav a {
+                font-size: 1.5rem;
+                padding: 8px 15px;
+                margin: 2px;
+            }
+
             .weekly-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+                margin: 30px 0;
             }
-            
+
+            .weekly-item {
+                padding: 15px;
+                margin: 0 10px;
+            }
+
+            .weekly-item a {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .weekly-item img {
+                width: 100%;
+                max-width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .weekly-title {
+                font-size: 1.3rem;
+                margin-top: 0;
+                text-align: center;
+                width: 100%;
+            }
+
             .language-toggle {
-                position: static;
-                margin: 20px auto;
-                display: block;
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                padding: 8px 12px;
+                font-size: 1rem;
+                z-index: 1000;
             }
-        }
 
-        /* Subscription Form Styles */
-        .subscription-form input:focus {
-            outline: none;
-            border-color: var(--marker-red);
-            transform: rotate(0deg) scale(1.02);
-            box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.2);
-        }
+            .content {
+                padding: 20px;
+                margin: 20px 0;
+            }
 
-        .subscription-form label input[type="radio"]:checked + span {
-            color: var(--marker-red);
-            font-weight: 600;
-        }
+            footer {
+                margin-top: 40px;
+                padding: 20px;
+                font-size: 1.1rem;
+            }
 
-        .subscription-form label:has(input[type="radio"]:checked) {
-            background: rgba(220, 20, 60, 0.1);
-            border-color: var(--marker-red);
-            transform: rotate(0deg) scale(1.05);
-        }
+            .doodle {
+                display: none;
+                /* Hide decorative elements on mobile */
+            }
 
-        .subscription-form button:hover {
-            transform: rotate(1deg) scale(1.05);
-            background: #B91C47;
-            box-shadow: 6px 6px 0px rgba(0,0,0,0.25);
-        }
+            /* Mobile subscription form styles */
+            .subscription-form {
+                margin: 30px 10px;
+                padding: 25px 20px;
+                transform: rotate(0deg);
+                /* Less rotation on mobile */
+            }
 
-        .subscription-form button:active {
-            transform: rotate(0deg) scale(0.98);
-            box-shadow: 2px 2px 0px rgba(0,0,0,0.15);
-        }
+            .subscription-form h3 {
+                font-size: 2rem;
+                margin-bottom: 15px;
+            }
 
-        .form-success {
-            color: var(--sketch-brown);
-            background: rgba(34, 139, 34, 0.1);
-            border: 2px solid #228B22;
-            border-radius: 10px;
-            padding: 15px;
-            transform: rotate(-0.5deg);
-        }
+            .subscription-form p {
+                font-size: 1.1rem;
+                margin-bottom: 20px;
+            }
 
-        .form-error {
-            color: var(--marker-red);
-            background: rgba(220, 20, 60, 0.1);
-            border: 2px solid var(--marker-red);
-            border-radius: 10px;
-            padding: 15px;
-            transform: rotate(0.5deg);
-        }
+            .subscription-form input {
+                font-size: 1.1rem;
+                padding: 12px;
+                transform: rotate(0deg);
+                /* Less rotation on mobile */
+            }
+
+            .subscription-form button {
+                font-size: 1.5rem;
+                padding: 15px;
+                transform: rotate(0deg);
+                /* Less rotation on mobile */
+            }
+
+            /* Mobile flyer section */
+            .flyer-section {
+                margin: 30px 10px;
+                padding: 20px 15px;
+                transform: rotate(0deg);
+                /* Less rotation on mobile */
+            }
+
+            .flyer-section h3 {
+                font-size: 1.8rem;
+                margin-bottom: 15px;
+            }
+
+            .flyer-section p {
+                font-size: 1rem;
+                margin-bottom: 15px;
+            }
+
+            .flyer-section img {
+                transform: rotate(0deg);
+                /* No rotation on mobile for better readability */
+                margin: 15px 0;
+            }
+
+            /* Weekly issue mobile styles */
+            .issue-navigation {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+
+            .nav-buttons {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .nav-buttons a {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+
+            /* Issue header mobile */
+            .issue-header h1 {
+                font-size: 2.5rem !important;
+                margin-bottom: 15px;
+            }
+
+            /* Issue content mobile */
+            .issue-content {
+                padding: 15px !important;
+                margin: 15px 0;
+            }
+
+            .issue-content img {
+                width: 100% !important;
+                height: auto !important;
+            }
+
+            .transcription-box {
+                padding: 15px !important;
+                margin-top: 20px !important;
+                font-size: 0.95rem;
+            }
+
+            .transcription-box h3 {
+                font-size: 1.5rem !important;
+                margin-bottom: 10px !important;
+            }
+
+            /* Subscribe CTA mobile */
+            .subscribe-cta {
+                margin: 30px 0 !important;
+                padding: 20px 15px !important;
+            }
+
+            .subscribe-cta h3 {
+                font-size: 1.8rem !important;
+                margin-bottom: 10px !important;
+            }
+
+            .subscribe-cta p {
+                font-size: 1rem !important;
+                margin-bottom: 15px !important;
+            }
+
+            /* Additional responsive utilities */
+            @media (max-width: 360px) {
+                .container {
+                    padding: 8px;
+                }
+
+                .logo {
+                    font-size: 1.8rem;
+                }
+
+                nav a {
+                    font-size: 1.2rem;
+                    padding: 8px 12px;
+                    margin: 2px 0;
+                }
+
+                .subscription-form h3 {
+                    font-size: 1.6rem;
+                }
+
+                .subscription-form input,
+                .subscription-form button {
+                    font-size: 0.95rem;
+                }
+            }
+
+            /* Touch-friendly improvements */
+            @media (max-width: 768px) {
+
+                /* Ensure touch targets are at least 44px */
+                nav a,
+                .language-toggle,
+                .subscription-form button,
+                .weekly-item a {
+                    min-height: 44px;
+                    min-width: 44px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                /* Better spacing for touch */
+                nav ul {
+                    gap: 20px;
+                }
+
+                .nav-buttons a {
+                    min-height: 40px;
+                    min-width: 40px;
+                }
+            }
+
+            /* Better focus states for accessibility */
+            a:focus,
+            button:focus,
+            input:focus {
+                outline: 3px solid var(--marker-red);
+                outline-offset: 2px;
+            }
+
+            /* Tablet styles */
+            @media (max-width: 1024px) and (min-width: 769px) {
+                .container {
+                    padding: 18px;
+                }
+
+                .logo {
+                    font-size: 3rem;
+                }
+
+                nav a {
+                    font-size: 1.6rem;
+                    padding: 8px 18px;
+                }
+
+                .weekly-grid {
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 25px;
+                }
+
+                .content {
+                    padding: 25px;
+                }
+
+                /* Tablet subscription form */
+                .subscription-form {
+                    padding: 25px;
+                    margin: 35px 0;
+                }
+
+                .subscription-form h3 {
+                    font-size: 2.2rem;
+                }
+
+                /* Tablet flyer section */
+                .flyer-section {
+                    padding: 25px;
+                    margin: 35px 0;
+                }
+
+                .flyer-section h3 {
+                    font-size: 2rem;
+                }
+
+                /* Tablet issue styles */
+                .issue-header h1 {
+                    font-size: 3rem !important;
+                }
+
+                .issue-content {
+                    padding: 25px !important;
+                }
+            }
+
+            /* Small mobile styles */
+            @media (max-width: 480px) {
+                .container {
+                    padding: 10px;
+                }
+
+                .logo {
+                    font-size: 2rem;
+                }
+
+                .tagline {
+                    font-size: 0.9rem;
+                }
+
+                nav a {
+                    font-size: 1.3rem;
+                    padding: 6px 12px;
+                    margin: 3px;
+                }
+
+                .weekly-item {
+                    padding: 12px;
+                    margin: 0 5px;
+                }
+
+                .weekly-item a {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .weekly-item img {
+                    width: 100%;
+                    margin-bottom: 12px;
+                }
+
+                .weekly-title {
+                    font-size: 1.2rem;
+                    margin-top: 0;
+                    text-align: center;
+                    width: 100%;
+                }
+
+                .content {
+                    padding: 15px;
+                    margin: 15px 0;
+                }
+
+                .language-toggle {
+                    top: 5px;
+                    right: 5px;
+                    padding: 6px 10px;
+                    font-size: 0.9rem;
+                }
+
+                /* Small mobile subscription form */
+                .subscription-form {
+                    margin: 20px 0;
+                    padding: 20px 15px;
+                }
+
+                .subscription-form h3 {
+                    font-size: 1.8rem;
+                }
+
+                .subscription-form p {
+                    font-size: 1rem;
+                    line-height: 1.4;
+                }
+
+                .subscription-form input {
+                    font-size: 1rem;
+                    padding: 10px;
+                }
+
+                .subscription-form button {
+                    font-size: 1.4rem;
+                    padding: 12px;
+                }
+
+                /* Small mobile flyer section */
+                .flyer-section {
+                    margin: 20px 0;
+                    padding: 15px 10px;
+                }
+
+                .flyer-section h3 {
+                    font-size: 1.6rem;
+                }
+
+                .flyer-section p {
+                    font-size: 0.95rem;
+                    line-height: 1.4;
+                }
+            }
+
+            /* Subscription Form Styles */
+            .subscription-form input:focus {
+                outline: none;
+                border-color: var(--marker-red);
+                transform: rotate(0deg) scale(1.02);
+                box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.2);
+            }
+
+            .subscription-form label input[type="radio"]:checked+span {
+                color: var(--marker-red);
+                font-weight: 600;
+            }
+
+            .subscription-form label:has(input[type="radio"]:checked) {
+                background: rgba(220, 20, 60, 0.1);
+                border-color: var(--marker-red);
+                transform: rotate(0deg) scale(1.05);
+            }
+
+            .subscription-form button:hover {
+                transform: rotate(1deg) scale(1.05);
+                background: #B91C47;
+                box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.25);
+            }
+
+            .subscription-form button:active {
+                transform: rotate(0deg) scale(0.98);
+                box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.15);
+            }
+
+            .form-success {
+                color: var(--sketch-brown);
+                background: rgba(34, 139, 34, 0.1);
+                border: 2px solid #228B22;
+                border-radius: 10px;
+                padding: 15px;
+                transform: rotate(-0.5deg);
+            }
+
+            .form-error {
+                color: var(--marker-red);
+                background: rgba(220, 20, 60, 0.1);
+                border: 2px solid var(--marker-red);
+                border-radius: 10px;
+                padding: 15px;
+                transform: rotate(0.5deg);
+            }
+
+            /* Flyer section responsive styles */
+            .flyer-section {
+                margin: 40px auto;
+                padding: 30px;
+                max-width: 100%;
+            }
+
+            .flyer-section img {
+                width: 100%;
+                height: auto;
+                max-width: 600px;
+            }
+
+            /* Weekly issue navigation responsive styles */
+            .issue-navigation {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+
+            .nav-buttons {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
     </style>
 </head>
 
@@ -292,10 +727,10 @@
         <header>
             <div class="doodle doodle-1">✎</div>
             <div class="doodle doodle-2">⚡</div>
-            
+
             <h1 class="logo">{{ site.title }}</h1>
             <p class="tagline">{{ site.description }}</p>
-            
+
             <nav>
                 <ul>
                     <li><a href="{{ '/' | relative_url }}">Home</a></li>
@@ -319,7 +754,7 @@
         function toggleLanguage() {
             const currentLang = document.documentElement.lang;
             const langText = document.getElementById('lang-text');
-            
+
             if (currentLang === 'en') {
                 document.documentElement.lang = 'ja';
                 langText.textContent = 'English';
@@ -340,7 +775,7 @@
             document.querySelectorAll('[data-lang]').forEach(el => {
                 el.style.display = 'none';
             });
-            
+
             // Show content for selected language
             document.querySelectorAll(`[data-lang="${lang}"]`).forEach(el => {
                 el.style.display = 'block';
@@ -349,11 +784,11 @@
             // Update form placeholders
             const emailInput = document.getElementById('email');
             const nameInput = document.getElementById('name');
-            
+
             if (emailInput) {
                 emailInput.placeholder = emailInput.getAttribute(`data-lang-placeholder-${lang}`) || emailInput.placeholder;
             }
-            
+
             if (nameInput) {
                 nameInput.placeholder = nameInput.getAttribute(`data-lang-placeholder-${lang}`) || nameInput.placeholder;
             }
@@ -363,15 +798,15 @@
         function handleSubscriptionForm() {
             const form = document.getElementById('subscription-form');
             const statusDiv = document.getElementById('form-status');
-            
+
             if (!form) return;
 
             // Add submit event listener to show loading message
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', function (e) {
                 const currentLang = document.documentElement.lang || 'en';
                 const loadingText = currentLang === 'ja' ? '送信中...' : 'Subscribing...';
                 statusDiv.innerHTML = `<div style="color: var(--sketch-brown);">${loadingText}</div>`;
-                
+
                 // Let the form submit naturally to the hidden iframe
                 // The handleFormSubmission() function will be called when the iframe loads
             });
@@ -382,19 +817,19 @@
             const statusDiv = document.getElementById('form-status');
             const form = document.getElementById('subscription-form');
             const currentLang = document.documentElement.lang || 'en';
-            
+
             if (statusDiv) {
-                const successMessage = currentLang === 'ja' 
-                    ? '🎉 ありがとうございます！購読が完了しました！' 
+                const successMessage = currentLang === 'ja'
+                    ? '🎉 ありがとうございます！購読が完了しました！'
                     : '🎉 Thank you! Successfully subscribed!';
-                
+
                 statusDiv.innerHTML = `<div class="form-success">${successMessage}</div>`;
-                
+
                 // Reset form after successful submission
                 if (form) {
                     form.reset();
                 }
-                
+
                 // Add celebration animation
                 setTimeout(() => {
                     statusDiv.innerHTML += '<div style="font-size: 2rem; text-align: center; margin-top: 10px;">✨🎨📬✨</div>';
@@ -409,19 +844,19 @@
         }
 
         // Initialize with saved language preference or default to English
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Get saved language preference or default to English
             const savedLang = localStorage.getItem('preferred-language') || 'en';
             const langText = document.getElementById('lang-text');
-            
+
             // Set the document language and toggle button text
             document.documentElement.lang = savedLang;
             langText.textContent = savedLang === 'ja' ? 'English' : '日本語';
-            
+
             // Switch to the preferred language
             switchToLanguage(savedLang);
             handleSubscriptionForm();
-            
+
             // Handle scroll to subscription form from other pages
             if (window.location.hash === '#subscription-form') {
                 setTimeout(() => {

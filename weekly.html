@@ -30,19 +30,19 @@ title: Weekly Archive
     {% for issue in sorted_issues %}
     <!-- Volume {{ issue.number }}{% if forloop.first %} - Latest!{% endif %} -->
     <div class="weekly-item" data-lang="en">
-        <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}"
-            style="text-decoration: none; color: inherit;">
+        <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}">
             <img src="{{ '/img/weekly/en/' | append: issue.slug | append: '-en.jpg' | relative_url }}"
-                alt="AfterAI Weekly Vol.{{ issue.number }} English">
+                alt="AfterAI Weekly Vol.{{ issue.number }} English"
+                loading="lazy">
             <h3 class="weekly-title">Volume {{ issue.number }}{% if forloop.first %} - Latest!{% endif %}</h3>
         </a>
     </div>
 
     <div class="weekly-item" data-lang="ja">
-        <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}"
-            style="text-decoration: none; color: inherit;">
+        <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}">
             <img src="{{ '/img/weekly/ja/' | append: issue.slug | append: '-ja.jpg' | relative_url }}"
-                alt="AfterAI Weekly Vol.{{ issue.number }} Japanese">
+                alt="AfterAI Weekly Vol.{{ issue.number }} Japanese"
+                loading="lazy">
             <h3 class="weekly-title">第{{ issue.number }}号{% if forloop.first %} - 最新！{% endif %}</h3>
         </a>
     </div>
