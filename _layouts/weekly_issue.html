@@ -1,0 +1,115 @@
+---
+layout: default
+---
+
+{% assign issue_data = site.data.weekly_issues | where: "slug", page.slug | first %}
+{% assign sorted_issues = site.data.weekly_issues | sort: "number" %}
+
+{% assign prev_issue = nil %}
+{% assign next_issue = nil %}
+{% assign current_number = issue_data.number %}
+
+{% for issue in sorted_issues %}
+  {% if issue.number == current_number %}
+    {% assign current_found = true %}
+  {% elsif issue.number < current_number %}
+    {% assign prev_issue = issue %}
+  {% elsif issue.number > current_number and next_issue == nil %}
+    {% assign next_issue = issue %}
+  {% endif %}
+{% endfor %}
+
+<div class="content">
+    <!-- Navigation -->
+    <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+        <a href="{{ '/weekly.html' | relative_url }}" 
+           style="display: inline-block; padding: 8px 16px; background: var(--sketch-brown); color: white; text-decoration: none; border-radius: 8px; font-family: 'Caveat', cursive; font-size: 1.1rem; transform: rotate(-1deg);">
+            <span data-lang="en">← Back to Archive</span>
+            <span data-lang="ja" style="display: none;">← アーカイブに戻る</span>
+        </a>
+        
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            {% if prev_issue %}
+            <a href="{{ '/weekly/' | append: prev_issue.slug | append: '.html' | relative_url }}" 
+               style="display: inline-block; padding: 8px 16px; background: var(--ink-blue); color: white; text-decoration: none; border-radius: 8px; font-family: 'Caveat', cursive; font-size: 1rem; transform: rotate(0.5deg);">
+                <span data-lang="en">← Vol.{{ prev_issue.number }}</span>
+                <span data-lang="ja" style="display: none;">← 第{{ prev_issue.number }}号</span>
+            </a>
+            {% endif %}
+            
+            {% if next_issue %}
+            <a href="{{ '/weekly/' | append: next_issue.slug | append: '.html' | relative_url }}" 
+               style="display: inline-block; padding: 8px 16px; background: var(--marker-red); color: white; text-decoration: none; border-radius: 8px; font-family: 'Caveat', cursive; font-size: 1rem; transform: rotate(-0.5deg);">
+                <span data-lang="en">Vol.{{ next_issue.number }} →</span>
+                <span data-lang="ja" style="display: none;">第{{ next_issue.number }}号 →</span>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Issue Header -->
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h1 style="font-family: 'Caveat', cursive; font-size: 3.5rem; color: var(--marker-red); margin-bottom: 10px; transform: rotate(-1deg);">
+            <span data-lang="en">AfterAI Weekly Vol.{{ issue_data.number }} 📚</span>
+            <span data-lang="ja" style="display: none;">AfterAI Weekly 第{{ issue_data.number }}号 📚</span>
+        </h1>
+    </div>
+
+    <!-- Main Content -->
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 30px;">
+        
+        <!-- English Version -->
+        <div data-lang="en" style="max-width: 800px; width: 100%;">
+            <div style="padding: 30px;">
+                <img src="{{ '/img/weekly/en/' | append: issue_data.slug | append: '-en.jpg' | relative_url }}" 
+                     alt="AfterAI Weekly Vol.{{ issue_data.number }} English" 
+                     style="width: 100%; height: auto; border-radius: 10px; box-shadow: 3px 3px 10px rgba(0,0,0,0.2);">
+                
+                <div style="margin-top: 25px; padding: 20px; background: rgba(245,245,220,0.7); border-radius: 10px;">
+                    <h3 style="font-family: 'Caveat', cursive; font-size: 2rem; color: var(--marker-red); margin-bottom: 15px;">
+                        Transcriptions 📝
+                    </h3>
+                    {{ issue_data.transcription.en | markdownify }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Japanese Version -->
+        <div data-lang="ja" style="max-width: 800px; width: 100%; display: none;">
+            <div style="padding: 30px;">
+                <img src="{{ '/img/weekly/ja/' | append: issue_data.slug | append: '-ja.jpg' | relative_url }}" 
+                     alt="AfterAI Weekly Vol.{{ issue_data.number }} Japanese" 
+                     style="width: 100%; height: auto; border-radius: 10px; box-shadow: 3px 3px 10px rgba(0,0,0,0.2);">
+                
+                <div style="margin-top: 25px; padding: 20px; background: rgba(245,245,220,0.7); border-radius: 10px;">
+                    <h3 style="font-family: 'Caveat', cursive; font-size: 2rem; color: var(--marker-red); margin-bottom: 15px;">
+                        文字起こし 📝
+                    </h3>
+                    {{ issue_data.transcription.ja | markdownify }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscribe CTA -->
+    <div style="text-align: center; margin: 40px 0; padding: 30px; background: rgba(255,255,255,0.9); border: 3px dashed var(--sketch-brown); border-radius: 20px;">
+        <h3 style="font-family: 'Caveat', cursive; font-size: 2.2rem; color: var(--marker-red); margin-bottom: 15px;">
+            <span data-lang="en">Don't Miss Future Issues! ✉️</span>
+            <span data-lang="ja" style="display: none;">今後の号をお見逃しなく！ ✉️</span>
+        </h3>
+        <p data-lang="en" style="font-size: 1.2rem; margin-bottom: 20px;">
+            Get fresh handwritten insights delivered straight to your inbox every week!
+        </p>
+        <p data-lang="ja" style="font-size: 1.2rem; margin-bottom: 20px; display: none;">
+            手書きのインサイトをメールボックスに毎週お届けします！
+        </p>
+        
+        <div style="margin-top: 25px;">
+            <a href="{{ '/' | relative_url }}#subscription-form" 
+               style="display: inline-block; padding: 15px 30px; background: var(--marker-red); color: white; text-decoration: none; border-radius: 15px; font-family: 'Caveat', cursive; font-size: 1.4rem; font-weight: 600; transform: rotate(-2deg); box-shadow: 3px 3px 0px rgba(0,0,0,0.2); transition: all 0.3s ease;">
+                <span data-lang="en">📬 Subscribe Now!</span>
+                <span data-lang="ja" style="display: none;">📬 今すぐ購読！</span>
+            </a>
+        </div>
+    </div>
+</div>

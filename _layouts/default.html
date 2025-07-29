@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.default_lang | default: "en" }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if page.title %}{{ page.title | escape }} - {{ site.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+    <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+    
+    <!-- Handwritten-style fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --sketch-brown: #8B4513;
+            --paper-cream: #F5F5DC;
+            --ink-blue: #191970;
+            --pencil-gray: #696969;
+            --marker-red: #DC143C;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kalam', cursive;
+            background: var(--paper-cream);
+            background-image: 
+                linear-gradient(90deg, rgba(139, 69, 19, 0.1) 1px, transparent 1px),
+                linear-gradient(rgba(139, 69, 19, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--ink-blue);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--sketch-brown);
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--pencil-gray);
+            font-style: italic;
+            transform: rotate(1deg);
+            display: inline-block;
+        }
+
+        nav {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: inline-flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav a {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            color: var(--ink-blue);
+            text-decoration: none;
+            position: relative;
+            padding: 10px 20px;
+            border: 3px solid var(--sketch-brown);
+            border-radius: 15px;
+            background: rgba(255,255,255,0.7);
+            transform: rotate(-1deg);
+            transition: all 0.3s ease;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+        }
+
+        nav a:hover {
+            transform: rotate(1deg) scale(1.05);
+            background: rgba(255,255,255,0.9);
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.15);
+        }
+
+        nav a:nth-child(even) {
+            transform: rotate(1deg);
+        }
+
+        nav a:nth-child(even):hover {
+            transform: rotate(-1deg) scale(1.05);
+        }
+
+        .weekly-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .weekly-item {
+            background: rgba(255,255,255,0.8);
+            border: 3px solid var(--sketch-brown);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            transform: rotate(-1deg);
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .weekly-item:nth-child(even) {
+            transform: rotate(1deg);
+        }
+
+        .weekly-item:hover {
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.15);
+        }
+
+        .weekly-item img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid var(--pencil-gray);
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .weekly-title {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            color: var(--marker-red);
+            margin-bottom: 10px;
+        }
+
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--sketch-brown);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-family: 'Caveat', cursive;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transform: rotate(-5deg);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .language-toggle:hover {
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            border-top: 3px dashed var(--sketch-brown);
+            font-family: 'Caveat', cursive;
+            font-size: 1.3rem;
+            color: var(--pencil-gray);
+        }
+
+        .doodle {
+            position: absolute;
+            opacity: 0.3;
+        }
+
+        .doodle-1 {
+            top: 50px;
+            left: 10%;
+            font-size: 2rem;
+            transform: rotate(-30deg);
+        }
+
+        .doodle-2 {
+            top: 200px;
+            right: 10%;
+            font-size: 1.5rem;
+            transform: rotate(25deg);
+        }
+
+        .content {
+            background: rgba(255,255,255,0.6);
+            border: 2px solid var(--sketch-brown);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            transform: rotate(-0.5deg);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .weekly-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .language-toggle {
+                position: static;
+                margin: 20px auto;
+                display: block;
+            }
+        }
+
+        /* Subscription Form Styles */
+        .subscription-form input:focus {
+            outline: none;
+            border-color: var(--marker-red);
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.2);
+        }
+
+        .subscription-form label input[type="radio"]:checked + span {
+            color: var(--marker-red);
+            font-weight: 600;
+        }
+
+        .subscription-form label:has(input[type="radio"]:checked) {
+            background: rgba(220, 20, 60, 0.1);
+            border-color: var(--marker-red);
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        .subscription-form button:hover {
+            transform: rotate(1deg) scale(1.05);
+            background: #B91C47;
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.25);
+        }
+
+        .subscription-form button:active {
+            transform: rotate(0deg) scale(0.98);
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.15);
+        }
+
+        .form-success {
+            color: var(--sketch-brown);
+            background: rgba(34, 139, 34, 0.1);
+            border: 2px solid #228B22;
+            border-radius: 10px;
+            padding: 15px;
+            transform: rotate(-0.5deg);
+        }
+
+        .form-error {
+            color: var(--marker-red);
+            background: rgba(220, 20, 60, 0.1);
+            border: 2px solid var(--marker-red);
+            border-radius: 10px;
+            padding: 15px;
+            transform: rotate(0.5deg);
+        }
+    </style>
+</head>
+
+<body>
+    <button class="language-toggle" onclick="toggleLanguage()">
+        <span id="lang-text">日本語</span>
+    </button>
+
+    <div class="container">
+        <header>
+            <div class="doodle doodle-1">✎</div>
+            <div class="doodle doodle-2">⚡</div>
+            
+            <h1 class="logo">{{ site.title }}</h1>
+            <p class="tagline">{{ site.description }}</p>
+            
+            <nav>
+                <ul>
+                    <li><a href="{{ '/' | relative_url }}">Home</a></li>
+                    <li><a href="{{ '/about' | relative_url }}">About Us</a></li>
+                    <li><a href="{{ '/weekly' | relative_url }}">Weekly Archive</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            {{ content }}
+        </main>
+
+        <footer>
+            <p>✨ Handcrafted with ❤️ by {{ site.author }} ✨</p>
+            <p>Cultivating humanity, one sketch at a time</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleLanguage() {
+            const currentLang = document.documentElement.lang;
+            const langText = document.getElementById('lang-text');
+            
+            if (currentLang === 'en') {
+                document.documentElement.lang = 'ja';
+                langText.textContent = 'English';
+                // Save preference and switch to Japanese content
+                localStorage.setItem('preferred-language', 'ja');
+                switchToLanguage('ja');
+            } else {
+                document.documentElement.lang = 'en';
+                langText.textContent = '日本語';
+                // Save preference and switch to English content
+                localStorage.setItem('preferred-language', 'en');
+                switchToLanguage('en');
+            }
+        }
+
+        function switchToLanguage(lang) {
+            // Hide all language-specific content
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Show content for selected language
+            document.querySelectorAll(`[data-lang="${lang}"]`).forEach(el => {
+                el.style.display = 'block';
+            });
+
+            // Update form placeholders
+            const emailInput = document.getElementById('email');
+            const nameInput = document.getElementById('name');
+            
+            if (emailInput) {
+                emailInput.placeholder = emailInput.getAttribute(`data-lang-placeholder-${lang}`) || emailInput.placeholder;
+            }
+            
+            if (nameInput) {
+                nameInput.placeholder = nameInput.getAttribute(`data-lang-placeholder-${lang}`) || nameInput.placeholder;
+            }
+        }
+
+        // Google Forms submission handler
+        function handleSubscriptionForm() {
+            const form = document.getElementById('subscription-form');
+            const statusDiv = document.getElementById('form-status');
+            
+            if (!form) return;
+
+            // Add submit event listener to show loading message
+            form.addEventListener('submit', function(e) {
+                const currentLang = document.documentElement.lang || 'en';
+                const loadingText = currentLang === 'ja' ? '送信中...' : 'Subscribing...';
+                statusDiv.innerHTML = `<div style="color: var(--sketch-brown);">${loadingText}</div>`;
+                
+                // Let the form submit naturally to the hidden iframe
+                // The handleFormSubmission() function will be called when the iframe loads
+            });
+        }
+
+        // Handle iframe load for Google Forms (fallback)
+        function handleFormSubmission() {
+            const statusDiv = document.getElementById('form-status');
+            const form = document.getElementById('subscription-form');
+            const currentLang = document.documentElement.lang || 'en';
+            
+            if (statusDiv) {
+                const successMessage = currentLang === 'ja' 
+                    ? '🎉 ありがとうございます！購読が完了しました！' 
+                    : '🎉 Thank you! Successfully subscribed!';
+                
+                statusDiv.innerHTML = `<div class="form-success">${successMessage}</div>`;
+                
+                // Reset form after successful submission
+                if (form) {
+                    form.reset();
+                }
+                
+                // Add celebration animation
+                setTimeout(() => {
+                    statusDiv.innerHTML += '<div style="font-size: 2rem; text-align: center; margin-top: 10px;">✨🎨📬✨</div>';
+                }, 500);
+            }
+        }
+
+        // Remove the old Formspree function
+        async function simulateFormSubmission(email, name, language) {
+            // This function is no longer needed for Google Forms
+            return Promise.resolve();
+        }
+
+        // Initialize with saved language preference or default to English
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get saved language preference or default to English
+            const savedLang = localStorage.getItem('preferred-language') || 'en';
+            const langText = document.getElementById('lang-text');
+            
+            // Set the document language and toggle button text
+            document.documentElement.lang = savedLang;
+            langText.textContent = savedLang === 'ja' ? 'English' : '日本語';
+            
+            // Switch to the preferred language
+            switchToLanguage(savedLang);
+            handleSubscriptionForm();
+            
+            // Handle scroll to subscription form from other pages
+            if (window.location.hash === '#subscription-form') {
+                setTimeout(() => {
+                    const form = document.getElementById('subscription-form');
+                    if (form) {
+                        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>

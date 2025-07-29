@@ -1,0 +1,45 @@
+title: AfterAI
+description: Handcrafted insights through AfterAI Weekly, and more
+baseurl: ""
+url: "https://afterailab.github.io"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# GitHub Pages settings
+github: [metadata]
+
+# Collections
+collections:
+  weekly:
+    output: true
+    permalink: /:collection/:name/
+
+# Site settings
+author: AfterAI Team
+email: contact@afterai.com
+
+# Social links (add your actual social media handles)
+github_username: AfterAILab
+twitter_username: afterai
+
+# Language settings
+languages: ["en", "ja"]
+default_lang: "en"
+
+# Exclude files
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - _admin/
+  - README.md

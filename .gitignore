@@ -1,0 +1,93 @@
+# Jekyll and GitHub Pages
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+.bundle/
+vendor/
+
+# Note: _admin/ directory is tracked in git but excluded from Jekyll build via _config.yml
+
+# Ruby
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
+/tmp/
+.rspec
+capybara-*.html
+.yardoc
+/_yardoc/
+/doc/
+/rdoc/
+/.bundle/
+/vendor/bundle
+/lib/bundler/man/
+Gemfile.lock
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node.js (if you add any Node tools later)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# Logs
+*.log
+logs/
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# Temporary files
+*.tmp
+*.temp
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
+# Local development
+.ruby-version
+.rbenv-version
+
+# Jekyll serve
+.jekyll-livereload
+
+# Admin files
+_admin

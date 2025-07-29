@@ -1,0 +1,52 @@
+---
+layout: default
+title: Weekly Archive
+---
+
+<div class="content">
+    <h2
+        style="font-family: 'Caveat', cursive; font-size: 3rem; text-align: center; color: var(--marker-red); margin-bottom: 30px; transform: rotate(-1deg);">
+        <span data-lang="en">AfterAI Weekly Archive 📚</span>
+        <span data-lang="ja" style="display: none;">週刊 AfterAI アーカイブ 📚</span>
+    </h2>
+
+    <div data-lang="en">
+        <p style="font-size: 1.3rem; text-align: center; margin-bottom: 40px;">
+            Dive into our collection of handcrafted newsletters! Each issue tells a unique story
+            and we share them with love. 🎨✨
+        </p>
+    </div>
+
+    <div data-lang="ja" style="display: none;">
+        <p style="font-size: 1.3rem; text-align: center; margin-bottom: 40px;">
+            手作りのニュースレターコレクションをご覧ください！各号にユニークなストーリーがあり、
+            心を込めて共有しています。🎨✨
+        </p>
+    </div>
+</div>
+
+<div class="weekly-grid">
+    {% assign sorted_issues = site.data.weekly_issues | sort: 'number' | reverse %}
+    {% for issue in sorted_issues %}
+    <!-- Volume {{ issue.number }}{% if forloop.first %} - Latest!{% endif %} -->
+    <div class="weekly-item" data-lang="en">
+        <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}"
+            style="text-decoration: none; color: inherit;">
+            <img src="{{ '/img/weekly/en/' | append: issue.slug | append: '-en.jpg' | relative_url }}"
+                alt="AfterAI Weekly Vol.{{ issue.number }} English">
+            <h3 class="weekly-title">Volume {{ issue.number }}{% if forloop.first %} - Latest!{% endif %}</h3>
+        </a>
+    </div>
+
+    <div class="weekly-item" data-lang="ja">
+        <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}"
+            style="text-decoration: none; color: inherit;">
+            <img src="{{ '/img/weekly/ja/' | append: issue.slug | append: '-ja.jpg' | relative_url }}"
+                alt="AfterAI Weekly Vol.{{ issue.number }} Japanese">
+            <h3 class="weekly-title">第{{ issue.number }}号{% if forloop.first %} - 最新！{% endif %}</h3>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+{% include subscription-cta.html %}

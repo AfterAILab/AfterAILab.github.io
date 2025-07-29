@@ -1,1 +1,173 @@
-Hello World!
+---
+layout: default
+title: Home
+---
+
+<div class="content">
+    <h2
+        style="font-family: 'Caveat', cursive; font-size: 2.5rem; text-align: center; color: var(--marker-red); margin-bottom: 20px; transform: rotate(-1deg);">
+        Welcome to AfterAI! ✍️
+    </h2>
+
+    <div data-lang="en">
+        <p style="font-size: 1.3rem; text-align: center; margin-bottom: 30px;">
+            Every week, we handcraft insights about our lives, technology, and the future -
+            sketched on paper, scanned with love, and shared with the maker community worldwide.
+        </p>
+    </div>
+
+    <div data-lang="ja" style="display: none;">
+        <p style="font-size: 1.3rem; text-align: center; margin-bottom: 30px;">
+            毎週、日常やテクノロジー、未来について手作りのインサイトをお届けしています。
+            紙にスケッチし、愛をこめてスキャンし、世界中のメイカーコミュニティと共有しています。
+        </p>
+    </div>
+</div>
+
+<div class="weekly-grid">
+    {% assign sorted_issues = site.data.weekly_issues | sort: 'number' | reverse %}
+    {% assign limited_issues = sorted_issues | slice: 0, 3 %}
+    {% for issue in limited_issues %}
+    <!-- English Volume -->
+    <div class="weekly-item" data-lang="en">
+        <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}"
+            style="text-decoration: none; color: inherit;">
+            <img src="{{ '/img/weekly/en/' | append: issue.slug | append: '-en.jpg' | relative_url }}"
+                alt="AfterAI Weekly Vol.{{ issue.number }} English">
+            <h3 class="weekly-title">Volume {{ issue.number }}{% if forloop.first %} - Latest!{% endif %}</h3>
+        </a>
+    </div>
+    {% endfor %}
+
+    <!-- Japanese Volumes -->
+    {% for issue in limited_issues %}
+    <div class="weekly-item" data-lang="ja">
+        <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}"
+            style="text-decoration: none; color: inherit;">
+            <img src="{{ '/img/weekly/ja/' | append: issue.slug | append: '-ja.jpg' | relative_url }}"
+                alt="AfterAI Weekly Vol.{{ issue.number }} Japanese">
+            <h3 class="weekly-title">第{{ issue.number }}号{% if forloop.first %} - 最新！{% endif %}</h3>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Maker Faire Flyer Section -->
+<div class="flyer-section" style="text-align: center; margin: 40px 0; padding: 30px; background: rgba(255,255,255,0.8); border-radius: 20px; transform: rotate(0.5deg); box-shadow: 3px 3px 0px rgba(0,0,0,0.1);">
+    <h3 style="font-family: 'Caveat', cursive; font-size: 2.2rem; color: var(--sketch-brown); margin-bottom: 20px; transform: rotate(-1deg);">
+        <span data-lang="en">🎪 Meet Us at Maker Faire!</span>
+        <span data-lang="ja" style="display: none;">🎪 Maker Faireで会いましょう！</span>
+    </h3>
+    
+    <div data-lang="en">
+        <p style="font-size: 1.2rem; margin-bottom: 20px; color: var(--ink-blue);">
+            Join us at Maker Faire Bay Area 2025 and experience the magic of handwritten news cards! ✍️
+        </p>
+    </div>
+    
+    <div data-lang="ja" style="display: none;">
+        <p style="font-size: 1.2rem; margin-bottom: 20px; color: var(--ink-blue);">
+            Maker Faire Bay Area 2025で手書きニュースカードの魔法を体験してください！ ✍️
+        </p>
+    </div>
+    
+    <img src="{{ '/img/flyer/maker-faire-bay-area-2025-afterai-flyer.jpg' | relative_url }}" 
+         alt="AfterAI at Maker Faire Bay Area 2025 - Let's Write and Share News Cards!" 
+         style="max-width: 100%; height: auto; border-radius: 15px; box-shadow: 5px 5px 15px rgba(0,0,0,0.2); transform: rotate(-0.5deg); margin: 20px 0;">
+</div>
+
+<div class="content">
+    <div data-lang="en">
+        <h3 style="font-family: 'Caveat', cursive; font-size: 2rem; color: var(--sketch-brown); margin-bottom: 15px;">
+            Why Handwritten? ✋
+        </h3>
+        <p style="font-size: 1.2rem; margin-bottom: 15px;">
+            In a world of digital everything, we believe there's something magical about putting pen to paper.
+        </p>
+        <ul style="font-size: 1.1rem; margin-left: 30px; margin-bottom: 20px;">
+            <li>🎨 <strong>Authentic creativity</strong> - Original content is created by concentrating and facing the paper.</li>
+            <li>🌱 <strong>Human touch</strong> - Each issue is lovingly crafted, not AI-generated.</li>
+            <li>⚡ <strong>Maximum information</strong> - Analog can convey richer information.</li>
+        </ul>
+    </div>
+
+    <div data-lang="ja" style="display: none;">
+        <h3 style="font-family: 'Caveat', cursive; font-size: 2rem; color: var(--sketch-brown); margin-bottom: 15px;">
+            なぜ手書き？ ✋
+        </h3>
+        <p style="font-size: 1.2rem; margin-bottom: 15px;">
+            全てのものがデジタルになりつつある世界で、ペンと紙の魔法を信じています。
+        </p>
+        <ul style="font-size: 1.1rem; margin-left: 30px; margin-bottom: 20px;">
+            <li>🎨 <strong>本物の創造性</strong> - 集中して紙に向かいあうことでオリジナルのコンテンツが編み出されます</li>
+            <li>🌱 <strong>人間味</strong> - 各号は愛情をこめて作られ、AIで生成されたものではありません</li>
+            <li>⚡ <strong>最大限の情報</strong> - アナログならより豊かな情報を伝えられます</li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="subscription-form"
+    style="background: rgba(255,255,255,0.9); border: 3px solid var(--marker-red); border-radius: 20px; padding: 40px; margin: 40px 0; transform: rotate(-0.5deg); box-shadow: 5px 5px 0px rgba(0,0,0,0.1);">
+    <h3
+        style="font-family: 'Caveat', cursive; font-size: 2.5rem; text-align: center; color: var(--marker-red); margin-bottom: 20px; transform: rotate(1deg);">
+        <span data-lang="en">📬 Subscribe to AfterAI Weekly!</span>
+        <span data-lang="ja" style="display: none;">📬 週刊 AfterAI を購読しよう！</span>
+    </h3>
+
+    <div data-lang="en">
+        <p style="font-size: 1.3rem; text-align: center; margin-bottom: 30px; color: var(--ink-blue);">
+            Get fresh handwritten insights delivered to your inbox every week! ✨<br>
+            Join our community of makers, creators, and AI enthusiasts worldwide 🌍
+        </p>
+    </div>
+
+    <div data-lang="ja" style="display: none;">
+        <p style="font-size: 1.3rem; text-align: center; margin-bottom: 30px; color: var(--ink-blue);">
+            手書きのニュースレターを受信トレイに毎週お届けします！ ✨<br>
+            好奇心旺盛な仲間たちのコミュニティに参加しよう 🌍
+        </p>
+    </div>
+
+    <form id="subscription-form" name="afterai-subscription" method="POST"
+        action="https://docs.google.com/forms/d/e/1FAIpQLSfZk-rHeorgOmPGuBOWuOa1WNAQ7deWOC7EXafDaN34nwKhKg/formResponse" target="hidden_iframe"
+        style="max-width: 500px; margin: 0 auto;">
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="handleFormSubmission()"></iframe>
+        <div style="margin-bottom: 20px;">
+            <label for="email"
+                style="font-family: 'Caveat', cursive; font-size: 1.4rem; color: var(--sketch-brown); display: block; margin-bottom: 8px; transform: rotate(-1deg); display: inline-block;">
+                <span data-lang="en">✍️ Your Email Address</span>
+                <span data-lang="ja" style="display: none;">✍️ メールアドレス</span>
+            </label>
+            <input type="email" id="email" name="entry.822233534" required
+                style="width: 100%; padding: 15px; font-family: 'Kalam', cursive; font-size: 1.2rem; border: 3px solid var(--sketch-brown); border-radius: 15px; background: rgba(255,255,255,0.9); color: var(--ink-blue); transform: rotate(0.5deg); box-shadow: 2px 2px 0px rgba(0,0,0,0.1);"
+                data-lang-placeholder-en="sketch@yourname.com" data-lang-placeholder-ja="sketch@yourname.com"
+                placeholder="sketch@yourname.com">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label for="name"
+                style="font-family: 'Caveat', cursive; font-size: 1.4rem; color: var(--sketch-brown); display: block; margin-bottom: 8px; transform: rotate(1deg); display: inline-block;">
+                <span data-lang="en">🎨 Your Name (optional)</span>
+                <span data-lang="ja" style="display: none;">🎨 お名前（任意）</span>
+            </label>
+            <input type="text" id="name" name="entry.272330747"
+                style="width: 100%; padding: 15px; font-family: 'Kalam', cursive; font-size: 1.2rem; border: 3px solid var(--sketch-brown); border-radius: 15px; background: rgba(255,255,255,0.9); color: var(--ink-blue); transform: rotate(-0.3deg); box-shadow: 2px 2px 0px rgba(0,0,0,0.1);"
+                data-lang-placeholder-en="Fellow Maker" data-lang-placeholder-ja="メイカー　太郎" placeholder="Fellow Maker">
+        </div>
+
+        <button type="submit"
+            style="width: 100%; padding: 18px; font-family: 'Caveat', cursive; font-size: 1.8rem; font-weight: 600; background: var(--marker-red); color: white; border: none; border-radius: 20px; cursor: pointer; transform: rotate(-1deg); box-shadow: 4px 4px 0px rgba(0,0,0,0.2); transition: all 0.3s ease; margin-bottom: 15px;">
+            <span data-lang="en">🚀 Join the Weekly Adventure!</span>
+            <span data-lang="ja" style="display: none;">🚀 毎週のアドベンチャーに参加！</span>
+        </button>
+
+        <div id="form-status"
+            style="text-align: center; margin-top: 15px; font-family: 'Kalam', cursive; font-size: 1.1rem;"></div>
+    </form>
+
+    <div style="text-align: center; margin-top: 25px; font-size: 1rem; color: var(--pencil-gray); font-style: italic;">
+        <span data-lang="en">✨ No spam, just handcrafted goodness • Unsubscribe anytime ✨</span>
+        <span data-lang="ja" style="display: none;">✨ スパムなし、手作りの良さだけ • いつでも配信停止可能 ✨</span>
+    </div>
+</div>
