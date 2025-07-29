@@ -18,8 +18,6 @@
 第三段階に挿入すると、より正確に
 行動原理を説明できそう。
 
-![Maslow's Hierarchy of Needs with additional 'Boredom/Anxiety Escape Desire' level](image_of_maslow_pyramid)
-
 漠然とした不安
 暇不安逃避欲求
 自己実現の欲求
@@ -37,7 +35,6 @@
 半分くらいの観客はこの恐怖を
 共有しているだろうか。
 
-![Diagram of cinema seats with drink holders](image_of_cinema_seats)
 A1 A2 A3 ... An
 
 ドリンクホルダーは各席の両側に

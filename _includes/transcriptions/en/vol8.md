@@ -5,7 +5,6 @@ AfterAI Weekly
 # I Bought a Notebook and a Printer
 
 *2025-07-25*
-*新しいガジェットとノートを買いました。*
 
 I have known the TRAVELER'S notebook brand for a couple of years but have not owned one because its regular size notebooks are too big to my taste: I usually use A7 notebooks. Some days ago, when I was looking around at a stationary store, I found a passport-size model and bought it without hesitation. I really like its simple leather case. Although the cover sometimes interferes with my pocket, hoping I will get used to it or will find a solution, I will continue using it for awhile.
 
