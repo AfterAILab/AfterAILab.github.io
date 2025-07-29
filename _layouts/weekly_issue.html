@@ -25,6 +25,8 @@ layout: default
         justify-content: space-between;
         align-items: center;
         position: relative;
+        z-index: 1;
+        min-height: 80px; /* Ensure minimum height for button positioning */
     }
     
     .nav-buttons {
@@ -36,16 +38,25 @@ layout: default
     .nav-button-left {
         position: absolute;
         left: 0;
+        z-index: 10;
+        pointer-events: auto;
     }
     
     .nav-button-right {
         position: absolute;
         right: 0;
+        z-index: 10;
+        pointer-events: auto;
     }
     
     .issue-header {
         text-align: center;
         flex: 1;
+        pointer-events: none; /* Prevent header from blocking clicks on nav buttons */
+    }
+    
+    .issue-header h1 {
+        pointer-events: auto; /* Re-enable pointer events for the header text itself */
     }
     
     /* Mobile responsive navigation */
@@ -93,7 +104,7 @@ layout: default
         {% endif %}
         
         <div class="issue-header">
-            <h1 style="font-family: 'Caveat', cursive; font-size: 3.5rem; color: var(--marker-red); margin-bottom: 10px; transform: rotate(-1deg);">
+            <h1 style="font-family: 'Caveat', cursive; font-size: 3.5rem; color: var(--marker-red); margin-bottom: 10px; transform: rotate(-1deg); pointer-events: auto;">
                 <span data-lang="en">AfterAI Weekly Vol.{{ issue_data.number }} 📚</span>
                 <span data-lang="ja" style="display: none;">AfterAI Weekly 第{{ issue_data.number }}号 📚</span>
             </h1>
@@ -144,7 +155,8 @@ layout: default
                     <h3 style="font-family: 'Caveat', cursive; font-size: 2rem; color: var(--marker-red); margin-bottom: 15px;">
                         Transcriptions 📝
                     </h3>
-                    {{ issue_data.transcription.en | markdownify }}
+                    {% capture en_transcription %}{% include transcriptions/en/{{ issue_data.slug }}.md %}{% endcapture %}
+                    {{ en_transcription | markdownify }}
                 </div>
             </div>
         </div>
@@ -161,7 +173,8 @@ layout: default
                     <h3 style="font-family: 'Caveat', cursive; font-size: 2rem; color: var(--marker-red); margin-bottom: 15px;">
                         文字起こし 📝
                     </h3>
-                    {{ issue_data.transcription.ja | markdownify }}
+                    {% capture ja_transcription %}{% include transcriptions/ja/{{ issue_data.slug }}.md %}{% endcapture %}
+                    {{ ja_transcription | markdownify }}
                 </div>
             </div>
         </div>

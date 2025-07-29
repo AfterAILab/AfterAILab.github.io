@@ -1,102 +1,47 @@
 - number: 1
   slug: vol1
   transcription:
-    en: |
-      Our very first issue where we introduced our vision of human-centered insights. 
-      This inaugural edition explores what it means to approach artificial intelligence 
-      with humanity at its core.
-
-      In this handwritten journey, we discuss why traditional communication methods 
-      like pen and paper still matter in our digital age, and how they can help us 
-      stay grounded while exploring the frontier of AI technology.
-    ja: |
-      人間中心のインサイトのビジョンを紹介した記念すべき創刊号。
-      この創刊記念号では、人工知能に人間性を核として取り組むことの意味を探求しています。
-
-      この手書きの旅では、ペンと紙のような伝統的なコミュニケーション手段が
-      デジタル時代でもなぜ重要なのか、そしてAI技術のフロンティアを探求しながら
-      どのように地に足をつけていられるかについて議論しています。
+    en: _includes/transcriptions/en/vol1.md
+    ja: _includes/transcriptions/ja/vol1.md
 
 - number: 2
   slug: vol2
   transcription:
-    en: |
-      This issue explores the crucial role of community in AI development.
-      We dive into why collaborative creation and shared learning are essential
-      for building AI that serves humanity's best interests.
-    ja: |
-      この号では、AI開発におけるコミュニティの重要な役割を探求します。
-      人類の最善の利益に奉仕するAIを構築するために、協力的な創造と
-      共有学習がなぜ不可欠なのかを深く掘り下げます。
+    en: _includes/transcriptions/en/vol2.md
+    ja: _includes/transcriptions/ja/vol2.md
 
 - number: 3
   slug: vol3
   transcription:
-    en: |
-      Stories have always been how humans make sense of the world.
-      This issue examines how the narratives we tell about AI shape
-      both public perception and development priorities.
-    ja: |
-      物語は常に人間が世界を理解する方法でした。
-      この号では、AIについて語る物語が、一般の認識と
-      開発の優先順位の両方をどのように形作るかを検証します。
+    en: _includes/transcriptions/en/vol3.md
+    ja: _includes/transcriptions/ja/vol3.md
 
 - number: 4
   slug: vol4
   transcription:
-    en: |
-      In a world increasingly dominated by digital interfaces,
-      there's profound wisdom in analog approaches.
-      This issue explores how traditional methods can inform better AI design.
-    ja: |
-      デジタルインターフェースがますます支配的になる世界で、
-      アナログアプローチには深い知恵があります。
-      この号では、伝統的な方法がより良いAI設計にどのように役立つかを探求します。
+    en: _includes/transcriptions/en/vol4.md
+    ja: _includes/transcriptions/ja/vol4.md
 
 - number: 5
   slug: vol5
   transcription:
-    en: |
-      True AI progress comes not from replacing humans,
-      but from creating tools that amplify our natural abilities.
-      This issue outlines principles for human-centered AI design.
-    ja: |
-      真のAI進歩は人間を置き換えることからではなく、
-      私たちの自然な能力を増幅するツールを作ることから生まれます。
-      この号では、人間中心のAI設計の原則を概説します。
+    en: _includes/transcriptions/en/vol5.md
+    ja: _includes/transcriptions/ja/vol5.md
 
 - number: 6
   slug: vol6
   transcription:
-    en: |
-      For makers and creators, AI isn't just a tool—it's a collaborator.
-      This issue provides practical guidance for integrating AI
-      into creative and building processes.
-    ja: |
-      メーカーや創造者にとって、AIは単なるツールではなく、協力者です。
-      この号では、AIを創造的および構築プロセスに統合するための
-      実践的なガイダンスを提供します。
+    en: _includes/transcriptions/en/vol6.md
+    ja: _includes/transcriptions/ja/vol6.md
 
 - number: 7
   slug: vol7
   transcription:
-    en: |
-      The future isn't predetermined—it's sketched by the choices we make today.
-      This issue visualizes emerging technologies through the lens
-      of human impact and ethical considerations.
-    ja: |
-      未来は予め決められているものではなく、今日行う選択によってスケッチされます。
-      この号では、人間への影響と倫理的配慮のレンズを通して
-      新興技術を視覚化します。
+    en: _includes/transcriptions/en/vol7.md
+    ja: _includes/transcriptions/ja/vol7.md
 
 - number: 8
   slug: vol8
   transcription:
-    en: |
-      As we conclude this series, we reflect on what we've learned
-      about the intersection of humanity and artificial intelligence.
-      The future belongs to those who craft AI with intention and heart.
-    ja: |
-      このシリーズを終えるにあたり、人間性と人工知能の交差点について
-      学んだことを振り返ります。
-      未来は、意図と心を持ってAIを作り上げる人々のものです.
+    en: _includes/transcriptions/en/vol8.md
+    ja: _includes/transcriptions/ja/vol8.md
