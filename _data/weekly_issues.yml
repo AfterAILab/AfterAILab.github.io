@@ -1,47 +1,46 @@
+---
 - number: 1
   slug: vol1
   transcription:
     en: _includes/transcriptions/en/vol1.md
     ja: _includes/transcriptions/ja/vol1.md
-
 - number: 2
   slug: vol2
   transcription:
     en: _includes/transcriptions/en/vol2.md
     ja: _includes/transcriptions/ja/vol2.md
-
 - number: 3
   slug: vol3
   transcription:
     en: _includes/transcriptions/en/vol3.md
     ja: _includes/transcriptions/ja/vol3.md
-
 - number: 4
   slug: vol4
   transcription:
     en: _includes/transcriptions/en/vol4.md
     ja: _includes/transcriptions/ja/vol4.md
-
 - number: 5
   slug: vol5
   transcription:
     en: _includes/transcriptions/en/vol5.md
     ja: _includes/transcriptions/ja/vol5.md
-
 - number: 6
   slug: vol6
   transcription:
     en: _includes/transcriptions/en/vol6.md
     ja: _includes/transcriptions/ja/vol6.md
-
 - number: 7
   slug: vol7
   transcription:
     en: _includes/transcriptions/en/vol7.md
     ja: _includes/transcriptions/ja/vol7.md
-
 - number: 8
   slug: vol8
   transcription:
     en: _includes/transcriptions/en/vol8.md
     ja: _includes/transcriptions/ja/vol8.md
+- number: 9
+  slug: vol9
+  transcription:
+    en: _includes/transcriptions/en/vol9.md
+    ja: _includes/transcriptions/ja/vol9.md
