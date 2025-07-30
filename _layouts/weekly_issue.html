@@ -146,10 +146,12 @@ layout: default
         <!-- English Version -->
         <div data-lang="en" style="max-width: 800px; width: 100%;">
             <div class="issue-content" style="padding: 30px;">
-                <img src="{{ '/img/weekly/en/' | append: issue_data.slug | append: '-en.jpg' | relative_url }}" 
-                     alt="AfterAI Weekly Vol.{{ issue_data.number }} English"
-                     loading="lazy"
-                     style="width: 100%; height: auto; border-radius: 10px; box-shadow: 3px 3px 10px rgba(0,0,0,0.2);">
+                <a href="{{ '/img/weekly/en/' | append: issue_data.slug | append: '-en.jpg' | relative_url }}" target="_self">
+                    <img src="{{ '/img/weekly/en/' | append: issue_data.slug | append: '-en.jpg' | relative_url }}" 
+                         alt="AfterAI Weekly Vol.{{ issue_data.number }} English"
+                         loading="lazy"
+                         style="width: 100%; height: auto; border-radius: 10px; box-shadow: 3px 3px 10px rgba(0,0,0,0.2); cursor: pointer;">
+                </a>
                 
                 <div class="transcription-box" style="margin-top: 25px; padding: 20px; background: rgba(245,245,220,0.7); border-radius: 10px;">
                     <h3 style="font-family: 'Caveat', cursive; font-size: 2rem; color: var(--marker-red); margin-bottom: 15px;">
@@ -164,10 +166,12 @@ layout: default
         <!-- Japanese Version -->
         <div data-lang="ja" style="max-width: 800px; width: 100%; display: none;">
             <div class="issue-content" style="padding: 30px;">
-                <img src="{{ '/img/weekly/ja/' | append: issue_data.slug | append: '-ja.jpg' | relative_url }}" 
-                     alt="AfterAI Weekly Vol.{{ issue_data.number }} Japanese"
-                     loading="lazy"
-                     style="width: 100%; height: auto; border-radius: 10px; box-shadow: 3px 3px 10px rgba(0,0,0,0.2);">
+                <a href="{{ '/img/weekly/ja/' | append: issue_data.slug | append: '-ja.jpg' | relative_url }}" target="_self">
+                    <img src="{{ '/img/weekly/ja/' | append: issue_data.slug | append: '-ja.jpg' | relative_url }}" 
+                         alt="AfterAI Weekly Vol.{{ issue_data.number }} Japanese"
+                         loading="lazy"
+                         style="width: 100%; height: auto; border-radius: 10px; box-shadow: 3px 3px 10px rgba(0,0,0,0.2); cursor: pointer;">
+                </a>
                 
                 <div class="transcription-box" style="margin-top: 25px; padding: 20px; background: rgba(245,245,220,0.7); border-radius: 10px;">
                     <h3 style="font-family: 'Caveat', cursive; font-size: 2rem; color: var(--marker-red); margin-bottom: 15px;">
