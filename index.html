@@ -52,31 +52,75 @@ title: Home
     {% endfor %}
 </div>
 
-<!-- Maker Faire Flyer Section -->
-<div class="flyer-section" style="text-align: center; margin: 40px 0; padding: 30px; background: rgba(255,255,255,0.8); border-radius: 20px; transform: rotate(0.5deg); box-shadow: 3px 3px 0px rgba(0,0,0,0.1);">
-    <h3 style="font-family: 'Caveat', cursive; font-size: 2.2rem; color: var(--sketch-brown); margin-bottom: 20px; transform: rotate(-1deg);">
-        <span data-lang="en">🎪 Meet Us at Maker Faire!</span>
-        <span data-lang="ja" style="display: none;">🎪 Maker Faireで会いましょう！</span>
-    </h3>
-    
-    <div data-lang="en">
-        <p style="font-size: 1.2rem; margin-bottom: 20px; color: var(--ink-blue);">
-            Join us at Maker Faire Bay Area 2025 and experience the magic of handwritten news cards! ✍️
-        </p>
+<!-- Side-by-side sections for Maker Faire and Call for Papers -->
+<div style="display: flex; flex-direction: column; gap: 20px; margin: 40px 0;">
+    <style>
+        @media (min-width: 768px) {
+            .side-by-side-sections {
+                flex-direction: row !important;
+                align-items: stretch !important;
+            }
+            .side-by-side-sections > div {
+                flex: 1 !important;
+                margin: 0 10px !important;
+            }
+        }
+    </style>
+    <div class="side-by-side-sections" style="display: flex; flex-direction: column; gap: 20px;">
+        <!-- Maker Faire Flyer Section -->
+        <div class="flyer-section" style="text-align: center; padding: 30px; background: rgba(255,255,255,0.8); border-radius: 20px; transform: rotate(0.5deg); box-shadow: 3px 3px 0px rgba(0,0,0,0.1);">
+            <h3 style="font-family: 'Caveat', cursive; font-size: 2.2rem; color: var(--sketch-brown); margin-bottom: 20px; transform: rotate(-1deg);">
+                <span data-lang="en">🎪 Meet Us at Maker Faire!</span>
+                <span data-lang="ja" style="display: none;">🎪 Maker Faireで会いましょう！</span>
+            </h3>
+            
+            <div data-lang="en">
+                <p style="font-size: 1.2rem; margin-bottom: 20px; color: var(--ink-blue);">
+                    Join us at Maker Faire Bay Area 2025 and experience the magic of handwritten news cards! ✍️
+                </p>
+            </div>
+            
+            <div data-lang="ja" style="display: none;">
+                <p style="font-size: 1.2rem; margin-bottom: 20px; color: var(--ink-blue);">
+                    Maker Faire Bay Area 2025で手書きニュースカードの魔法を体験してください！ ✍️
+                </p>
+            </div>
+            
+            <a href="{{ '/img/flyer/maker-faire-bay-area-2025-afterai-flyer.jpg' | relative_url }}" target="_self">
+                <img src="{{ '/img/flyer/maker-faire-bay-area-2025-afterai-flyer.jpg' | relative_url }}" 
+                     alt="AfterAI at Maker Faire Bay Area 2025 - Let's Write and Share News Cards!"
+                     loading="lazy"
+                     style="max-width: 100%; width: 350px; border-radius: 15px; box-shadow: 5px 5px 15px rgba(0,0,0,0.2); transform: rotate(-0.5deg); margin: 20px 0; cursor: pointer;">
+            </a>
+        </div>
+
+        <!-- Call for Papers Section -->
+        <div class="call-for-papers-section" style="text-align: center; padding: 30px; background: rgba(255,255,255,0.8); border-radius: 20px; transform: rotate(-0.3deg); box-shadow: 3px 3px 0px rgba(0,0,0,0.1);">
+            <h3 style="font-family: 'Caveat', cursive; font-size: 2.2rem; color: var(--sketch-brown); margin-bottom: 20px; transform: rotate(1deg);">
+                <span data-lang="en">📝 Call for Papers!</span>
+                <span data-lang="ja" style="display: none;">📝 投稿募集！</span>
+            </h3>
+            
+            <div data-lang="en">
+                <p style="font-size: 1.2rem; margin-bottom: 20px; color: var(--ink-blue);">
+                    We want to hear YOUR handwritten stories! Relax and start writing! ✨
+                </p>
+            </div>
+            
+            <div data-lang="ja" style="display: none;">
+                <p style="font-size: 1.2rem; margin-bottom: 20px; color: var(--ink-blue);">
+                    あなたのストーリーを読んでみたいです！ 気張らず書いてみてください！　✨
+                </p>
+            </div>
+            
+            <a href="{{ '/img/flyer/call-for-papers.jpg' | relative_url }}" target="_self">
+                <img src="{{ '/img/flyer/call-for-papers.jpg' | relative_url }}" 
+                     alt="Call for Papers - Share your handwritten newsletters with AfterAI Weekly!"
+                     loading="lazy"
+                     style="max-width: 100%; width: 350px; border-radius: 15px; box-shadow: 5px 5px 15px rgba(0,0,0,0.2); transform: rotate(0.8deg); margin: 20px 0; cursor: pointer;">
+            </a>
+        </div>
     </div>
-    
-    <div data-lang="ja" style="display: none;">
-        <p style="font-size: 1.2rem; margin-bottom: 20px; color: var(--ink-blue);">
-            Maker Faire Bay Area 2025で手書きニュースカードの魔法を体験してください！ ✍️
-        </p>
-    </div>
-    
-    <a href="{{ '/img/flyer/maker-faire-bay-area-2025-afterai-flyer.jpg' | relative_url }}" target="_self">
-        <img src="{{ '/img/flyer/maker-faire-bay-area-2025-afterai-flyer.jpg' | relative_url }}" 
-             alt="AfterAI at Maker Faire Bay Area 2025 - Let's Write and Share News Cards!"
-             loading="lazy"
-             style="width: 400px; border-radius: 15px; box-shadow: 5px 5px 15px rgba(0,0,0,0.2); transform: rotate(-0.5deg); margin: 20px 0; cursor: pointer;">
-    </a>
 </div>
 
 <div class="content">
