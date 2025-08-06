@@ -44,3 +44,8 @@
   transcription:
     en: _includes/transcriptions/en/vol9.md
     ja: _includes/transcriptions/ja/vol9.md
+- number: 10
+  slug: vol10
+  transcription:
+    en: _includes/transcriptions/en/vol10.md
+    ja: _includes/transcriptions/ja/vol10.md
