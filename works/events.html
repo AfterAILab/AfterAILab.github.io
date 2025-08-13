@@ -1,0 +1,92 @@
+---
+layout: default
+title: Attended Events
+---
+
+<style>
+  .content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .event-list {
+    list-style: none;
+    padding: 0;
+  }
+  .event-item {
+    background: rgba(255,255,255,0.8);
+    border: 2px dashed var(--sketch-brown);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px 0;
+    transform: rotate(-0.5deg);
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+  .event-logo {
+    flex: 0 0 150px;
+    margin-right: 20px;
+  }
+  .event-logo img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  .event-details {
+    flex: 1;
+  }
+  .event-details h3 {
+    margin-top: 0;
+    font-family: 'Caveat', cursive;
+    font-size: 2.2rem;
+    color: var(--marker-red);
+  }
+  .event-details img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    margin-top: 15px;
+    border-radius: 10px;
+  }
+</style>
+
+<div class="content">
+  <h2 style="font-family: 'Caveat', cursive; font-size: 3rem; text-align: center; color: var(--marker-red); margin-bottom: 30px; transform: rotate(-1deg);">
+    Attended Events 🎪
+  </h2>
+  <ul class="event-list">
+    <li class="event-item">
+      <div class="event-logo">
+        <img src="/img/events/MFRome2024/MakerFaireRome2024Logo.jpg" alt="Maker Faire Rome 2024 Logo">
+      </div>
+      <div class="event-details">
+        <h3>Maker Faire Rome 2024</h3>
+        <p><a href="/works/flaps.html">AfterAI Flaps</a></p>
+        <p>Won Maker of Merit Award</p>
+        <img src="/img/events/MFRome2024/MakerFaireRome2024Cover.jpeg" alt="Maker Faire Rome 2024">
+      </div>
+    </li>
+    <li class="event-item" style="transform: rotate(0.5deg);">
+      <div class="event-logo">
+        <img src="/img/events/MFBayArea2024/makerfaire-bayarea-2023-banner-rectangle-1080x360-1.jpeg" alt="Maker Faire Bay Area 2024 Logo">
+      </div>
+      <div class="event-details">
+        <h3 style="color: var(--ink-blue);">Maker Faire Bay Area 2024</h3>
+        <p><a href="/works/flaps.html">AfterAI Flaps</a></p>
+        <p>Won Editor's Choice Award</p>
+        <img src="/img/events/MFBayArea2024/EditorsChoiceMakerFaireBayArea2024.jpg" alt="Maker Faire Bay Area 2024">
+      </div>
+    </li>
+    <li class="event-item">
+      <div class="event-logo">
+        <img src="/img/events/MFTokyo2024/Tokyo-MF_logo_outlined_CMed.jpg" alt="Maker Faire Tokyo 2024 Logo">
+      </div>
+      <div class="event-details">
+        <h3 style="color: var(--sketch-brown);">Maker Faire Tokyo 2024</h3>
+        <p><a href="/works/flaps.html">AfterAI Flaps</a></p>
+        <img src="/img/events/MFTokyo2024/MakerFaireTokyo2024Showing.jpg" alt="Maker Faire Tokyo 2024">
+      </div>
+    </li>
+  </ul>
+</div>

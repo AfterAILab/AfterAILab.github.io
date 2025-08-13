@@ -67,159 +67,164 @@ title: AfterAI Flaps
 </style>
 
 <div class="content">
-    <h1>AfterAI Flaps</h1>
-    <p><img src="/img/flaps/AfterAI_Flaps_Showing_Make.jpg" alt="AfterAI Flaps Showing Make" class="img-fluid"></p>
-    <p>AfterAI Flaps is a DIY split-flap display. It is extensible, so you can start from a single leader unit first, and connect more followers later.</p>
+    <h2 style="font-family: 'Caveat', cursive; font-size: 3rem; text-align: center; color: var(--marker-red); margin-bottom: 30px; transform: rotate(-1deg);">
+        AfterAI Flaps 🤖
+    </h2>
 
-    <div class="callout callout-note">
-        <p><strong>Update: April, 2025</strong></p>
-        <p>AfterAI Flaps is out of stock now. Please make use of <a href="#source-code">the open source materials</a> to build your own!</p>
-    </div>
+    <div style="background: rgba(255,255,255,0.8); border: 2px dashed var(--sketch-brown); border-radius: 15px; padding: 25px; margin: 20px 0; transform: rotate(0.5deg);">
+        <p><img src="/img/flaps/AfterAI_Flaps_Showing_Make.jpg" alt="AfterAI Flaps Showing Make" class="img-fluid"></p>
+        <p>AfterAI Flaps is a DIY split-flap display. It is extensible, so you can start from a single leader unit first, and connect more followers later.</p>
 
-    <div class="callout callout-success">
-        <p><strong>Awards</strong></p>
-        <p>Our exhibits of AfterAI Flaps received the following awards!</p>
+        <div class="callout callout-note">
+            <p><strong>Update: April, 2025</strong></p>
+            <p>AfterAI Flaps is out of stock now. Please make use of <a href="#source-code">the open source materials</a> to build your own!</p>
+        </div>
+
+        <div class="callout callout-success">
+            <p><strong>Awards</strong></p>
+            <p>Our exhibits of AfterAI Flaps received the following awards!</p>
+            <ul>
+                <li>Editor's Choice Award at Maker Faire Bay Area 2024</li>
+                <li>Maker of Merit Award at Maker Faire Rome 2024</li>
+            </ul>
+        </div>
+
+        <h2>Example Use Case</h2>
+        <h3><a href="/yugioh-life-counter.html">Yu-Gi-Oh! Life Counter with AfterAI Flaps</a></h3>
+
+        <h2>How to Assemble AfterAI Flaps</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/13bu-LXOGi0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p><em>The drums of AfterAI Flaps sold at Maker Faire Tokyo 2024 need a bit of instant glue to firmly attach to the shaft of motor.</em></p>
+
+        <div class="callout callout-note">
+            <p><strong>Rule of Unit ID</strong></p>
+            <p>The leftmost unit must have ID 0, the other units must have IDs that increment by one as it goes to right.</p>
+        </div>
+
+        <h2>How to Connect Your Device to Leader</h2>
+        <p>AfterAI Flaps Leader offers Wi-Fi connectivity. On start-up, it tries to connect to a local area network. If it succeeds, it joins the LAN. This operation mode is called STA mode. If it fails to connect to a LAN, it fallbacks to AP mode. In this mode, Leader works as a Wi-Fi access point. Also, you can toggle these modes by long-pressing the ESP BOOT button.</p>
+
+        <pre class="mermaid">
+        stateDiagram-v2
+        STA: STA Mode
+        AP: AP Mode
+        [*] --> STA
+        STA --> AP: Fallback
+        STA --> AP: Long-press ESP BOOT
+        AP --> STA: Long-press ESP BOOT
+        </pre>
+
+        <h3>STA Mode</h3>
+        <p>You can get the current IP address by reading Morse code transmitted as flash of light. A short-press on the ESP BOOT button starts flashing an LED light on the Leader board to communicate the IP address. You can connect to the Leader by accessing the IP address from a device that is connected to the same LAN as the Leader.</p>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/QqlCrIgUWk4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Letter</th>
+                    <th>Morse Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>0</td>
+                    <td><code>-----</code></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td><code>.----</code></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><code>..---</code></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><code>...--</code></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><code>....-</code></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><code>.....</code></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td><code>-....</code></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td><code>--...</code></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td><code>---..</code></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td><code>----.</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Non-Letter</th>
+                    <th>No Signal Duration in Unit Duration</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Between Letters</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Between Words</td>
+                    <td>7</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>AP Mode</h3>
+        <p>You should be able to find the SSID of the Leader from your device. The SSID is of form <code>AfterAI_Flaps_XXXXXX</code>. The IP address of the Leader is <code>192.168.10.123</code>.</p>
+        <p><img src="/img/flaps/AfterAI_Flaps_AP_SSID_Mac.png" alt="AfterAI Flaps AP SSID Mac" class="img-fluid"></p>
+
+        <h2>Web Console</h2>
+        <p>The web console consists of five sections.</p>
+        <p><img src="/img/flaps/AfterAI_Flaps_Web_Console_Sample.png" alt="AfterAI Flaps Web Console Sample" class="img-fluid"></p>
+        <h3>Clock Mode Instructions</h3>
+        <p><img src="/img/flaps/AfterAI_Flaps_Clock_Photo_2.png" alt="AfterAI Flaps Clock Photo" class="img-fluid"></p>
         <ul>
-            <li>Editor's Choice Award at Maker Faire Bay Area 2024</li>
-            <li>Maker of Merit Award at Maker Faire Rome 2024</li>
+            <li>Connect AfterAI Flaps to your Wi-Fi router so that it can get the current time from the Internet.</li>
+            <li>Set values in Wi-Fi Settings and restart the device from Operations.</li>
+            <li>Connect to AfterAI Flaps from your computer. The IP address can be obtained by following the instructions in <a href="#sta-mode">STA Mode</a></li>
+            <li>Set Device Mode to clock</li>
+        </ul>
+
+        <h2 id="source-code">Source Code</h2>
+        <p>The source code is available on GitHub.</p>
+        <h3>Firmware</h3>
+        <ul>
+            <li><a href="https://github.com/AfterAILab/flaps-esp" target="_blank" rel="noopener noreferrer">https://github.com/AfterAILab/flaps-esp</a></li>
+            <li><a href="https://github.com/AfterAILab/flaps-avr" target="_blank" rel="noopener noreferrer">https://github.com/AfterAILab/flaps-avr</a></li>
+        </ul>
+        <h3>PCB</h3>
+        <ul>
+            <li><a href="https://github.com/AfterAILab/flaps-leader-pcb" target="_blank" rel="noopener noreferrer">https://github.com/AfterAILab/flaps-leader-pcb</a></li>
+            <li><a href="https://github.com/AfterAILab/flaps-follower-pcb" target="_blank" rel="noopener noreferrer">https://github.com/AfterAILab/flaps-follower-pcb</a></li>
+        </ul>
+        <h2>3D Models</h2>
+        <ul>
+            <li><a href="https://makerworld.com/en/models/823059?from=search#profileId-766363" target="_blank" rel="noopener noreferrer">https://makerworld.com/en/models/823059?from=search#profileId-766363</a></li>
         </ul>
     </div>
-
-    <h2>Example Use Case</h2>
-    <h3><a href="/yugioh-life-counter.html">Yu-Gi-Oh! Life Counter with AfterAI Flaps</a></h3>
-
-    <h2>How to Assemble AfterAI Flaps</h2>
-    <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/13bu-LXOGi0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-    <p><em>The drums of AfterAI Flaps sold at Maker Faire Tokyo 2024 need a bit of instant glue to firmly attach to the shaft of motor.</em></p>
-
-    <div class="callout callout-note">
-        <p><strong>Rule of Unit ID</strong></p>
-        <p>The leftmost unit must have ID 0, the other units must have IDs that increment by one as it goes to right.</p>
-    </div>
-
-    <h2>How to Connect Your Device to Leader</h2>
-    <p>AfterAI Flaps Leader offers Wi-Fi connectivity. On start-up, it tries to connect to a local area network. If it succeeds, it joins the LAN. This operation mode is called STA mode. If it fails to connect to a LAN, it fallbacks to AP mode. In this mode, Leader works as a Wi-Fi access point. Also, you can toggle these modes by long-pressing the ESP BOOT button.</p>
-
-    <pre class="mermaid">
-    stateDiagram-v2
-    STA: STA Mode
-    AP: AP Mode
-    [*] --> STA
-    STA --> AP: Fallback
-    STA --> AP: Long-press ESP BOOT
-    AP --> STA: Long-press ESP BOOT
-    </pre>
-
-    <h3>STA Mode</h3>
-    <p>You can get the current IP address by reading Morse code transmitted as flash of light. A short-press on the ESP BOOT button starts flashing an LED light on the Leader board to communicate the IP address. You can connect to the Leader by accessing the IP address from a device that is connected to the same LAN as the Leader.</p>
-    <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/QqlCrIgUWk4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Letter</th>
-                <th>Morse Code</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>0</td>
-                <td><code>-----</code></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td><code>.----</code></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td><code>..---</code></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td><code>...--</code></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td><code>....-</code></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td><code>.....</code></td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td><code>-....</code></td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td><code>--...</code></td>
-            </tr>
-            <tr>
-                <td>8</td>
-                <td><code>---..</code></td>
-            </tr>
-            <tr>
-                <td>9</td>
-                <td><code>----.</code></td>
-            </tr>
-        </tbody>
-    </table>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Non-Letter</th>
-                <th>No Signal Duration in Unit Duration</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Between Letters</td>
-                <td>3</td>
-            </tr>
-            <tr>
-                <td>Between Words</td>
-                <td>7</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h3>AP Mode</h3>
-    <p>You should be able to find the SSID of the Leader from your device. The SSID is of form <code>AfterAI_Flaps_XXXXXX</code>. The IP address of the Leader is <code>192.168.10.123</code>.</p>
-    <p><img src="/img/flaps/AfterAI_Flaps_AP_SSID_Mac.png" alt="AfterAI Flaps AP SSID Mac" class="img-fluid"></p>
-
-    <h2>Web Console</h2>
-    <p>The web console consists of five sections.</p>
-    <p><img src="/img/flaps/AfterAI_Flaps_Web_Console_Sample.png" alt="AfterAI Flaps Web Console Sample" class="img-fluid"></p>
-    <h3>Clock Mode Instructions</h3>
-    <p><img src="/img/flaps/AfterAI_Flaps_Clock_Photo_2.png" alt="AfterAI Flaps Clock Photo" class="img-fluid"></p>
-    <ul>
-        <li>Connect AfterAI Flaps to your Wi-Fi router so that it can get the current time from the Internet.</li>
-        <li>Set values in Wi-Fi Settings and restart the device from Operations.</li>
-        <li>Connect to AfterAI Flaps from your computer. The IP address can be obtained by following the instructions in <a href="#sta-mode">STA Mode</a></li>
-        <li>Set Device Mode to clock</li>
-    </ul>
-
-    <h2 id="source-code">Source Code</h2>
-    <p>The source code is available on GitHub.</p>
-    <h3>Firmware</h3>
-    <ul>
-        <li><a href="https://github.com/AfterAILab/flaps-esp" target="_blank" rel="noopener noreferrer">https://github.com/AfterAILab/flaps-esp</a></li>
-        <li><a href="https://github.com/AfterAILab/flaps-avr" target="_blank" rel="noopener noreferrer">https://github.com/AfterAILab/flaps-avr</a></li>
-    </ul>
-    <h3>PCB</h3>
-    <ul>
-        <li><a href="https://github.com/AfterAILab/flaps-leader-pcb" target="_blank" rel="noopener noreferrer">https://github.com/AfterAILab/flaps-leader-pcb</a></li>
-        <li><a href="https://github.com/AfterAILab/flaps-follower-pcb" target="_blank" rel="noopener noreferrer">https://github.com/AfterAILab/flaps-follower-pcb</a></li>
-    </ul>
-    <h2>3D Models</h2>
-    <ul>
-        <li><a href="https://makerworld.com/en/models/823059?from=search#profileId-766363" target="_blank" rel="noopener noreferrer">https://makerworld.com/en/models/823059?from=search#profileId-766363</a></li>
-    </ul>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
