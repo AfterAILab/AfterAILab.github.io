@@ -125,6 +125,59 @@ def generate_transcription_from_image(image_path, language_label, api_key)
   end
 end
 
+def generate_social_media_text(slug, number, transcription_en, transcription_ja, api_key)
+  return nil unless api_key
+
+  begin
+    uri = URI.parse('https://api.openai.com/v1/chat/completions')
+    req = Net::HTTP::Post.new(uri)
+    req['Content-Type'] = 'application/json'
+    req['Authorization'] = "Bearer #{api_key}"
+
+    system_prompt = "You are a social media marketing assistant for AfterAI, a maker community focused on handcrafted AI insights."
+    
+    user_prompt = [
+      "Create engaging social media text for AfterAI Weekly Vol.#{number}.",
+      "This is a handwritten newsletter about AI, technology, and the maker community.",
+      "Include relevant hashtags and make it shareable.",
+      "Keep it concise but engaging (Twitter/X friendly length).",
+      "Here's a preview of the content:",
+      "",
+      "English version:",
+      transcription_en&.slice(0, 200) || "Content available",
+      "",
+      "Japanese version:",
+      transcription_ja&.slice(0, 200) || "Content available"
+    ].join("\n")
+
+    payload = {
+      model: 'gpt-5-mini',
+      messages: [
+        { role: 'system', content: system_prompt },
+        { role: 'user', content: user_prompt }
+      ]
+    }
+
+    req.body = JSON.dump(payload)
+
+    res = Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
+      http.request(req)
+    end
+
+    unless res.is_a?(Net::HTTPSuccess)
+      warn "OpenAI API error (#{res.code}): #{res.body}"
+      return nil
+    end
+
+    body = JSON.parse(res.body)
+    content = body.dig('choices', 0, 'message', 'content')
+    content&.strip
+  rescue => e
+    warn "Failed to generate social media text: #{e.class}: #{e.message}"
+    nil
+  end
+end
+
 api_key = load_openai_api_key
 
 # Try auto-generation from images; fallback to manual input if unavailable
@@ -200,3 +253,23 @@ puts "Data file updated: #{data_file}"
 puts "HTML file created: #{filepath}"
 puts "English transcription created: #{en_transcription_path}"
 puts "Japanese transcription created: #{ja_transcription_path}"
+puts "\nDon't forget to add the corresponding images:"
+puts "- img/weekly/en/#{slug}-en.jpg"
+puts "- img/weekly/ja/#{slug}-ja.jpg"
+
+# Generate social media text
+if api_key
+  puts "\n📱 Generating social media text using OpenAI…"
+  social_text = generate_social_media_text(slug, number, transcription_en, transcription_ja, api_key)
+  if social_text
+    puts "\n" + "="*60
+    puts "📱 SOCIAL MEDIA TEXT"
+    puts "="*60
+    puts social_text
+    puts "="*60
+  else
+    puts "⚠️  Failed to generate social media text"
+  end
+else
+  puts "\n⚠️  No OpenAI API key found - skipping social media text generation"
+end
