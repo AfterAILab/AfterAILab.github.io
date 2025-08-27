@@ -59,3 +59,8 @@
   transcription:
     en: _includes/transcriptions/en/vol12.md
     ja: _includes/transcriptions/ja/vol12.md
+- number: 13
+  slug: vol13
+  transcription:
+    en: _includes/transcriptions/en/vol13.md
+    ja: _includes/transcriptions/ja/vol13.md
