@@ -64,3 +64,8 @@
   transcription:
     en: _includes/transcriptions/en/vol13.md
     ja: _includes/transcriptions/ja/vol13.md
+- number: 14
+  slug: vol14
+  transcription:
+    en: _includes/transcriptions/en/vol14.md
+    ja: _includes/transcriptions/ja/vol14.md
