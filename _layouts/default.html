@@ -317,37 +317,7 @@
                 /* Hide decorative elements on mobile */
             }
 
-            /* Mobile subscription form styles */
-            .subscription-form {
-                margin: 30px 10px;
-                padding: 25px 20px;
-                transform: rotate(0deg);
-                /* Less rotation on mobile */
-            }
-
-            .subscription-form h3 {
-                font-size: 2rem;
-                margin-bottom: 15px;
-            }
-
-            .subscription-form p {
-                font-size: 1.1rem;
-                margin-bottom: 20px;
-            }
-
-            .subscription-form input {
-                font-size: 1.1rem;
-                padding: 12px;
-                transform: rotate(0deg);
-                /* Less rotation on mobile */
-            }
-
-            .subscription-form button {
-                font-size: 1.5rem;
-                padding: 15px;
-                transform: rotate(0deg);
-                /* Less rotation on mobile */
-            }
+            /* (subscription form mobile styles removed) */
 
             /* Mobile flyer section */
             .flyer-section {
@@ -418,21 +388,7 @@
                 margin-bottom: 10px !important;
             }
 
-            /* Subscribe CTA mobile */
-            .subscribe-cta {
-                margin: 30px 0 !important;
-                padding: 20px 15px !important;
-            }
-
-            .subscribe-cta h3 {
-                font-size: 1.8rem !important;
-                margin-bottom: 10px !important;
-            }
-
-            .subscribe-cta p {
-                font-size: 1rem !important;
-                margin-bottom: 15px !important;
-            }
+            /* (subscribe CTA mobile styles removed) */
 
             /* Additional responsive utilities */
             @media (max-width: 360px) {
@@ -467,7 +423,6 @@
                 /* Ensure touch targets are at least 44px */
                 nav a,
                 .language-toggle,
-                .subscription-form button,
                 .weekly-item a {
                     min-height: 44px;
                     min-width: 44px;
@@ -519,15 +474,7 @@
                     padding: 25px;
                 }
 
-                /* Tablet subscription form */
-                .subscription-form {
-                    padding: 25px;
-                    margin: 35px 0;
-                }
-
-                .subscription-form h3 {
-                    font-size: 2.2rem;
-                }
+                /* (tablet subscription form styles removed) */
 
                 /* Tablet flyer section */
                 .flyer-section {
@@ -605,30 +552,7 @@
                     font-size: 0.9rem;
                 }
 
-                /* Small mobile subscription form */
-                .subscription-form {
-                    margin: 20px 0;
-                    padding: 20px 15px;
-                }
-
-                .subscription-form h3 {
-                    font-size: 1.8rem;
-                }
-
-                .subscription-form p {
-                    font-size: 1rem;
-                    line-height: 1.4;
-                }
-
-                .subscription-form input {
-                    font-size: 1rem;
-                    padding: 10px;
-                }
-
-                .subscription-form button {
-                    font-size: 1.4rem;
-                    padding: 12px;
-                }
+                /* (small mobile subscription form styles removed) */
 
                 /* Small mobile flyer section */
                 .flyer-section {
@@ -646,53 +570,7 @@
                 }
             }
 
-            /* Subscription Form Styles */
-            .subscription-form input:focus {
-                outline: none;
-                border-color: var(--marker-red);
-                transform: rotate(0deg) scale(1.02);
-                box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.2);
-            }
-
-            .subscription-form label input[type="radio"]:checked+span {
-                color: var(--marker-red);
-                font-weight: 600;
-            }
-
-            .subscription-form label:has(input[type="radio"]:checked) {
-                background: rgba(220, 20, 60, 0.1);
-                border-color: var(--marker-red);
-                transform: rotate(0deg) scale(1.05);
-            }
-
-            .subscription-form button:hover {
-                transform: rotate(1deg) scale(1.05);
-                background: #B91C47;
-                box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.25);
-            }
-
-            .subscription-form button:active {
-                transform: rotate(0deg) scale(0.98);
-                box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.15);
-            }
-
-            .form-success {
-                color: var(--sketch-brown);
-                background: rgba(34, 139, 34, 0.1);
-                border: 2px solid #228B22;
-                border-radius: 10px;
-                padding: 15px;
-                transform: rotate(-0.5deg);
-            }
-
-            .form-error {
-                color: var(--marker-red);
-                background: rgba(220, 20, 60, 0.1);
-                border: 2px solid var(--marker-red);
-                border-radius: 10px;
-                padding: 15px;
-                transform: rotate(0.5deg);
-            }
+            /* (subscription form component styles removed) */
 
             /* Flyer section responsive styles */
             .flyer-section {
@@ -789,67 +667,6 @@
             document.querySelectorAll(`[data-lang="${lang}"]`).forEach(el => {
                 el.style.display = 'block';
             });
-
-            // Update form placeholders
-            const emailInput = document.getElementById('email');
-            const nameInput = document.getElementById('name');
-
-            if (emailInput) {
-                emailInput.placeholder = emailInput.getAttribute(`data-lang-placeholder-${lang}`) || emailInput.placeholder;
-            }
-
-            if (nameInput) {
-                nameInput.placeholder = nameInput.getAttribute(`data-lang-placeholder-${lang}`) || nameInput.placeholder;
-            }
-        }
-
-        // Google Forms submission handler
-        function handleSubscriptionForm() {
-            const form = document.getElementById('subscription-form');
-            const statusDiv = document.getElementById('form-status');
-
-            if (!form) return;
-
-            // Add submit event listener to show loading message
-            form.addEventListener('submit', function (e) {
-                const currentLang = document.documentElement.lang || 'en';
-                const loadingText = currentLang === 'ja' ? '送信中...' : 'Subscribing...';
-                statusDiv.innerHTML = `<div style="color: var(--sketch-brown);">${loadingText}</div>`;
-
-                // Let the form submit naturally to the hidden iframe
-                // The handleFormSubmission() function will be called when the iframe loads
-            });
-        }
-
-        // Handle iframe load for Google Forms (fallback)
-        function handleFormSubmission() {
-            const statusDiv = document.getElementById('form-status');
-            const form = document.getElementById('subscription-form');
-            const currentLang = document.documentElement.lang || 'en';
-
-            if (statusDiv) {
-                const successMessage = currentLang === 'ja'
-                    ? '🎉 ありがとうございます！購読が完了しました！'
-                    : '🎉 Thank you! Successfully subscribed!';
-
-                statusDiv.innerHTML = `<div class="form-success">${successMessage}</div>`;
-
-                // Reset form after successful submission
-                if (form) {
-                    form.reset();
-                }
-
-                // Add celebration animation
-                setTimeout(() => {
-                    statusDiv.innerHTML += '<div style="font-size: 2rem; text-align: center; margin-top: 10px;">✨🎨📬✨</div>';
-                }, 500);
-            }
-        }
-
-        // Remove the old Formspree function
-        async function simulateFormSubmission(email, name, language) {
-            // This function is no longer needed for Google Forms
-            return Promise.resolve();
         }
 
         // Initialize with browser language preference
@@ -876,17 +693,6 @@
 
             // Switch to the preferred language
             switchToLanguage(defaultLang);
-            handleSubscriptionForm();
-
-            // Handle scroll to subscription form from other pages
-            if (window.location.hash === '#subscription-form') {
-                setTimeout(() => {
-                    const form = document.getElementById('subscription-form');
-                    if (form) {
-                        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                }, 100);
-            }
         });
     </script>
 </body>
