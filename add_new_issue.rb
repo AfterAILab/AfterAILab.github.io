@@ -135,19 +135,23 @@ def generate_social_media_text(slug, number, transcription_en, transcription_ja,
     req['Authorization'] = "Bearer #{api_key}"
 
     system_prompt = "You are a social media marketing assistant for AfterAI, a maker community focused on handcrafted AI insights."
-    
+
+    issue_url = "https://afterai.dev/weekly/#{slug}.html"
+
     user_prompt = [
-      "Create engaging social media text for AfterAI Weekly Vol.#{number}.",
-      "This is a handwritten newsletter about AI, technology, and the maker community.",
-      "Include relevant hashtags and make it shareable.",
-      "Keep it concise but engaging (Twitter/X friendly length).",
-      "Here's a preview of the content:",
-      "",
-      "English version:",
-      transcription_en&.slice(0, 200) || "Content available",
-      "",
-      "Japanese version:",
-      transcription_ja&.slice(0, 200) || "Content available"
+      "Create ONE bilingual (English + Japanese) social post for AfterAI Weekly Vol.#{number}.",
+      "Output must be a single block containing both languages so it can be pasted directly into social media.",
+      "Include this exact link once: #{issue_url}.",
+      "Tone: friendly, maker/tech-savvy, concise. Prioritize clarity and shareability.",
+      "Use relevant hashtags (e.g., #AfterAI #AfterAIWeekly #AI #Makers).",
+      "Keep each language within ~280 characters (X-friendly).",
+      "Format strictly as:\nEN: <short English blurb>\nJA: <short Japanese blurb>\nLink: #{issue_url}",
+      "Do not add extra headings or explanations beyond the EN/JA/Link labels.",
+      "Here are short previews of the content to inspire the blurb (do not quote verbatim):",
+      "EN preview:",
+      (transcription_en&.slice(0, 300) || "Content available"),
+      "JA preview:",
+      (transcription_ja&.slice(0, 300) || "Content available")
     ].join("\n")
 
     payload = {
@@ -263,7 +267,7 @@ if api_key
   social_text = generate_social_media_text(slug, number, transcription_en, transcription_ja, api_key)
   if social_text
     puts "\n" + "="*60
-    puts "📱 SOCIAL MEDIA TEXT"
+    puts "📱 BILINGUAL SOCIAL MEDIA TEXT"
     puts "="*60
     puts social_text
     puts "="*60
