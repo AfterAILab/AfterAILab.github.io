@@ -79,3 +79,8 @@
   transcription:
     en: _includes/transcriptions/en/vol16.md
     ja: _includes/transcriptions/ja/vol16.md
+- number: 17
+  slug: vol17
+  transcription:
+    en: _includes/transcriptions/en/vol17.md
+    ja: _includes/transcriptions/ja/vol17.md
