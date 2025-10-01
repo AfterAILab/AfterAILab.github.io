@@ -84,3 +84,8 @@
   transcription:
     en: _includes/transcriptions/en/vol17.md
     ja: _includes/transcriptions/ja/vol17.md
+- number: 18
+  slug: vol18
+  transcription:
+    en: _includes/transcriptions/en/vol18.md
+    ja: _includes/transcriptions/ja/vol18.md
