@@ -99,3 +99,8 @@
   transcription:
     en: _includes/transcriptions/en/vol20.md
     ja: _includes/transcriptions/ja/vol20.md
+- number: 21
+  slug: vol21
+  transcription:
+    en: _includes/transcriptions/en/vol21.md
+    ja: _includes/transcriptions/ja/vol21.md
