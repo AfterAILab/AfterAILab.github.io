@@ -104,3 +104,5 @@
   transcription:
     en: _includes/transcriptions/en/vol21.md
     ja: _includes/transcriptions/ja/vol21.md
+- number: 22
+  slug: vol22
