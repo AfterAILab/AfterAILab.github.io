@@ -64,6 +64,5 @@ File.write(filepath, content)
 puts "\n✅ New issue added successfully!"
 puts "Data file updated: #{data_file}"
 puts "HTML file created: #{filepath}"
-puts "\nDon't forget to add the corresponding images:"
+puts "\nDon't forget to add the corresponding image:"
 puts "- img/weekly/en/#{slug}-en.jpg"
-puts "- img/weekly/ja/#{slug}-ja.jpg"

@@ -9,44 +9,22 @@ title: Home
         Welcome to AfterAI! ✍️
     </h2>
 
-    <div data-lang="en">
-        <p style="font-size: 1.3rem; text-align: center; margin-bottom: 30px;">
-            Every week, we handcraft insights about our lives, technology, and the future -
-            sketched on paper, scanned with love, and shared with the maker community worldwide.
-        </p>
-    </div>
-
-    <div data-lang="ja" style="display: none;">
-        <p style="font-size: 1.3rem; text-align: center; margin-bottom: 30px;">
-            毎週、日常やテクノロジー、未来について手作りのインサイトをお届けしています。
-            紙にスケッチし、愛をこめてスキャンし、世界中のメイカーコミュニティと共有しています。
-        </p>
-    </div>
+    <p style="font-size: 1.3rem; text-align: center; margin-bottom: 30px;">
+        Every week, we handcraft insights about our lives, technology, and the future -
+        sketched on paper, scanned with love, and shared with the maker community worldwide.
+    </p>
 </div>
 
 <div class="weekly-grid">
     {% assign sorted_issues = site.data.weekly_issues | sort: 'number' | reverse %}
     {% assign limited_issues = sorted_issues | slice: 0, 3 %}
     {% for issue in limited_issues %}
-    <!-- English Volume -->
-    <div class="weekly-item" data-lang="en">
+    <div class="weekly-item">
         <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}">
             <img src="{{ '/img/weekly/en/' | append: issue.slug | append: '-en.jpg' | relative_url }}"
-                alt="AfterAI Weekly Vol.{{ issue.number }} English"
+                alt="AfterAI Weekly Vol.{{ issue.number }}"
                 loading="lazy">
             <h3 class="weekly-title">Volume {{ issue.number }}{% if forloop.first %} - Latest!{% endif %}</h3>
-        </a>
-    </div>
-    {% endfor %}
-
-    <!-- Japanese Volumes -->
-    {% for issue in limited_issues %}
-    <div class="weekly-item" data-lang="ja">
-        <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}">
-            <img src="{{ '/img/weekly/ja/' | append: issue.slug | append: '-ja.jpg' | relative_url }}"
-                alt="AfterAI Weekly Vol.{{ issue.number }} Japanese"
-                loading="lazy">
-            <h3 class="weekly-title">第{{ issue.number }}号{% if forloop.first %} - 最新！{% endif %}</h3>
         </a>
     </div>
     {% endfor %}
@@ -70,21 +48,12 @@ title: Home
         <!-- Maker Faire Flyer Section -->
         <div class="flyer-section" style="text-align: center; padding: 30px; background: rgba(255,255,255,0.8); border-radius: 20px; transform: rotate(0.5deg); box-shadow: 3px 3px 0px rgba(0,0,0,0.1);">
             <h3 style="font-family: 'Caveat', cursive; font-size: 2.2rem; color: var(--sketch-brown); margin-bottom: 20px; transform: rotate(-1deg);">
-                <span data-lang="en">🎪 Meet Us at Maker Faire!</span>
-                <span data-lang="ja" style="display: none;">🎪 Maker Faireで会いましょう！</span>
+                🎪 Meet Us at Maker Faire!
             </h3>
             
-            <div data-lang="en">
-                <p style="font-size: 1.2rem; margin-bottom: 20px; color: var(--ink-blue);">
-                    Join us at Maker Faire Bay Area 2025 and experience the magic of handwritten news cards! ✍️
-                </p>
-            </div>
-            
-            <div data-lang="ja" style="display: none;">
-                <p style="font-size: 1.2rem; margin-bottom: 20px; color: var(--ink-blue);">
-                    Maker Faire Bay Area 2025で手書きニュースカードの魔法を体験してください！ ✍️
-                </p>
-            </div>
+            <p style="font-size: 1.2rem; margin-bottom: 20px; color: var(--ink-blue);">
+                Join us at Maker Faire Bay Area 2025 and experience the magic of handwritten news cards! ✍️
+            </p>
             
             <a href="{{ '/img/flyer/maker-faire-bay-area-2025-afterai-flyer.jpg' | relative_url }}" target="_self">
                 <img src="{{ '/img/flyer/maker-faire-bay-area-2025-afterai-flyer.jpg' | relative_url }}" 
@@ -97,21 +66,12 @@ title: Home
         <!-- Call for Papers Section -->
         <div class="call-for-papers-section" style="text-align: center; padding: 30px; background: rgba(255,255,255,0.8); border-radius: 20px; transform: rotate(-0.3deg); box-shadow: 3px 3px 0px rgba(0,0,0,0.1);">
             <h3 style="font-family: 'Caveat', cursive; font-size: 2.2rem; color: var(--sketch-brown); margin-bottom: 20px; transform: rotate(1deg);">
-                <span data-lang="en">📝 Call for Papers!</span>
-                <span data-lang="ja" style="display: none;">📝 投稿募集！</span>
+                📝 Call for Papers!
             </h3>
             
-            <div data-lang="en">
-                <p style="font-size: 1.2rem; margin-bottom: 20px; color: var(--ink-blue);">
-                    We want to hear YOUR handwritten stories! Relax and start writing! ✨
-                </p>
-            </div>
-            
-            <div data-lang="ja" style="display: none;">
-                <p style="font-size: 1.2rem; margin-bottom: 20px; color: var(--ink-blue);">
-                    あなたのストーリーを読んでみたいです！ 気張らず書いてみてください！　✨
-                </p>
-            </div>
+            <p style="font-size: 1.2rem; margin-bottom: 20px; color: var(--ink-blue);">
+                We want to hear YOUR handwritten stories! Relax and start writing! ✨
+            </p>
             
             <a href="{{ '/img/flyer/call-for-papers.jpg' | relative_url }}" target="_self">
                 <img src="{{ '/img/flyer/call-for-papers.jpg' | relative_url }}" 
@@ -142,16 +102,14 @@ title: Home
         <h3 style="font-family: 'Caveat', cursive; font-size: 2rem; color: var(--sketch-brown); margin-bottom: 15px;">
             なぜ手書き？ ✋
         </h3>
-        <p style="font-size: 1.2rem; margin-bottom: 15px;">
-            全てのものがデジタルになりつつある世界で、ペンと紙の魔法を信じています。
-        </p>
-        <ul style="font-size: 1.1rem; margin-left: 30px; margin-bottom: 20px;">
-            <li>🎨 <strong>本物の創造性</strong> - 集中して紙に向かいあうことでオリジナルのコンテンツが編み出されます</li>
-            <li>🌱 <strong>人間味</strong> - 各号は愛情をこめて作られ、AIで生成されたものではありません</li>
-            <li>⚡ <strong>最大限の情報</strong> - アナログならより豊かな情報を伝えられます</li>
-        </ul>
-    </div>
-</div>
-
-
-<!-- Subscription form removed -->
+     h3 style="font-family: 'Caveat', cursive; font-size: 2rem; color: var(--sketch-brown); margin-bottom: 15px;">
+        Why Handwritten? ✋
+    </h3>
+    <p style="font-size: 1.2rem; margin-bottom: 15px;">
+        In a world of digital everything, we believe there's something magical about putting pen to paper.
+    </p>
+    <ul style="font-size: 1.1rem; margin-left: 30px; margin-bottom: 20px;">
+        <li>🎨 <strong>Authentic creativity</strong> - Original content is created by concentrating and facing the paper.</li>
+        <li>🌱 <strong>Human touch</strong> - Each issue is lovingly crafted, not AI-generated.</li>
+        <li>⚡ <strong>Maximum information</strong> - Analog can convey richer information.</li>
+    </ul
