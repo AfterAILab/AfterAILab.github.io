@@ -11,7 +11,6 @@ Every week, we handcraft insights about AI, technology, and the future - sketche
 ## 🏗️ Technical Details
 This is a Jekyll-based website hosted on GitHub Pages, featuring:
 - Handcrafted, maker-friendly design
-- Bilingual support (English/Japanese)
 - Weekly newsletter showcase
 - Subscription form integration
 

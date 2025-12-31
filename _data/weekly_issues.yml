@@ -3,107 +3,86 @@
   slug: vol1
   transcription:
     en: _includes/transcriptions/en/vol1.md
-    ja: _includes/transcriptions/ja/vol1.md
 - number: 2
   slug: vol2
   transcription:
     en: _includes/transcriptions/en/vol2.md
-    ja: _includes/transcriptions/ja/vol2.md
 - number: 3
   slug: vol3
   transcription:
     en: _includes/transcriptions/en/vol3.md
-    ja: _includes/transcriptions/ja/vol3.md
 - number: 4
   slug: vol4
   transcription:
     en: _includes/transcriptions/en/vol4.md
-    ja: _includes/transcriptions/ja/vol4.md
 - number: 5
   slug: vol5
   transcription:
     en: _includes/transcriptions/en/vol5.md
-    ja: _includes/transcriptions/ja/vol5.md
 - number: 6
   slug: vol6
   transcription:
     en: _includes/transcriptions/en/vol6.md
-    ja: _includes/transcriptions/ja/vol6.md
 - number: 7
   slug: vol7
   transcription:
     en: _includes/transcriptions/en/vol7.md
-    ja: _includes/transcriptions/ja/vol7.md
 - number: 8
   slug: vol8
   transcription:
     en: _includes/transcriptions/en/vol8.md
-    ja: _includes/transcriptions/ja/vol8.md
 - number: 9
   slug: vol9
   transcription:
     en: _includes/transcriptions/en/vol9.md
-    ja: _includes/transcriptions/ja/vol9.md
 - number: 10
   slug: vol10
   transcription:
     en: _includes/transcriptions/en/vol10.md
-    ja: _includes/transcriptions/ja/vol10.md
 - number: 11
   slug: vol11
   transcription:
     en: _includes/transcriptions/en/vol11.md
-    ja: _includes/transcriptions/ja/vol11.md
 - number: 12
   slug: vol12
   transcription:
     en: _includes/transcriptions/en/vol12.md
-    ja: _includes/transcriptions/ja/vol12.md
 - number: 13
   slug: vol13
   transcription:
     en: _includes/transcriptions/en/vol13.md
-    ja: _includes/transcriptions/ja/vol13.md
 - number: 14
   slug: vol14
   transcription:
     en: _includes/transcriptions/en/vol14.md
-    ja: _includes/transcriptions/ja/vol14.md
 - number: 15
   slug: vol15
   transcription:
     en: _includes/transcriptions/en/vol15.md
-    ja: _includes/transcriptions/ja/vol15.md
 - number: 16
   slug: vol16
   transcription:
     en: _includes/transcriptions/en/vol16.md
-    ja: _includes/transcriptions/ja/vol16.md
 - number: 17
   slug: vol17
   transcription:
     en: _includes/transcriptions/en/vol17.md
-    ja: _includes/transcriptions/ja/vol17.md
 - number: 18
   slug: vol18
   transcription:
     en: _includes/transcriptions/en/vol18.md
-    ja: _includes/transcriptions/ja/vol18.md
 - number: 19
   slug: vol19
   transcription:
     en: _includes/transcriptions/en/vol19.md
-    ja: _includes/transcriptions/ja/vol19.md
 - number: 20
   slug: vol20
   transcription:
     en: _includes/transcriptions/en/vol20.md
-    ja: _includes/transcriptions/ja/vol20.md
 - number: 21
   slug: vol21
   transcription:
     en: _includes/transcriptions/en/vol21.md
-    ja: _includes/transcriptions/ja/vol21.md
 - number: 22
   slug: vol22
 - number: 23

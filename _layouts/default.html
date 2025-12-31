@@ -173,27 +173,6 @@
             clear: both;
         }
 
-        .language-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--sketch-brown);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-family: 'Caveat', cursive;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transform: rotate(-5deg);
-            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
-
-        .language-toggle:hover {
-            transform: rotate(5deg) scale(1.1);
-        }
-
         footer {
             text-align: center;
             margin-top: 60px;
@@ -319,15 +298,6 @@
             }
 
             .doodle {
-                display: none;
-                /* Hide decorative elements on mobile */
-            }
-
-            /* (subscription form mobile styles removed) */
-
-            /* Mobile flyer section */
-            .flyer-section {
-                margin: 30px 10px;
                 padding: 20px 15px;
                 transform: rotate(0deg);
                 /* Less rotation on mobile */
@@ -426,7 +396,6 @@
                     justify-content: center;
                 }
 
-                /* Better spacing for touch */
                 nav ul {
                     gap: 5px;
                 }
@@ -550,15 +519,6 @@
                 /* (small mobile subscription form styles removed) */
 
                 /* Small mobile flyer section */
-                .flyer-section {
-                    margin: 20px 0;
-                    padding: 15px 10px;
-                }
-
-                .flyer-section h3 {
-                    font-size: 1.6rem;
-                }
-
                 .flyer-section p {
                     font-size: 0.95rem;
                     line-height: 1.4;
@@ -600,10 +560,6 @@
 </head>
 
 <body>
-    <button class="language-toggle" onclick="toggleLanguage()">
-        <span id="lang-text">日本語</span>
-    </button>
-
     <div class="container">
         <header>
             <div class="doodle doodle-1">✎</div>
@@ -631,64 +587,5 @@
             <p>Cultivating humanity, one sketch at a time</p>
         </footer>
     </div>
-
-    <script>
-        function toggleLanguage() {
-            const currentLang = document.documentElement.lang;
-            const langText = document.getElementById('lang-text');
-
-            if (currentLang === 'en') {
-                document.documentElement.lang = 'ja';
-                langText.textContent = 'English';
-                // Save preference and switch to Japanese content
-                localStorage.setItem('preferred-language', 'ja');
-                switchToLanguage('ja');
-            } else {
-                document.documentElement.lang = 'en';
-                langText.textContent = '日本語';
-                // Save preference and switch to English content
-                localStorage.setItem('preferred-language', 'en');
-                switchToLanguage('en');
-            }
-        }
-
-        function switchToLanguage(lang) {
-            // Hide all language-specific content
-            document.querySelectorAll('[data-lang]').forEach(el => {
-                el.style.display = 'none';
-            });
-
-            // Show content for selected language
-            document.querySelectorAll(`[data-lang="${lang}"]`).forEach(el => {
-                el.style.display = 'block';
-            });
-        }
-
-        // Initialize with browser language preference
-        document.addEventListener('DOMContentLoaded', function () {
-            // Check if user has a saved preference
-            const savedLang = localStorage.getItem('preferred-language');
-            let defaultLang;
-            
-            if (savedLang) {
-                // Use saved preference if exists
-                defaultLang = savedLang;
-            } else {
-                // Detect browser language preference
-                const browserLang = navigator.language || navigator.userLanguage || 'en';
-                // Default to Japanese if browser language is Japanese, otherwise English
-                defaultLang = browserLang.startsWith('ja') ? 'ja' : 'en';
-            }
-            
-            const langText = document.getElementById('lang-text');
-
-            // Set the document language and toggle button text
-            document.documentElement.lang = defaultLang;
-            langText.textContent = defaultLang === 'ja' ? 'English' : '日本語';
-
-            // Switch to the preferred language
-            switchToLanguage(defaultLang);
-        });
-    </script>
 </body>
 </html>

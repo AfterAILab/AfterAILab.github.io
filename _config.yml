@@ -28,10 +28,6 @@ email: contact@afterai.com
 github_username: AfterAILab
 twitter_username: afterai
 
-# Language settings
-languages: ["en", "ja"]
-default_lang: "en"
-
 # Exclude files
 exclude:
   - Gemfile
