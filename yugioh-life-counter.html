@@ -3,71 +3,8 @@ layout: default
 title: Yu-Gi-Oh! Life Counter with AfterAI Flaps
 ---
 
-<style>
-    .callout {
-        padding: 20px;
-        margin: 20px 0;
-        border-left: 5px solid;
-        border-radius: 5px;
-    }
-    .callout-note {
-        background-color: #f0f7fb;
-        border-left-color: #007bff;
-    }
-    .callout-question {
-        background-color: #fdf7e4;
-        border-left-color: #ffc107;
-    }
-    .callout-success {
-        background-color: #eaf7ea;
-        border-left-color: #28a745;
-    }
-    .img-fluid {
-        max-width: 100%;
-        height: auto;
-    }
-    .video-container {
-        position: relative;
-        padding-bottom: 56.25%;
-        height: 0;
-        overflow: hidden;
-        max-width: 100%;
-        background: #000;
-    }
-    .video-container iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-    .content ul {
-        font-size: 1.1rem;
-        margin-left: 30px;
-        margin-bottom: 20px;
-    }
-    .content table {
-        border-collapse: collapse;
-        width: 100%;
-        margin: 20px 0;
-    }
-    .content th, .content td {
-        border: 1px solid var(--pencil-gray);
-        padding: 8px;
-        text-align: left;
-    }
-    .content th {
-        background-color: #f2f2f2;
-    }
-    .content img {
-        max-width: 600px;
-        display: block;
-        margin: 0;
-    }
-</style>
-
 <div class="content">
-    <h1>Yu-Gi-Oh! Life Counter with AfterAI Flaps</h1>
+    <h1 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 16px;">Yu-Gi-Oh! Life Counter with AfterAI Flaps</h1>
     <p>When I was a kid, keeping track of Life Points (LP) in Yu-Gi-Oh! was always a hassle. This time, I decided to use <a href="/works/flaps.html">AfterAI Flaps</a> to calculate and display the Life Points for the game.</p>
 
     <div class="video-container">
@@ -91,7 +28,7 @@ title: Yu-Gi-Oh! Life Counter with AfterAI Flaps
     <h2>Flow Chart</h2>
     <p><img src="/img/yugioh/YGOFlowChart.png" alt="Yu-Gi-Oh! Life Counter Flow Chart" class="img-fluid"></p>
     <p>Whenever a phrase like "Inflict XXX damage to opponent" is spoken, the system retrieves the opponent's current Life Points via a GET request from the display. After calculating the damage, it updates the displayed number using a POST request.</p>
-    <p>For simplicity’s sake, I didn’t include the "My turn, draw!" process in the flowchart, but it follows a similar logic. You can check out the code for more details.</p>
+    <p>For simplicity's sake, I didn't include the "My turn, draw!" process in the flowchart, but it follows a similar logic. You can check out the code for more details.</p>
 
     <h3>Prompting Issues</h3>
     <p>I initially tried having llama3.2 (3B) handle this task:</p>
@@ -99,7 +36,7 @@ title: Yu-Gi-Oh! Life Counter with AfterAI Flaps
         <p><strong>Input:</strong> Current turn and transcribed speech data.</p>
         <p><strong>Output:</strong> Game state changes (damage, healing, next turn, etc.).</p>
     </blockquote>
-    <p>However, llama3.2 struggled with this and often ended up healing the opponent instead of inflicting damage. I tried improving the prompt with help from other AIs, but it still didn’t work as expected. In the end, I fed the same prompt to OpenAI's gpt-4o-mini, and it worked perfectly.</p>
+    <p>However, llama3.2 struggled with this and often ended up healing the opponent instead of inflicting damage. I tried improving the prompt with help from other AIs, but it still didn't work as expected. In the end, I fed the same prompt to OpenAI's gpt-4o-mini, and it worked perfectly.</p>
 
     <h2>Conclusion</h2>
     <ul>
@@ -117,7 +54,7 @@ title: Yu-Gi-Oh! Life Counter with AfterAI Flaps
             <ul>
                 <li>While llama is a well-known model, its struggle with this task was unexpected.</li>
                 <li>There are versions of llama3.2 with more parameters than 3B; perhaps those would perform better.</li>
-                <li>I couldn’t find any information on the exact number of parameters for gpt-4o-mini after searching online.</li>
+                <li>I couldn't find any information on the exact number of parameters for gpt-4o-mini after searching online.</li>
             </ul>
         </li>
     </ul>

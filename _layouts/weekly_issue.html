@@ -26,144 +26,170 @@ layout: default
         align-items: center;
         position: relative;
         z-index: 1;
-        min-height: 80px; /* Ensure minimum height for button positioning */
+        min-height: 64px;
     }
-    
+
     .nav-buttons {
-        display: none; /* Hidden on desktop */
-        gap: 15px;
+        display: none;
+        gap: 12px;
         align-items: center;
     }
-    
+
     .nav-button-left {
         position: absolute;
         left: 0;
         z-index: 10;
-        pointer-events: auto;
     }
-    
+
     .nav-button-right {
         position: absolute;
         right: 0;
         z-index: 10;
-        pointer-events: auto;
     }
-    
+
+    .nav-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background: var(--color-primary);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: background 0.2s ease;
+    }
+
+    .nav-btn:hover {
+        background: var(--color-primary-hover);
+    }
+
     .issue-header {
         text-align: center;
         flex: 1;
-        pointer-events: none; /* Prevent header from blocking clicks on nav buttons */
+        pointer-events: none;
     }
-    
+
     .issue-header h1 {
-        pointer-events: auto; /* Re-enable pointer events for the header text itself */
+        pointer-events: auto;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--color-text);
+        margin-bottom: 8px;
     }
-    
-    /* Mobile responsive navigation */
+
+    .substack-banner {
+        text-align: center;
+        padding: 24px;
+        margin: 32px auto;
+        max-width: 600px;
+        background: var(--color-primary-light);
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+    }
+
+    .substack-banner h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--color-text);
+        margin-bottom: 8px;
+    }
+
+    .substack-banner p {
+        font-size: 0.9rem;
+        margin-bottom: 16px;
+        color: var(--color-text-secondary);
+    }
+
+    .issue-image {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .issue-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
     @media (max-width: 768px) {
         .issue-header-with-nav {
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
         }
-        
+
         .nav-button-left,
         .nav-button-right {
-            display: none !important; /* Hide desktop nav buttons */
+            display: none !important;
         }
-        
+
         .nav-buttons {
-            display: flex !important; /* Show mobile nav buttons */
+            display: flex !important;
             justify-content: center;
             flex-wrap: wrap;
             gap: 10px;
-            order: -1; /* Put navigation above header on mobile */
+            order: -1;
+        }
+
+        .issue-header h1 {
+            font-size: 1.75rem;
         }
     }
-    
-    /* Very small screens */
+
     @media (max-width: 480px) {
         .nav-buttons {
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
     }
 </style>
 
 <div class="content">
-    <!-- Issue Header with Navigation -->
     <div class="issue-header-with-nav">
         {% if prev_issue %}
         <div class="nav-button-left">
-            <a href="{{ '/weekly/' | append: prev_issue.slug | append: '.html' | relative_url }}" 
-               style="display: inline-block; padding: 12px 24px; background: var(--ink-blue); color: white; text-decoration: none; border-radius: 10px; font-family: 'Caveat', cursive; font-size: 1.2rem; transform: rotate(0.5deg);">
-                ← Vol.{{ prev_issue.number }}
+            <a href="{{ '/weekly/' | append: prev_issue.slug | append: '.html' | relative_url }}" class="nav-btn">
+                &larr; Vol.{{ prev_issue.number }}
             </a>
         </div>
         {% endif %}
-        
+
         <div class="issue-header">
-            <h1 style="font-family: 'Caveat', cursive; font-size: 3.5rem; color: var(--marker-red); margin-bottom: 10px; transform: rotate(-1deg); pointer-events: auto;">
-                AfterAI Weekly Vol.{{ issue_data.number }} 📚
-            </h1>
+            <h1>AfterAI Weekly Vol.{{ issue_data.number }}</h1>
         </div>
-        
+
         {% if next_issue %}
         <div class="nav-button-right">
-            <a href="{{ '/weekly/' | append: next_issue.slug | append: '.html' | relative_url }}" 
-               style="display: inline-block; padding: 12px 24px; background: var(--marker-red); color: white; text-decoration: none; border-radius: 10px; font-family: 'Caveat', cursive; font-size: 1.2rem; transform: rotate(-0.5deg);">
-                Vol.{{ next_issue.number }} →
+            <a href="{{ '/weekly/' | append: next_issue.slug | append: '.html' | relative_url }}" class="nav-btn">
+                Vol.{{ next_issue.number }} &rarr;
             </a>
         </div>
         {% endif %}
-        
-        <!-- Mobile navigation - only visible on small screens -->
+
+        <!-- Mobile navigation -->
         <div class="nav-buttons" style="display: none;">
             {% if prev_issue %}
-            <a href="{{ '/weekly/' | append: prev_issue.slug | append: '.html' | relative_url }}" 
-               style="display: inline-block; padding: 12px 24px; background: var(--ink-blue); color: white; text-decoration: none; border-radius: 10px; font-family: 'Caveat', cursive; font-size: 1.2rem; transform: rotate(0.5deg);">
-                ← Vol.{{ prev_issue.number }}
+            <a href="{{ '/weekly/' | append: prev_issue.slug | append: '.html' | relative_url }}" class="nav-btn">
+                &larr; Vol.{{ prev_issue.number }}
             </a>
             {% endif %}
-            
+
             {% if next_issue %}
-            <a href="{{ '/weekly/' | append: next_issue.slug | append: '.html' | relative_url }}" 
-               style="display: inline-block; padding: 12px 24px; background: var(--marker-red); color: white; text-decoration: none; border-radius: 10px; font-family: 'Caveat', cursive; font-size: 1.2rem; transform: rotate(-0.5deg);">
-                Vol.{{ next_issue.number }} →
+            <a href="{{ '/weekly/' | append: next_issue.slug | append: '.html' | relative_url }}" class="nav-btn">
+                Vol.{{ next_issue.number }} &rarr;
             </a>
             {% endif %}
         </div>
     </div>
 
-    <!-- Substack Banner -->
-    <div style="text-align: center; padding: 20px; margin: 30px auto; max-width: 650px; background: linear-gradient(135deg, rgba(255,107,107,0.15) 0%, rgba(255,193,7,0.15) 100%); border: 3px dashed var(--marker-red); border-radius: 20px; transform: rotate(0.3deg); box-shadow: 4px 4px 0px rgba(0,0,0,0.1);">
-        <h3 style="font-family: 'Caveat', cursive; font-size: 1.8rem; color: var(--sketch-brown); margin-bottom: 12px; transform: rotate(-0.5deg);">
-            💌 Enjoying this? Subscribe on Substack!
-        </h3>
-        <p style="font-size: 1rem; margin-bottom: 15px; color: var(--ink-blue);">
-            Get new issues delivered directly to your inbox and support AfterAI Weekly!
-        </p>
-        <a href="https://afteraiweekly.substack.com" target="_blank" rel="noopener noreferrer" 
-           style="display: inline-block; padding: 12px 28px; background: var(--marker-red); color: white; text-decoration: none; border-radius: 12px; font-family: 'Caveat', cursive; font-size: 1.3rem; transform: rotate(-1deg); box-shadow: 3px 3px 0px rgba(0,0,0,0.2); transition: all 0.3s ease;">
-            Go to Substack →
-        </a>
-    </div>
 
     <!-- Main Content -->
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 30px;">
-        
-        <div style="max-width: 800px; width: 100%;">
-            <div class="issue-content" style="padding: 30px;">
-                <a href="{{ '/img/weekly/en/' | append: issue_data.slug | append: '-en.jpg' | relative_url }}" target="_self">
-                    <img src="{{ '/img/weekly/en/' | append: issue_data.slug | append: '-en.jpg' | relative_url }}" 
-                         alt="AfterAI Weekly Vol.{{ issue_data.number }}"
-                         loading="lazy"
-                         style="width: 100%; height: auto; border-radius: 10px; box-shadow: 3px 3px 10px rgba(0,0,0,0.2); cursor: pointer;">
-                </a>
-                
-            </div>
-        </div>
+    <div class="issue-image">
+        <a href="{{ '/img/weekly/en/' | append: issue_data.slug | append: '-en.jpg' | relative_url }}" target="_self">
+            <img src="{{ '/img/weekly/en/' | append: issue_data.slug | append: '-en.jpg' | relative_url }}"
+                 alt="AfterAI Weekly Vol.{{ issue_data.number }}"
+                 loading="lazy">
+        </a>
     </div>
-
-    <!-- Subscribe CTA removed -->
 </div>
