@@ -3,44 +3,100 @@ layout: default
 title: Works
 ---
 
+<style>
+    .works-intro {
+        font-size: 1.05rem;
+        color: var(--color-text-secondary);
+        margin-bottom: 28px;
+    }
+
+    .works-section {
+        margin-top: 28px;
+    }
+
+    .works-section h3 {
+        margin-top: 0;
+        margin-bottom: 14px;
+    }
+
+    .works-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+    }
+
+    .work-card {
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        padding: 20px;
+        background: var(--color-surface);
+    }
+
+    .work-card.featured {
+        background: var(--color-primary-light);
+    }
+
+    .work-card h4 {
+        margin: 0 0 10px 0;
+        font-size: 1.05rem;
+    }
+
+    .work-card p {
+        margin: 0;
+    }
+
+    .works-note {
+        margin-top: 28px;
+        padding-top: 20px;
+        border-top: 1px solid var(--color-border);
+        color: var(--color-text-secondary);
+        font-size: 0.95rem;
+    }
+</style>
+
 <div class="content">
+
     <h2>Our Works</h2>
 
-    <div style="background: var(--color-primary-light); border: 1px solid var(--color-border); border-radius: 10px; padding: 24px; margin-bottom: 20px;">
-        <h3 style="margin-top: 0;">
-            <a href="https://babysteps.afterai.dev">babysteps</a>
-        </h3>
-        <p>
-            AI-powered micro-learning app. Master any topic in just 5 minutes with daily lessons
-            that adapt to the time of day.
-        </p>
-    </div>
+    <p class="works-intro">
+        This page highlights our core projects. We split products and exhibitions so each kind of work has a clear place.
+    </p>
 
-    <div style="border: 1px solid var(--color-border); border-radius: 10px; padding: 24px; margin-bottom: 20px;">
-        <h3 style="margin-top: 0;">
-            <a href="/works/flaps.html">AfterAI Flaps</a>
-        </h3>
-        <p>
-            A DIY split-flap display that shows the latest AI-generated news headlines.
-            Winner of Editor's Choice Award at Maker Faire Bay Area 2024.
-        </p>
-    </div>
+    <section class="works-section">
+        <h3>Products</h3>
+        <div class="works-grid">
+            <article class="work-card featured">
+                <h4><a href="https://babysteps.afterai.dev">babysteps</a></h4>
+                <p>
+                    AI-powered micro-learning app. Master any topic in just 5 minutes with daily lessons
+                    that adapt to the time of day.
+                </p>
+            </article>
 
-    <div style="border: 1px solid var(--color-border); border-radius: 10px; padding: 24px; margin-bottom: 20px;">
-        <h3 style="margin-top: 0;">
-            <a href="{{ '/weekly' | relative_url }}">AfterAI Weekly</a>
-        </h3>
-        <p>
-            A handwritten newsletter delivered every week with insights on AI, technology, and creativity.
-        </p>
-    </div>
+            <article class="work-card">
+                <h4><a href="/works/flaps.html">AfterAI Flaps</a></h4>
+                <p>
+                    DIY split-flap display that shows the latest AI-generated news headlines.
+                    Winner of Editor's Choice Award at Maker Faire Bay Area 2024.
+                </p>
+            </article>
+        </div>
+    </section>
 
-    <div style="border: 1px solid var(--color-border); border-radius: 10px; padding: 24px;">
-        <h3 style="margin-top: 0;">
-            <a href="/works/events.html">Attended Events</a>
-        </h3>
-        <p>
-            We've been showcasing our creative projects at Maker Faires in the US, Italy, and Japan.
-        </p>
-    </div>
+    <section class="works-section">
+        <h3>Exhibitions</h3>
+        <div class="works-grid">
+            <article class="work-card">
+                <h4><a href="/works/events.html">Attended Events</a></h4>
+                <p>
+                    Exhibitions and awards from Maker Faires in the US, Italy, and Japan.
+                </p>
+            </article>
+        </div>
+    </section>
+
+    <p class="works-note">
+        Looking for our newsletter archive? Visit the Weekly page from the main navigation.
+    </p>
+
 </div>

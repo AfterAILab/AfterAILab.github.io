@@ -4,7 +4,181 @@ title: Home
 ---
 
 <style>
-    /* ─── Hero ─────────────────────────────────────────────────────────── */
+    /* ─── Services Hero ───────────────────────────────────────────────── */
+    .services-hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 48px;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 16px;
+        padding: 56px 48px;
+        margin-bottom: 64px;
+    }
+
+    .services-hero-content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .services-badge {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-primary);
+        background: var(--color-primary-light);
+        padding: 4px 12px;
+        border-radius: 100px;
+        margin-bottom: 16px;
+    }
+
+    .services-hero-title {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--color-text);
+        letter-spacing: -0.03em;
+        margin-bottom: 16px;
+        line-height: 1.1;
+    }
+
+    .services-hero-description {
+        font-size: 1.125rem;
+        color: var(--color-text-secondary);
+        margin-bottom: 32px;
+        max-width: 520px;
+        line-height: 1.7;
+    }
+
+    /* ─── Pipeline animation ─────────────────────────────────────────── */
+    .pipeline {
+        flex-shrink: 0;
+        width: 220px;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .pipeline-step {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 0;
+        opacity: 0.25;
+        transform: translateX(0);
+    }
+
+    .pipeline-step:nth-child(1) { animation: pipe-1 8s ease-in-out infinite; }
+    .pipeline-step:nth-child(3) { animation: pipe-2 8s ease-in-out infinite; }
+    .pipeline-step:nth-child(5) { animation: pipe-3 8s ease-in-out infinite; }
+    .pipeline-step:nth-child(7) { animation: pipe-4 8s ease-in-out infinite; }
+
+    @keyframes pipe-1 {
+        0%, 3%    { opacity: 0.25; transform: translateX(0); }
+        6%, 18%   { opacity: 1;    transform: translateX(4px); }
+        22%, 100% { opacity: 0.25; transform: translateX(0); }
+    }
+    @keyframes pipe-2 {
+        0%, 28%   { opacity: 0.25; transform: translateX(0); }
+        31%, 43%  { opacity: 1;    transform: translateX(4px); }
+        47%, 100% { opacity: 0.25; transform: translateX(0); }
+    }
+    @keyframes pipe-3 {
+        0%, 53%   { opacity: 0.25; transform: translateX(0); }
+        56%, 68%  { opacity: 1;    transform: translateX(4px); }
+        72%, 100% { opacity: 0.25; transform: translateX(0); }
+    }
+    @keyframes pipe-4 {
+        0%, 78%   { opacity: 0.25; transform: translateX(0); }
+        81%, 93%  { opacity: 1;    transform: translateX(4px); }
+        97%, 100% { opacity: 0.25; transform: translateX(0); }
+    }
+
+    .pipeline-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+        background: var(--color-primary-light);
+        border: 1px solid var(--color-border);
+        transition: background 0.3s ease;
+    }
+
+    .pipeline-step:nth-child(1) .pipeline-icon { background: oklch(90% 0.08 70 / 0.5); }
+    .pipeline-step:nth-child(2) .pipeline-icon { background: oklch(88% 0.07 215 / 0.5); }
+    .pipeline-step:nth-child(3) .pipeline-icon { background: oklch(85% 0.09 145 / 0.5); }
+    .pipeline-step:nth-child(4) .pipeline-icon { background: oklch(88% 0.10 35 / 0.5); }
+
+    .pipeline-label {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--color-text);
+    }
+
+    .pipeline-desc {
+        font-size: 0.75rem;
+        color: var(--color-text-secondary);
+        margin-top: 2px;
+    }
+
+    .pipeline-connector {
+        width: 2px;
+        height: 12px;
+        margin-left: 21px;
+        background: var(--color-border);
+        border-radius: 1px;
+    }
+
+    /* ─── Capabilities grid ───────────────────────────────────────────── */
+    .capabilities-section {
+        margin-bottom: 64px;
+    }
+
+    .capabilities-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-top: 24px;
+    }
+
+    .capability-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        padding: 28px 24px;
+        transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .capability-card:hover {
+        box-shadow: 0 4px 12px oklch(0% 0 0 / 0.08);
+        border-color: var(--color-primary-light);
+    }
+
+    .capability-icon {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+    }
+
+    .capability-card h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--color-text);
+        margin-bottom: 8px;
+    }
+
+    .capability-card p {
+        font-size: 0.95rem;
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+    }
+
+    /* ─── Product Hero (babysteps) ────────────────────────────────────── */
     .hero {
         display: flex;
         align-items: center;
@@ -236,18 +410,134 @@ title: Home
     .slot-evening .slot-mockup-btn { background: oklch(76% 0.20 25); }
     .slot-nocturne .slot-mockup-btn { background: oklch(68% 0.13 220); }
 
-    /* ─── Weekly section ───────────────────────────────────────────────── */
-    .weekly-section {
+    /* ─── Case study ──────────────────────────────────────────────────── */
+    .case-study {
         margin-bottom: 48px;
     }
 
-    .weekly-section .view-all {
-        text-align: center;
-        margin-top: 24px;
+    .case-study-header {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 24px;
     }
 
-    /* ─── Responsive ───────────────────────────────────────────────────── */
+    .case-study-header img {
+        width: 80px;
+        height: auto;
+        flex-shrink: 0;
+    }
+
+    .case-study-header div {
+        flex: 1;
+    }
+
+    .case-study-subtitle {
+        font-size: 1.05rem;
+        color: var(--color-text-secondary);
+        margin-top: 4px;
+    }
+
+    .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin: 24px 0;
+    }
+
+    .tech-item {
+        background: var(--color-primary-light);
+        border-radius: 8px;
+        padding: 14px 16px;
+    }
+
+    .tech-item-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--color-text-secondary);
+        margin-bottom: 4px;
+    }
+
+    .tech-item-value {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--color-text);
+    }
+
+    .features-list {
+        list-style: none;
+        margin: 24px 0 0 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .features-list li {
+        font-size: 0.95rem;
+        color: var(--color-text);
+        padding-left: 20px;
+        position: relative;
+    }
+
+    .features-list li::before {
+        content: "\2713";
+        position: absolute;
+        left: 0;
+        color: var(--color-primary);
+        font-weight: 700;
+    }
+
+    /* ─── CTA ─────────────────────────────────────────────────────────── */
+    .cta-section {
+        text-align: center;
+        padding: 48px 24px;
+        margin-bottom: 24px;
+    }
+
+    .cta-section h2 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--color-text);
+        margin-bottom: 12px;
+    }
+
+    .cta-section p {
+        font-size: 1.05rem;
+        color: var(--color-text-secondary);
+        margin-bottom: 28px;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    /* ─── Responsive ──────────────────────────────────────────────────── */
     @media (max-width: 768px) {
+        .services-hero {
+            flex-direction: column;
+            padding: 36px 24px;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .services-hero-title {
+            font-size: 2.25rem;
+        }
+
+        .pipeline {
+            width: 180px;
+        }
+
+        .capabilities-grid {
+            grid-template-columns: 1fr;
+        }
+
         .hero {
             flex-direction: column;
             padding: 36px 24px;
@@ -273,9 +563,30 @@ title: Home
         .theme-preview {
             width: 200px;
         }
+
+        .tech-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .features-list {
+            grid-template-columns: 1fr;
+        }
+
+        .case-study-header {
+            flex-direction: column;
+            text-align: center;
+        }
     }
 
     @media (max-width: 480px) {
+        .services-hero {
+            padding: 28px 20px;
+        }
+
+        .services-hero-title {
+            font-size: 1.875rem;
+        }
+
         .hero {
             padding: 28px 20px;
         }
@@ -287,18 +598,99 @@ title: Home
         .theme-preview {
             width: 180px;
         }
+
+        .tech-grid {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 
-<!-- Hero: babysteps product -->
+<!-- Services Hero -->
+<section class="services-hero">
+    <div class="services-hero-content">
+        <span class="services-badge">Product Engineering</span>
+        <h1 class="services-hero-title">Production-Ready Web Products, End to End</h1>
+        <p class="services-hero-description">
+            We design, build, and ship full-stack applications with modern AI,
+            authentication, billing, and data infrastructure. Engagements focus on
+            clean architecture, fast delivery, and maintainable systems teams can extend.
+        </p>
+        <a href="mailto:info@afterai.dev" class="btn">Get in Touch &rarr;</a>
+    </div>
+
+    <div class="pipeline" aria-hidden="true">
+        <div class="pipeline-step">
+            <div class="pipeline-icon">&#9671;</div>
+            <div>
+                <div class="pipeline-label">Idea</div>
+                <div class="pipeline-desc">Scope &amp; plan</div>
+            </div>
+        </div>
+        <div class="pipeline-connector"></div>
+        <div class="pipeline-step">
+            <div class="pipeline-icon">&#9634;</div>
+            <div>
+                <div class="pipeline-label">Design</div>
+                <div class="pipeline-desc">Architecture &amp; UI</div>
+            </div>
+        </div>
+        <div class="pipeline-connector"></div>
+        <div class="pipeline-step">
+            <div class="pipeline-icon">&lt;/&gt;</div>
+            <div>
+                <div class="pipeline-label">Build</div>
+                <div class="pipeline-desc">Full-stack development</div>
+            </div>
+        </div>
+        <div class="pipeline-connector"></div>
+        <div class="pipeline-step">
+            <div class="pipeline-icon">&#9650;</div>
+            <div>
+                <div class="pipeline-label">Ship</div>
+                <div class="pipeline-desc">Deploy &amp; monitor</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Capabilities -->
+<section class="capabilities-section">
+    <h2 class="section-title">What We Build</h2>
+    <p class="section-subtitle">Full-stack product engineering across UX, backend systems, and operations</p>
+
+    <div class="capabilities-grid">
+        <div class="capability-card">
+            <div class="capability-icon">&lt;/&gt;</div>
+            <h3>Full-Stack Web Apps</h3>
+            <p>Type-safe React frontends and resilient backend services with SSR/SPA architecture, clear domain boundaries, and performance budgets.</p>
+        </div>
+        <div class="capability-card">
+            <div class="capability-icon">&#9672;</div>
+            <h3>AI-Powered Features</h3>
+            <p>LLM features with structured outputs, streaming, tool orchestration, guardrails, and observability to keep AI behavior stable in production.</p>
+        </div>
+        <div class="capability-card">
+            <div class="capability-icon">&#9919;</div>
+            <h3>Auth &amp; Payments</h3>
+            <p>Secure authentication flows, role-based access control, subscription billing, and usage metering for SaaS-style products.</p>
+        </div>
+        <div class="capability-card">
+            <div class="capability-icon">&#9881;</div>
+            <h3>Database &amp; Infrastructure</h3>
+            <p>PostgreSQL data modeling, migration strategy, CI/CD, release automation, and production telemetry across logs, metrics, and alerts.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Product: babysteps -->
 <section class="hero">
     <div class="hero-content">
-        <span class="hero-badge">Our Product</span>
+        <span class="hero-badge">Featured Build</span>
         <h2 class="hero-title">babysteps</h2>
         <p class="hero-description">
-            AI-powered micro-learning that adapts to your day.
-            Master any topic in just 5 minutes with daily lessons
-            tailored to the time of day.
+            A production learning platform with AI lesson generation, interactive assessment,
+            and adaptive UX. The system personalizes content by time context while keeping
+            latency and lesson quality consistent across sessions.
         </p>
         <a href="https://babysteps.afterai.dev" class="hero-cta">
             Try babysteps &rarr;
@@ -363,27 +755,73 @@ title: Home
     </div>
 </section>
 
-<!-- AfterAI Weekly -->
-<section class="weekly-section">
-    <h2 class="section-title">AfterAI Weekly</h2>
-    <p class="section-subtitle">Handcrafted insights, delivered every week</p>
-
-    <div class="weekly-grid">
-        {% assign sorted_issues = site.data.weekly_issues | sort: 'number' | reverse %}
-        {% assign limited_issues = sorted_issues | slice: 0, 3 %}
-        {% for issue in limited_issues %}
-        <div class="weekly-item">
-            <a href="{{ '/weekly/' | append: issue.slug | append: '.html' | relative_url }}">
-                <img src="{{ '/img/weekly/en/' | append: issue.slug | append: '-en.jpg' | relative_url }}"
-                    alt="AfterAI Weekly Vol.{{ issue.number }}"
-                    loading="lazy">
-                <h3 class="weekly-title">Volume {{ issue.number }}{% if forloop.first %} &mdash; Latest{% endif %}</h3>
-            </a>
+<!-- Case Study: babysteps -->
+<section id="case-study" class="case-study">
+    <div class="content">
+        <div class="case-study-header">
+            <img src="{{ '/img/babysteps/baby-character.png' | relative_url }}" alt="babysteps mascot" width="80">
+            <div>
+                <h2 style="margin-bottom: 0;">
+                    Case Study: <a href="https://babysteps.afterai.dev">babysteps</a>
+                </h2>
+                <p class="case-study-subtitle">Designed, built, and launched in one month with a full production stack</p>
+            </div>
         </div>
-        {% endfor %}
-    </div>
 
-    <div class="view-all">
-        <a href="{{ '/weekly' | relative_url }}" class="link-arrow">View all issues &rarr;</a>
+        <p>
+            babysteps delivers AI-generated micro-lessons, interactive quizzes, and revision workflows
+            on a modern full-stack architecture. The platform combines prompt orchestration,
+            structured persistence, and adaptive scheduling to support repeatable learning outcomes.
+        </p>
+
+        <h3>Tech Stack</h3>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <div class="tech-item-label">Frontend</div>
+                <div class="tech-item-value">TanStack Start (React 19)</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-item-label">Database</div>
+                <div class="tech-item-value">PostgreSQL + Drizzle ORM</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-item-label">AI</div>
+                <div class="tech-item-value">Google Gemini</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-item-label">Auth</div>
+                <div class="tech-item-value">Better Auth + Google OAuth</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-item-label">Payments</div>
+                <div class="tech-item-value">Polar Subscriptions</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-item-label">Notifications</div>
+                <div class="tech-item-value">Web Push (VAPID)</div>
+            </div>
+        </div>
+
+        <h3>Key Features Delivered</h3>
+        <ul class="features-list">
+            <li>AI-generated lessons with math &amp; diagrams</li>
+            <li>Interactive quizzes with instant feedback</li>
+            <li>AI tutor chat for follow-up questions</li>
+            <li>Spaced repetition review system</li>
+            <li>Progress analytics dashboard</li>
+            <li>Time-of-day adaptive themes</li>
+            <li>Free &amp; Pro tier with credit metering</li>
+            <li>Hierarchical subject organization</li>
+        </ul>
+    </div>
+</section>
+
+<!-- CTA -->
+<section id="contact" class="cta-section">
+    <h2>Need a team that can ship?</h2>
+    <p>Share your scope and constraints. We can map the architecture, prioritize milestones, and start building.</p>
+    <div class="cta-buttons">
+        <a href="mailto:info@afterai.dev" class="btn">Get in Touch &rarr;</a>
+        <a href="https://www.linkedin.com/in/yuji-tabata" class="btn btn-outline" target="_blank" rel="noopener">LinkedIn</a>
     </div>
 </section>
