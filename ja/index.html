@@ -187,6 +187,29 @@ lang: ja
         margin-bottom: 16px;
     }
 
+    .founder-card--bio {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
+    .founder-bio-visual {
+        flex-shrink: 0;
+        width: 120px;
+    }
+
+    .founder-avatar {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px oklch(0% 0 0 / 0.1);
+    }
+
+    .founder-bio-content {
+        flex: 1;
+        min-width: 0;
+    }
+
     .founder-card-links {
         display: flex;
         gap: 16px;
@@ -629,10 +652,20 @@ lang: ja
             grid-template-columns: 1fr;
         }
 
+        .founder-card--bio {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
         .founder-card--weekly {
             flex-direction: column;
             align-items: center;
             text-align: center;
+        }
+
+        .founder-bio-visual {
+            width: 160px;
         }
 
         .founder-weekly-visual {
@@ -694,6 +727,10 @@ lang: ja
 
         .services-hero-title {
             font-size: 1.875rem;
+        }
+
+        .founder-bio-visual {
+            width: 140px;
         }
 
         .founder-weekly-visual {
@@ -767,28 +804,38 @@ lang: ja
 
 <!-- Founder / Differentiator -->
 {% assign issue_count = site.data.weekly_issues | size %}
+{% assign latest_issue = site.data.weekly_issues | sort: 'number' | last %}
 <section class="founder-section">
     <div class="founder-grid">
-        <div class="founder-card">
-            <span class="founder-badge">Genuine Engineering</span>
-            <h3>実戦で磨かれた判断力</h3>
-            <p>
-                AfterAIを率いるのは、キャリアを通じてソフトウェアエンジニアであり続けてきた人間です。
-                Teslaのナビゲーションシステムから本番Webアプリまで、設計判断のひとつひとつに
-                長年の実戦経験が裏打ちされています。
-            </p>
-            <div class="founder-card-links">
-                <a href="{{ '/ja/about' | relative_url }}">About &rarr;</a>
-                <a href="https://www.linkedin.com/in/yuji-tabata" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+        <div class="founder-card founder-card--bio">
+            <div class="founder-bio-visual">
+                <img src="{{ '/img/people/yuji.jpeg' | relative_url }}"
+                     alt="田端勇士"
+                     class="founder-avatar"
+                     loading="lazy">
+            </div>
+            <div class="founder-bio-content">
+                <span class="founder-badge">Genuine Engineering</span>
+                <h3>実戦で磨かれた判断力</h3>
+                <p>
+                    AfterAIを率いるのは、キャリアを通じてソフトウェアエンジニアであり続けてきた人間です。
+                    Teslaのナビゲーションシステムから本番Webアプリまで、設計判断のひとつひとつに
+                    長年の実戦経験が裏打ちされています。
+                </p>
+                <div class="founder-card-links">
+                    <a href="{{ '/ja/about' | relative_url }}">About &rarr;</a>
+                    <a href="https://www.linkedin.com/in/yuji-tabata" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+                </div>
             </div>
         </div>
 
         <div class="founder-card founder-card--weekly">
             <div class="founder-weekly-visual">
-                <img src="{{ '/img/weekly/ja/vol30-ja.jpg' | relative_url }}"
+                <img src="{{ '/img/weekly/ja/' | append: latest_issue.slug | append: '-ja.jpg' | relative_url }}"
                      alt="AfterAI Weekly - 手書きニュースレター"
                      class="founder-weekly-thumb"
-                     loading="lazy">
+                     loading="lazy"
+                     onerror="this.onerror=null;this.src='{{ '/img/weekly/en/' | append: latest_issue.slug | append: '-en.jpg' | relative_url }}'">
             </div>
             <div class="founder-weekly-content">
                 <span class="founder-badge">Genuine Personality</span>

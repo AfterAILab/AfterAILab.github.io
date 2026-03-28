@@ -186,6 +186,29 @@ title: Home
         margin-bottom: 16px;
     }
 
+    .founder-card--bio {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
+    .founder-bio-visual {
+        flex-shrink: 0;
+        width: 120px;
+    }
+
+    .founder-avatar {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px oklch(0% 0 0 / 0.1);
+    }
+
+    .founder-bio-content {
+        flex: 1;
+        min-width: 0;
+    }
+
     .founder-card-links {
         display: flex;
         gap: 16px;
@@ -628,10 +651,20 @@ title: Home
             grid-template-columns: 1fr;
         }
 
+        .founder-card--bio {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
         .founder-card--weekly {
             flex-direction: column;
             align-items: center;
             text-align: center;
+        }
+
+        .founder-bio-visual {
+            width: 160px;
         }
 
         .founder-weekly-visual {
@@ -693,6 +726,10 @@ title: Home
 
         .services-hero-title {
             font-size: 1.875rem;
+        }
+
+        .founder-bio-visual {
+            width: 140px;
         }
 
         .founder-weekly-visual {
@@ -769,17 +806,25 @@ title: Home
 {% assign issue_count = site.data.weekly_issues | size %}
 <section class="founder-section">
     <div class="founder-grid">
-        <div class="founder-card">
-            <span class="founder-badge">Genuine Engineering</span>
-            <h3>Battle-Tested Instincts</h3>
-            <p>
-                AfterAI is led by a career software engineer &mdash; not a prompt wrapper.
-                From Tesla's navigation stack to production web apps, every architecture
-                decision comes from years of shipping real systems.
-            </p>
-            <div class="founder-card-links">
-                <a href="{{ '/about' | relative_url }}">About &rarr;</a>
-                <a href="https://www.linkedin.com/in/yuji-tabata" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+        <div class="founder-card founder-card--bio">
+            <div class="founder-bio-visual">
+                <img src="{{ '/img/people/yuji.jpeg' | relative_url }}"
+                     alt="Yuji Tabata"
+                     class="founder-avatar"
+                     loading="lazy">
+            </div>
+            <div class="founder-bio-content">
+                <span class="founder-badge">Genuine Engineering</span>
+                <h3>Battle-Tested Instincts</h3>
+                <p>
+                    AfterAI is led by a career software engineer &mdash; not a prompt wrapper.
+                    From Tesla's navigation stack to production web apps, every architecture
+                    decision comes from years of shipping real systems.
+                </p>
+                <div class="founder-card-links">
+                    <a href="{{ '/about' | relative_url }}">About &rarr;</a>
+                    <a href="https://www.linkedin.com/in/yuji-tabata" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+                </div>
             </div>
         </div>
 
