@@ -190,10 +190,20 @@ layout: default
 
     <!-- Main Content -->
     <div class="issue-image">
-        <a href="{{ '/img/weekly/' | append: lang | append: '/' | append: issue_data.slug | append: '-' | append: lang | append: '.jpg' | relative_url }}" target="_self">
-            <img src="{{ '/img/weekly/' | append: lang | append: '/' | append: issue_data.slug | append: '-' | append: lang | append: '.jpg' | relative_url }}"
+        {% assign img_path = '/img/weekly/' | append: lang | append: '/' | append: issue_data.slug | append: '-' | append: lang | append: '.jpg' | relative_url %}
+        {% assign fallback_path = '/img/weekly/en/' | append: issue_data.slug | append: '-en.jpg' | relative_url %}
+        <a href="{{ img_path }}" target="_self" id="issue-image-link">
+            <img src="{{ img_path }}"
                  alt="AfterAI Weekly Vol.{{ issue_data.number }}"
-                 loading="lazy">
+                 loading="lazy"
+                 id="issue-image">
         </a>
+        <script>
+            document.getElementById('issue-image').onerror = function() {
+                this.onerror = null;
+                this.src = '{{ fallback_path }}';
+                document.getElementById('issue-image-link').href = '{{ fallback_path }}';
+            };
+        </script>
     </div>
 </div>

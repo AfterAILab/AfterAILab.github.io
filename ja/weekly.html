@@ -20,7 +20,8 @@ lang: ja
         <a href="{{ '/ja/weekly/' | append: issue.slug | append: '.html' | relative_url }}">
             <img src="{{ '/img/weekly/ja/' | append: issue.slug | append: '-ja.jpg' | relative_url }}"
                 alt="AfterAI Weekly Vol.{{ issue.number }}"
-                loading="lazy">
+                loading="lazy"
+                onerror="this.onerror=null;this.src='{{ '/img/weekly/en/' | append: issue.slug | append: '-en.jpg' | relative_url }}'">
             <h3 class="weekly-title">第{{ issue.number }}号{% if forloop.first %} &mdash; 最新{% endif %}</h3>
         </a>
     </div>
