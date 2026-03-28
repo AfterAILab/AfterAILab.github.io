@@ -25,7 +25,7 @@ default_lang: en
 languages: [en, ja]
 
 # Site settings
-author: AfterAI Team
+author: AfterAI Inc.
 email: contact@afterai.com
 
 # Social links (add your actual social media handles)
