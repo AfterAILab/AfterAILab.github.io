@@ -12,6 +12,7 @@ issues = YAML.load_file(data_file)
 
 # Ensure directories exist
 FileUtils.mkdir_p(File.join(__dir__, 'weekly'))
+FileUtils.mkdir_p(File.join(__dir__, 'ja', 'weekly'))
 FileUtils.mkdir_p(File.join(__dir__, '_includes', 'transcriptions', 'en'))
 
 # Generate individual issue files
@@ -29,7 +30,20 @@ issues.each do |issue|
   
   File.write(filepath, content)
   puts "Generated: #{filepath}"
-  
+
+  # Generate Japanese version
+  ja_filepath = File.join(__dir__, 'ja', 'weekly', filename)
+  ja_content = <<~CONTENT
+    ---
+    layout: weekly_issue
+    title: "AfterAI ウィークリー 第#{issue['number']}号"
+    slug: #{issue['slug']}
+    lang: ja
+    ---
+  CONTENT
+  File.write(ja_filepath, ja_content)
+  puts "Generated: #{ja_filepath}"
+
   # Check if transcription file exists, create placeholder if missing
   en_transcription_path = File.join(__dir__, issue['transcription']['en'])
   

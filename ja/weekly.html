@@ -1,0 +1,28 @@
+---
+layout: default
+title: ウィークリーアーカイブ
+lang: ja
+---
+
+<div class="content">
+    <h2>AfterAI ウィークリーアーカイブ</h2>
+
+    <p style="font-size: 1.1rem; margin-bottom: 32px; color: var(--color-text-secondary);">
+        毎週手書きでお届けしているニュースレターのバックナンバーです。一つひとつに、その週ならではのストーリーが詰まっています。
+    </p>
+
+</div>
+
+<div class="weekly-grid">
+    {% assign sorted_issues = site.data.weekly_issues | sort: 'number' | reverse %}
+    {% for issue in sorted_issues %}
+    <div class="weekly-item">
+        <a href="{{ '/ja/weekly/' | append: issue.slug | append: '.html' | relative_url }}">
+            <img src="{{ '/img/weekly/ja/' | append: issue.slug | append: '-ja.jpg' | relative_url }}"
+                alt="AfterAI Weekly Vol.{{ issue.number }}"
+                loading="lazy">
+            <h3 class="weekly-title">第{{ issue.number }}号{% if forloop.first %} &mdash; 最新{% endif %}</h3>
+        </a>
+    </div>
+    {% endfor %}
+</div>

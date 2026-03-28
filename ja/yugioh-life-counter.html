@@ -1,0 +1,62 @@
+---
+layout: default
+title: AfterAI Flapsを使った遊戯王ライフカウンター
+lang: ja
+---
+
+<div class="content">
+    <h1 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 16px;">AfterAI Flapsを使った遊戯王ライフカウンター</h1>
+    <p>子供の頃、遊戯王でライフポイント（LP）を記録するのがいつも面倒でした。そこで今回、<a href="/ja/works/flaps.html">AfterAI Flaps</a>を使ってLPの計算と表示を自動化してみました。</p>
+
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/Sd2KLeK7nvY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    <p>GitHub: <a href="https://github.com/AfterAILab/Yu_Gi_Oh_Life_Counter" target="_blank" rel="noopener noreferrer">https://github.com/AfterAILab/Yu_Gi_Oh_Life_Counter</a></p>
+
+    <h2>構成図</h2>
+    <p><img src="/img/yugioh/YGODeploymentDiagram.png" alt="遊戯王ライフカウンター 構成図" class="img-fluid"></p>
+    <p><strong>使ったもの：</strong></p>
+    <ul>
+        <li><strong>AfterAI Flaps（5文字）：</strong> どちらのターンかを表示。</li>
+        <li><strong>AfterAI Flaps（9文字）：</strong> 両プレイヤーのライフポイントを表示。</li>
+        <li><strong>MacBook Pro (M2)：</strong> 全体の処理を担当する頼れる相棒。</li>
+    </ul>
+
+    <h2>PC側のセットアップ</h2>
+    <p>MacBook Pro (M2)は十分なスペックがあるので、すべての処理をローカルで完結させることにしました。音声認識には<a href="https://alphacephei.com/vosk" target="_blank" rel="noopener noreferrer">Vosk</a>を、テキストからコマンドを抽出する部分では最初<a href="https://ollama.com/" target="_blank" rel="noopener noreferrer">Ollama</a>経由のllama3.2を試しました。<em>ただ、llama3.2（3B）は誤った結果を返すことが多く、最終的にOpenAIのgpt-4o-miniに切り替えました。</em></p>
+
+    <h2>フローチャート</h2>
+    <p><img src="/img/yugioh/YGOFlowChart.png" alt="遊戯王ライフカウンター フローチャート" class="img-fluid"></p>
+    <p>たとえば「相手にXXXダメージ」と発話すると、システムがGETリクエストで相手の現在LPをディスプレイから取得し、ダメージを計算してPOSTリクエストで表示を更新します。</p>
+    <p>「俺のターン、ドロー！」の処理はフローチャートでは省略していますが、基本的な流れは同じです。詳しくはコードをご覧ください。</p>
+
+    <h3>プロンプトで苦労した点</h3>
+    <p>最初はllama3.2（3B）に次のようなタスクを任せようとしました：</p>
+    <blockquote>
+        <p><strong>入力：</strong> 現在のターン情報と、音声認識で得たテキスト。</p>
+        <p><strong>出力：</strong> ゲーム状態の変化（ダメージ、回復、ターン交代など）。</p>
+    </blockquote>
+    <p>ところがllama3.2はうまくいかず、ダメージを与えるべき場面で相手を回復させてしまうことが頻発。他のAIにプロンプト改善を相談してみたものの改善せず、最終的に同じプロンプトをgpt-4o-miniに渡したら一発で正しく動きました。</p>
+
+    <h2>まとめ</h2>
+    <ul>
+        <li><strong>AfterAI Flaps</strong>はDIYプロジェクトの部品として十分実用的。
+            <ul>
+                <li>必要に応じてv1.2へのアップグレードも検討を。</li>
+            </ul>
+        </li>
+        <li><strong>リアルタイム性の改善：</strong> 発話完了を待つより、途中で割り込んで処理を始めた方が体感速度は上がりそう。
+            <ul>
+                <li>音声エンジン側のパラメータで発話完了判定の遅延を調整できると理想的。</li>
+            </ul>
+        </li>
+        <li><strong>モデルによる性能差が想像以上に大きい：</strong> こんな小さなタスクでも顕著に出る。
+            <ul>
+                <li>llamaは有名なモデルだが、この用途での苦戦は意外だった。</li>
+                <li>llama3.2の3Bより大きいバージョンなら結果が違うかもしれない。</li>
+                <li>gpt-4o-miniのパラメータ数は調べてみたが、公開情報は見つからなかった。</li>
+            </ul>
+        </li>
+    </ul>
+</div>

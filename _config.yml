@@ -20,6 +20,10 @@ collections:
     output: true
     permalink: /:collection/:name/
 
+# Language settings
+default_lang: en
+languages: [en, ja]
+
 # Site settings
 author: AfterAI Team
 email: contact@afterai.com
@@ -27,6 +31,17 @@ email: contact@afterai.com
 # Social links (add your actual social media handles)
 github_username: AfterAILab
 twitter_username: afterai
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+    values:
+      lang: en
+  - scope:
+      path: "ja"
+    values:
+      lang: ja
 
 # Exclude files
 exclude:

@@ -2,6 +2,10 @@
 layout: default
 ---
 
+{% assign lang = page.lang | default: "en" %}
+{% assign lang_prefix = "" %}
+{% if lang == "ja" %}{% assign lang_prefix = "/ja" %}{% endif %}
+
 {% assign issue_data = site.data.weekly_issues | where: "slug", page.slug | first %}
 {% assign sorted_issues = site.data.weekly_issues | sort: "number" %}
 
@@ -149,7 +153,7 @@ layout: default
     <div class="issue-header-with-nav">
         {% if prev_issue %}
         <div class="nav-button-left">
-            <a href="{{ '/weekly/' | append: prev_issue.slug | append: '.html' | relative_url }}" class="nav-btn">
+            <a href="{{ lang_prefix | append: '/weekly/' | append: prev_issue.slug | append: '.html' | relative_url }}" class="nav-btn">
                 &larr; Vol.{{ prev_issue.number }}
             </a>
         </div>
@@ -161,7 +165,7 @@ layout: default
 
         {% if next_issue %}
         <div class="nav-button-right">
-            <a href="{{ '/weekly/' | append: next_issue.slug | append: '.html' | relative_url }}" class="nav-btn">
+            <a href="{{ lang_prefix | append: '/weekly/' | append: next_issue.slug | append: '.html' | relative_url }}" class="nav-btn">
                 Vol.{{ next_issue.number }} &rarr;
             </a>
         </div>
@@ -170,13 +174,13 @@ layout: default
         <!-- Mobile navigation -->
         <div class="nav-buttons" style="display: none;">
             {% if prev_issue %}
-            <a href="{{ '/weekly/' | append: prev_issue.slug | append: '.html' | relative_url }}" class="nav-btn">
+            <a href="{{ lang_prefix | append: '/weekly/' | append: prev_issue.slug | append: '.html' | relative_url }}" class="nav-btn">
                 &larr; Vol.{{ prev_issue.number }}
             </a>
             {% endif %}
 
             {% if next_issue %}
-            <a href="{{ '/weekly/' | append: next_issue.slug | append: '.html' | relative_url }}" class="nav-btn">
+            <a href="{{ lang_prefix | append: '/weekly/' | append: next_issue.slug | append: '.html' | relative_url }}" class="nav-btn">
                 Vol.{{ next_issue.number }} &rarr;
             </a>
             {% endif %}
@@ -186,8 +190,8 @@ layout: default
 
     <!-- Main Content -->
     <div class="issue-image">
-        <a href="{{ '/img/weekly/en/' | append: issue_data.slug | append: '-en.jpg' | relative_url }}" target="_self">
-            <img src="{{ '/img/weekly/en/' | append: issue_data.slug | append: '-en.jpg' | relative_url }}"
+        <a href="{{ '/img/weekly/' | append: lang | append: '/' | append: issue_data.slug | append: '-' | append: lang | append: '.jpg' | relative_url }}" target="_self">
+            <img src="{{ '/img/weekly/' | append: lang | append: '/' | append: issue_data.slug | append: '-' | append: lang | append: '.jpg' | relative_url }}"
                  alt="AfterAI Weekly Vol.{{ issue_data.number }}"
                  loading="lazy">
         </a>

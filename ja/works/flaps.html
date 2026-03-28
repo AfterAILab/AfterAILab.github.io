@@ -1,0 +1,129 @@
+---
+layout: default
+title: AfterAI Flaps
+lang: ja
+---
+
+<div class="content">
+    <h2>AfterAI Flaps</h2>
+
+    <p><img src="/img/flaps/AfterAI_Flaps_Showing_Make.jpg" alt="AfterAI Flaps展示" class="img-fluid"></p>
+    <p>AfterAI Flapsは自作できるパタパタ式（スプリットフラップ）ディスプレイです。拡張性があり、まずリーダーユニット1台から始めて、あとからフォロワーを追加していくことができます。</p>
+
+    <div class="callout callout-note">
+        <p><strong>更新: 2025年4月</strong></p>
+        <p>AfterAI Flapsは現在在庫切れです。<a href="#source-code">公開中のオープンソース資料</a>を使って、ぜひご自身で作ってみてください！</p>
+    </div>
+
+    <div class="callout callout-success">
+        <p><strong>受賞歴</strong></p>
+        <p>AfterAI Flapsの展示は以下の賞を受賞しました！</p>
+        <ul>
+            <li>Maker Faire Bay Area 2024 Editor's Choice Award</li>
+            <li>Maker Faire Rome 2024 Maker of Merit Award</li>
+        </ul>
+    </div>
+
+    <h2>使用例</h2>
+    <h3><a href="/ja/yugioh-life-counter.html">AfterAI Flapsを使った遊戯王ライフカウンター</a></h3>
+
+    <h2>AfterAI Flapsの組み立て方</h2>
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/13bu-LXOGi0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <p><em>Maker Faire Tokyo 2024で販売されたAfterAI Flapsのドラムは、モーターのシャフトにしっかり取り付けるために少量の瞬間接着剤が必要です。</em></p>
+
+    <div class="callout callout-note">
+        <p><strong>ユニットIDのルール</strong></p>
+        <p>一番左のユニットをID 0とし、右に向かって1, 2, 3...と連番で割り当ててください。</p>
+    </div>
+
+    <h2>デバイスをリーダーに接続する方法</h2>
+    <p>AfterAI FlapsのリーダーにはWi-Fi機能があります。起動するとまずLANへの接続を試み、つながればそのままLANに参加します（STAモード）。接続に失敗した場合は、リーダー自体がアクセスポイントになるAPモードに切り替わります。ESP BOOTボタンを長押しすると、手動でモードを切り替えることもできます。</p>
+
+    <pre class="mermaid">
+    stateDiagram-v2
+    STA: STAモード
+    AP: APモード
+    [*] --> STA
+    STA --> AP: フォールバック
+    STA --> AP: ESP BOOT長押し
+    AP --> STA: ESP BOOT長押し
+    </pre>
+
+    <h3>STAモード</h3>
+    <p>IPアドレスは、リーダーのLEDが発するモールス信号を読み取って確認します。ESP BOOTボタンを短く押すとLEDが点滅を始め、IPアドレスを伝えます。同じLANに接続しているデバイスのブラウザからそのIPアドレスにアクセスしてください。</p>
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/QqlCrIgUWk4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>文字</th>
+                <th>モールス信号</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>0</td><td><code>-----</code></td></tr>
+            <tr><td>1</td><td><code>.----</code></td></tr>
+            <tr><td>2</td><td><code>..---</code></td></tr>
+            <tr><td>3</td><td><code>...--</code></td></tr>
+            <tr><td>4</td><td><code>....-</code></td></tr>
+            <tr><td>5</td><td><code>.....</code></td></tr>
+            <tr><td>6</td><td><code>-....</code></td></tr>
+            <tr><td>7</td><td><code>--...</code></td></tr>
+            <tr><td>8</td><td><code>---..</code></td></tr>
+            <tr><td>9</td><td><code>----.</code></td></tr>
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th>非文字</th>
+                <th>無信号時間（単位時間）</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>文字間</td><td>3</td></tr>
+            <tr><td>単語間</td><td>7</td></tr>
+        </tbody>
+    </table>
+
+    <h3>APモード</h3>
+    <p>お使いのデバイスのWi-Fi一覧に、<code>AfterAI_Flaps_XXXXXX</code>という形式のSSIDが表示されます。接続後、ブラウザで<code>192.168.10.123</code>にアクセスしてください。</p>
+    <p><img src="/img/flaps/AfterAI_Flaps_AP_SSID_Mac.png" alt="AfterAI Flaps AP SSID Mac" class="img-fluid"></p>
+
+    <h2>Webコンソール</h2>
+    <p>Webコンソールは5つのセクションで構成されています。</p>
+    <p><img src="/img/flaps/AfterAI_Flaps_Web_Console_Sample.png" alt="AfterAI Flaps Webコンソールサンプル" class="img-fluid"></p>
+    <h3>時計モードの使い方</h3>
+    <p><img src="/img/flaps/AfterAI_Flaps_Clock_Photo_2.png" alt="AfterAI Flaps 時計モード" class="img-fluid"></p>
+    <ul>
+        <li>AfterAI FlapsをWi-Fiルーターに接続し、インターネットから現在時刻を取得できるようにします。</li>
+        <li>Webコンソールの「Wi-Fi Settings」で接続情報を入力し、「Operations」からデバイスを再起動します。</li>
+        <li>再起動後、<a href="#staモード">STAモード</a>の手順でIPアドレスを確認し、PCからアクセスします。</li>
+        <li>Device Modeを「clock」に設定すれば完了です。</li>
+    </ul>
+
+    <h2 id="source-code">ソースコード</h2>
+    <p>ソースコードはGitHubで公開されています。</p>
+    <h3>ファームウェア</h3>
+    <ul>
+        <li><a href="https://github.com/AfterAILab/flaps-esp" target="_blank" rel="noopener noreferrer">https://github.com/AfterAILab/flaps-esp</a></li>
+        <li><a href="https://github.com/AfterAILab/flaps-avr" target="_blank" rel="noopener noreferrer">https://github.com/AfterAILab/flaps-avr</a></li>
+    </ul>
+    <h3>PCB</h3>
+    <ul>
+        <li><a href="https://github.com/AfterAILab/flaps-leader-pcb" target="_blank" rel="noopener noreferrer">https://github.com/AfterAILab/flaps-leader-pcb</a></li>
+        <li><a href="https://github.com/AfterAILab/flaps-follower-pcb" target="_blank" rel="noopener noreferrer">https://github.com/AfterAILab/flaps-follower-pcb</a></li>
+    </ul>
+    <h2>3Dモデル</h2>
+    <ul>
+        <li><a href="https://makerworld.com/en/models/823059?from=search#profileId-766363" target="_blank" rel="noopener noreferrer">https://makerworld.com/en/models/823059?from=search#profileId-766363</a></li>
+    </ul>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
