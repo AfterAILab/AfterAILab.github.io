@@ -136,6 +136,96 @@ lang: ja
         border-radius: 1px;
     }
 
+    /* ─── Founder / Differentiator ─────────────────────────────────────── */
+    .founder-section {
+        margin-bottom: 64px;
+    }
+
+    .founder-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .founder-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        padding: 28px 24px;
+        transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .founder-card:hover {
+        box-shadow: 0 4px 12px oklch(0% 0 0 / 0.08);
+        border-color: var(--color-primary-light);
+    }
+
+    .founder-badge {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-primary);
+        background: var(--color-primary-light);
+        padding: 4px 12px;
+        border-radius: 100px;
+        margin-bottom: 12px;
+    }
+
+    .founder-card h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--color-text);
+        margin-bottom: 8px;
+    }
+
+    .founder-card p {
+        font-size: 0.95rem;
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+        margin-bottom: 16px;
+    }
+
+    .founder-card-links {
+        display: flex;
+        gap: 16px;
+    }
+
+    .founder-card-links a {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--color-primary);
+        text-decoration: none;
+    }
+
+    .founder-card-links a:hover {
+        text-decoration: underline;
+    }
+
+    .founder-card--weekly {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
+    .founder-weekly-visual {
+        flex-shrink: 0;
+        width: 120px;
+    }
+
+    .founder-weekly-thumb {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px oklch(0% 0 0 / 0.1);
+    }
+
+    .founder-weekly-content {
+        flex: 1;
+        min-width: 0;
+    }
+
     /* ─── Capabilities grid ───────────────────────────────────────────── */
     .capabilities-section {
         margin-bottom: 64px;
@@ -535,6 +625,24 @@ lang: ja
             width: 180px;
         }
 
+        .founder-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .founder-card--weekly {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .founder-weekly-visual {
+            width: 160px;
+        }
+
+        .founder-card-links {
+            justify-content: center;
+        }
+
         .capabilities-grid {
             grid-template-columns: 1fr;
         }
@@ -586,6 +694,10 @@ lang: ja
 
         .services-hero-title {
             font-size: 1.875rem;
+        }
+
+        .founder-weekly-visual {
+            width: 140px;
         }
 
         .hero {
@@ -648,6 +760,46 @@ lang: ja
             <div>
                 <div class="pipeline-label">リリース</div>
                 <div class="pipeline-desc">デプロイ &amp; 監視</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Founder / Differentiator -->
+{% assign issue_count = site.data.weekly_issues | size %}
+<section class="founder-section">
+    <div class="founder-grid">
+        <div class="founder-card">
+            <span class="founder-badge">Genuine Engineering</span>
+            <h3>実戦で磨かれた判断力</h3>
+            <p>
+                AfterAIを率いるのは、キャリアを通じてソフトウェアエンジニアであり続けてきた人間です。
+                Teslaのナビゲーションシステムから本番Webアプリまで、設計判断のひとつひとつに
+                長年の実戦経験が裏打ちされています。
+            </p>
+            <div class="founder-card-links">
+                <a href="{{ '/ja/about' | relative_url }}">About &rarr;</a>
+                <a href="https://www.linkedin.com/in/yuji-tabata" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+            </div>
+        </div>
+
+        <div class="founder-card founder-card--weekly">
+            <div class="founder-weekly-visual">
+                <img src="{{ '/img/weekly/ja/vol30-ja.jpg' | relative_url }}"
+                     alt="AfterAI Weekly - 手書きニュースレター"
+                     class="founder-weekly-thumb"
+                     loading="lazy">
+            </div>
+            <div class="founder-weekly-content">
+                <span class="founder-badge">Genuine Personality</span>
+                <h3>毎週、手書きで</h3>
+                <p>
+                    {{ issue_count }}号を超えて続く、AIとテクノロジーの手描きニュースレター。
+                    コードの向こうに、生身の人間がいる証です。
+                </p>
+                <div class="founder-card-links">
+                    <a href="{{ '/ja/weekly' | relative_url }}">バックナンバーを読む &rarr;</a>
+                </div>
             </div>
         </div>
     </div>
