@@ -16,6 +16,22 @@
     <!-- Modern font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- Language alternates -->
+    {% assign lang = page.lang | default: site.default_lang | default: "en" %}
+    {% assign t = site.data.i18n[lang] %}
+    {% if lang == "en" %}
+      {% assign lang_prefix = "" %}
+      {% assign en_url = page.url %}
+      {% assign ja_url = "/ja" | append: page.url %}
+    {% else %}
+      {% assign lang_prefix = "/ja" %}
+      {% assign en_url = page.url | replace_first: "/ja/", "/" %}
+      {% assign ja_url = page.url %}
+    {% endif %}
+    <link rel="alternate" hreflang="en" href="{{ site.url }}{{ en_url }}" />
+    <link rel="alternate" hreflang="ja" href="{{ site.url }}{{ ja_url }}" />
+    <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ en_url }}" />
+
     <style>
         /* ─── Reset ─────────────────────────────────────────────────────────── */
         *, *::before, *::after {
@@ -176,6 +192,30 @@
 
         nav a:hover {
             color: var(--color-primary);
+            background: var(--color-primary-light);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .lang-switch {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .lang-switch:hover {
+            color: var(--color-primary);
+            border-color: var(--color-primary);
             background: var(--color-primary-light);
         }
 
@@ -507,15 +547,22 @@
 
     <div class="container">
         <header>
-            <a href="{{ '/' | relative_url }}" class="logo">AfterAI</a>
-            <nav>
-                <ul>
-                    <li><a href="{{ '/' | relative_url }}">Home</a></li>
-                    <li><a href="{{ '/about' | relative_url }}">About</a></li>
-                    <li><a href="{{ '/weekly' | relative_url }}">Weekly</a></li>
-                    <li><a href="{{ '/' | relative_url }}#contact">Contact</a></li>
-                </ul>
-            </nav>
+            <a href="{{ lang_prefix | append: '/' | relative_url }}" class="logo">AfterAI</a>
+            <div class="header-right">
+                <nav>
+                    <ul>
+                        <li><a href="{{ lang_prefix | append: '/' | relative_url }}">{{ t.nav.home }}</a></li>
+                        <li><a href="{{ lang_prefix | append: '/about' | relative_url }}">{{ t.nav.about }}</a></li>
+                        <li><a href="{{ lang_prefix | append: '/weekly' | relative_url }}">{{ t.nav.weekly }}</a></li>
+                        <li><a href="{{ lang_prefix | append: '/' | relative_url }}#contact">{{ t.nav.contact }}</a></li>
+                    </ul>
+                </nav>
+                {% if lang == "en" %}
+                <a href="{{ ja_url | relative_url }}" class="lang-switch">JA</a>
+                {% else %}
+                <a href="{{ en_url | relative_url }}" class="lang-switch">EN</a>
+                {% endif %}
+            </div>
         </header>
 
         <main>
@@ -523,7 +570,7 @@
         </main>
 
         <footer>
-            <p>&copy; {{ site.time | date: '%Y' }} {{ site.author }}. All rights reserved.</p>
+            <p>&copy; {{ site.time | date: '%Y' }} {{ site.author }}. {{ t.footer.rights }}</p>
         </footer>
     </div>
 

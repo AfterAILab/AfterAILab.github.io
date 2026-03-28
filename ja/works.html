@@ -1,0 +1,102 @@
+---
+layout: default
+title: 作品
+lang: ja
+---
+
+<style>
+    .works-intro {
+        font-size: 1.05rem;
+        color: var(--color-text-secondary);
+        margin-bottom: 28px;
+    }
+
+    .works-section {
+        margin-top: 28px;
+    }
+
+    .works-section h3 {
+        margin-top: 0;
+        margin-bottom: 14px;
+    }
+
+    .works-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+    }
+
+    .work-card {
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        padding: 20px;
+        background: var(--color-surface);
+    }
+
+    .work-card.featured {
+        background: var(--color-primary-light);
+    }
+
+    .work-card h4 {
+        margin: 0 0 10px 0;
+        font-size: 1.05rem;
+    }
+
+    .work-card p {
+        margin: 0;
+    }
+
+    .works-note {
+        margin-top: 28px;
+        padding-top: 20px;
+        border-top: 1px solid var(--color-border);
+        color: var(--color-text-secondary);
+        font-size: 0.95rem;
+    }
+</style>
+
+<div class="content">
+
+    <h2>作品</h2>
+
+    <p class="works-intro">
+        これまでに手がけた主なプロジェクトをまとめています。プロダクトと展示に分けてご紹介します。
+    </p>
+
+    <section class="works-section">
+        <h3>プロダクト</h3>
+        <div class="works-grid">
+            <article class="work-card featured">
+                <h4><a href="https://babysteps.afterai.dev">babysteps</a></h4>
+                <p>
+                    AIを活用したマイクロラーニングアプリ。時間帯に合わせて届くデイリーレッスンで、好きなテーマを1日5分から学べます。
+                </p>
+            </article>
+
+            <article class="work-card">
+                <h4><a href="/ja/works/flaps.html">AfterAI Flaps</a></h4>
+                <p>
+                    AIが生成したニュース見出しを表示する、自作のパタパタ式（スプリットフラップ）ディスプレイ。
+                    Maker Faire Bay Area 2024でEditor's Choice Awardを受賞しました。
+                </p>
+            </article>
+        </div>
+    </section>
+
+    <section class="works-section">
+        <h3>展示</h3>
+        <div class="works-grid">
+            <article class="work-card">
+                <h4><a href="/ja/works/events.html">参加イベント</a></h4>
+                <p>
+                    米国、イタリア、日本のMaker Faireでの展示と受賞歴。
+                </p>
+            </article>
+        </div>
+    </section>
+
+    <p class="works-note">
+        ニュースレターのバックナンバーは、ヘッダーの「ウィークリー」からご覧いただけます。
+    </p>
+
+</div>

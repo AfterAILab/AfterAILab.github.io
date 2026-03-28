@@ -1,0 +1,17 @@
+en:
+  nav:
+    home: "Home"
+    about: "About"
+    weekly: "Weekly"
+    contact: "Contact"
+  footer:
+    rights: "All rights reserved."
+
+ja:
+  nav:
+    home: "ホーム"
+    about: "私たちについて"
+    weekly: "ウィークリー"
+    contact: "お問い合わせ"
+  footer:
+    rights: "All rights reserved."
