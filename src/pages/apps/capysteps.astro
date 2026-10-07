@@ -1,0 +1,142 @@
+---
+import Base from '../../layouts/Base.astro';
+import { apps } from '../../data/apps';
+import '../../styles/app-page.css';
+
+const app = apps.find((a) => a.id === 'capysteps')!;
+---
+<Base
+  title="CapySteps"
+  description="気になるテーマを AI との会話で科目にして、1 日 5 分のレッスンとクイズで学びを続けるマイクロラーニングアプリ「CapySteps」。1 日 4 つの時間帯で「もっとやりたい」のところで止める設計です。"
+  current="/apps/"
+  ogImage={app.icon}
+>
+  <article class="app-page" style="--shot-bg: #eef6fb">
+    <nav class="crumbs small muted" aria-label="パンくず">
+      <a href="/apps/">アプリ</a> <span aria-hidden="true">/</span> CapySteps
+    </nav>
+
+    <header class="app-hero">
+      <img src={app.icon} alt="" width="96" height="96" />
+      <div class="app-hero-text">
+        <span class="eyebrow">マイクロラーニング</span>
+        <h1>CapySteps</h1>
+        <p class="lead">{app.tagline}</p>
+        <p>
+          ニュースで気になったこと、ふと湧いた好奇心。それを AI との会話で「科目」にして、
+          1 回 5 分のレッスンとクイズで少しずつ学んでいくアプリです。大きな計画もゴールもいりません。
+        </p>
+        <div class="app-hero-actions">
+          <a class="btn" href={app.url} target="_blank" rel="noopener">CapySteps を開く &rarr;</a>
+          <span class="small muted">Google でサインイン。無料で始められ、クレジットカード登録は不要です。</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="feature feature-wide">
+      <div class="feature-text">
+        <span class="eyebrow">科目をつくる</span>
+        <h2>興味の芽を、会話で科目にする</h2>
+        <p>
+          「夜、子どもと星を見たけど、どれが何の星かわからなかった」。
+          そんな一言を Capy に話しかけると、何から知りたいかを選択肢で聞き返し、
+          2〜4 回のやりとりで科目の名前と説明を提案します。フォームに入力するのではなく、会話で決めます。
+        </p>
+        <p>
+          提案はその場で編集できます。科目の説明にはレベルや興味の中心が書き込まれるので、以後のレッスンがあなた向けになります。
+        </p>
+      </div>
+      <div class="shot-pair">
+        <figure class="shot">
+          <img src="/img/apps/capysteps/create-options.png" alt="科目作成の会話。星座の話題に、Capy が「季節ごとの代表的な星座を知りたい」など 4 つの選択肢で聞き返している" width="720" height="1207" loading="lazy" />
+          <figcaption>Capy が聞き返す</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="/img/apps/capysteps/create-proposal.png" alt="Capy が「親子で見つける夜空の星座」という科目を提案し、名前と説明のカードに「科目を作成」ボタンが付いている会話画面" width="720" height="1207" loading="lazy" />
+          <figcaption>科目の提案</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="feature feature-wide">
+      <div class="feature-text">
+        <span class="eyebrow">レッスンとクイズ</span>
+        <h2>5 分のレッスンで一歩、クイズで確認</h2>
+        <p>
+          レッスンは AI がその科目の説明とこれまでの学習履歴をもとに生成します。前のレッスンと重ならないように、
+          送った難易度のフィードバックも踏まえて少しずつ先へ進みます。読み終えたら 3 問のクイズで理解を確かめます。
+        </p>
+        <p>
+          5 レッスンごとに復習レッスンが入り、直近のレッスンとクイズの結果をもとに学び直します。
+          科目ごとの「Capy に質問」では、Capy がその科目の説明とこれまでのレッスンを踏まえて答えます。
+        </p>
+      </div>
+      <div class="shot-pair">
+        <figure class="shot">
+          <img src="/img/apps/capysteps/lesson.png" alt="レッスン「赤ちゃんの一日を中国語で言ってみる」の本文。導入のあと「朝：起きる・ミルク」の場面から、短い中国語の文とピンイン、説明が並ぶ" width="720" height="1221" loading="lazy" />
+          <figcaption>5 分のレッスン</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="/img/apps/capysteps/quiz.png" alt="レッスン末尾のクイズ。3 問のうち 1 問目と 2 問目に回答済みで、3 問目はこれから" width="720" height="1435" loading="lazy" />
+          <figcaption>クイズで確認</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="feature">
+      <div class="feature-text">
+        <span class="eyebrow">解説と質問</span>
+        <h2>答え合わせのあとに、理解が深まる</h2>
+        <p>
+          正解でも不正解でも、各問に解説が付きます。答えに納得できなければ「この回答について議論する」で Capy に異議を伝えられ、
+          Capy が認めればひとつのタップで正解を修正できます。レッスンそのものへの「なぜ？」は、レッスンの下にある Capy とのチャットで聞けます。
+        </p>
+      </div>
+      <figure class="shot">
+        <img src="/img/apps/capysteps/result.png" alt="答え合わせの結果。3 問中 3 問正解でパーフェクトと表示され、1 問目に解説と「この回答について議論する」リンクが付いている" width="720" height="960" loading="lazy" />
+      </figure>
+    </section>
+
+    <section class="feature">
+      <div class="feature-text">
+        <span class="eyebrow">1 日 4 つの時間帯</span>
+        <h2>「もっとやりたい」のところで止める</h2>
+        <p>
+          レッスンは 1 日を深夜・朝・午後・夜の 4 つの時間帯に分け、各科目はひとつの時間帯に 1 レッスンまでです。
+          どかっと勉強してスッキリ忘れてしまわないための、逆説的な仕組みです。
+        </p>
+        <p>
+          ダッシュボードには、いまの時間帯にやるレッスン、終えた科目、しばらく触れていない科目が分けて並びます。
+          通知をオンにしておくと、レッスンから 1 日離れたときにやさしくお知らせします。
+        </p>
+      </div>
+      <figure class="shot">
+        <img src="/img/apps/capysteps/dashboard.png" alt="午後のダッシュボード。今日・今週・合計のレッスン数と曜日ごとのグラフの下に、この時間帯のレッスンとして「赤ちゃんパパの中国語入門」が並ぶ" width="720" height="1282" loading="lazy" />
+      </figure>
+    </section>
+
+    <section class="feature">
+      <div class="feature-text">
+        <span class="eyebrow">進捗</span>
+        <h2>積み重ねが見える</h2>
+        <p>
+          今日・今週・合計のレッスン数、連続日数、科目ごとのアクティビティをグラフで振り返れます。
+          ゴールはなくても、続けた分だけ積み上がっているのが見えます。
+        </p>
+      </div>
+      <figure class="shot">
+        <img src="/img/apps/capysteps/progress.png" alt="進捗ページ。合計 25 レッスン、連続日数、科目別に色分けされた 30 日間のアクティビティグラフ" width="720" height="1343" loading="lazy" />
+      </figure>
+    </section>
+
+    <section class="app-cta card">
+      <h2>無料で始める</h2>
+      <p>
+        AfterAI アカウント(Google でサインイン)で使えます。登録時に 50 クレジット(約 10 レッスン分)が付き、クレジットカードの登録は不要です。
+        学びが日常になったら、アプリ内の Pro プランに切り替えられます。
+      </p>
+      <a class="btn" href={app.url} target="_blank" rel="noopener">CapySteps を開く &rarr;</a>
+    </section>
+  </article>
+</Base>
+

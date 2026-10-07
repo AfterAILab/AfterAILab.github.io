@@ -33,6 +33,7 @@ export const apps: App[] = [
     url: 'https://kondate.afterai.dev',
     icon: '/img/apps/kondate.png',
     audience: '小さな子どものいる家庭',
+    page: '/apps/kondate/',
   },
   {
     id: 'capysteps',
@@ -43,5 +44,6 @@ export const apps: App[] = [
     url: 'https://capysteps.afterai.dev',
     icon: '/img/apps/capysteps.png',
     audience: '学びを習慣にしたい人',
+    page: '/apps/capysteps/',
   },
 ];

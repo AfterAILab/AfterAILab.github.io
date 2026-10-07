@@ -1,0 +1,131 @@
+---
+import Base from '../../layouts/Base.astro';
+import { apps } from '../../data/apps';
+import '../../styles/app-page.css';
+
+const app = apps.find((a) => a.id === 'kondate')!;
+---
+<Base
+  title="kondate"
+  description="離乳食・幼児食の子どもがいる家庭のための献立アプリ「kondate」。AI が献立を提案し、大人用と子ども用に取り分けポイントで分岐するフローチャート、前もってできる下拵え、買い物リストまでまとめて用意します。"
+  current="/apps/"
+  ogImage={app.icon}
+>
+  <article class="app-page" style="--shot-bg: #f3f4ef">
+    <nav class="crumbs small muted" aria-label="パンくず">
+      <a href="/apps/">アプリ</a> <span aria-hidden="true">/</span> kondate
+    </nav>
+
+    <header class="app-hero">
+      <img src={app.icon} alt="" width="96" height="96" />
+      <div class="app-hero-text">
+        <span class="eyebrow">取り分け献立</span>
+        <h1>kondate</h1>
+        <p class="lead">{app.tagline}</p>
+        <p>
+          離乳食・幼児食の子どもがいる家庭のための献立アプリです。
+          大人の夕飯から子どもの分を取り分けて作る前提で、献立の提案からレシピ、下拵え、買い物までをひとつの流れにします。
+        </p>
+        <div class="app-hero-actions">
+          <a class="btn" href={app.url} target="_blank" rel="noopener">kondate を開く &rarr;</a>
+          <span class="small muted">Google でサインイン。台所でスマートフォンを立てて見る前提の画面です。</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="feature feature-wide">
+      <div class="feature-text">
+        <span class="eyebrow">献立の提案</span>
+        <h2>空いている日を選んで、AI に提案してもらう</h2>
+        <p>
+          カレンダーで空いている日を選び、「魚はお休み」「金曜は手早く」のようなリクエストと、余っている食材を伝えると、
+          AI が日ごとの献立を提案します。家族の設定から、大人の人数と子どもの月齢・段階を踏まえた案になります。
+        </p>
+        <p>
+          案を決定すると、各日の材料・分量、下拵え、取り分けのフローチャートが作られ、
+          必要な食材は買い物リストにまとめて追加されます。
+        </p>
+      </div>
+      <div class="shot-pair">
+        <figure class="shot">
+          <img src="/img/apps/kondate/plan-form.png" alt="次の献立の入力画面。対象の日は 9/17 と 9/18、食べる人は大人 2 人と後期のはな（9ヶ月）。リクエストに「魚はお休み。金曜は手早く」、余っている食材に「牛乳、小松菜半束」と入力している" width="720" height="1207" loading="lazy" />
+          <figcaption>リクエストと余り食材を伝える</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="/img/apps/kondate/plan-proposal.png" alt="AI の提案。9/17 はかぼちゃと鶏ささみのクリーム煮、9/18 は豚こまと小松菜の煮込みうどん。それぞれに取り分けのポイントが添えられ、下に買い物 5 品の一覧がある" width="720" height="1544" loading="lazy" />
+          <figcaption>取り分けポイント付きの提案と買い物</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="feature">
+      <div class="feature-text">
+        <span class="eyebrow">取り分けフローチャート</span>
+        <h2>取り分けポイントで、大人と子どもに分かれる</h2>
+        <p>
+          手順は一本のリストではなく、共通の工程のあとに「取り分け」のノードで子どもと大人の 2 列に分かれるフローチャートです。
+          味付けや香味野菜を入れる前に取り分けるので、赤ちゃんの分は味付けなし、幼児食の子はごく薄味で仕上がります。
+        </p>
+        <p>
+          子どもの列は<strong>離乳食の段階ごとのレーン</strong>になります。段階は献立の日付の月齢から自動で決まり、
+          後期の赤ちゃんと幼児食の子がいれば 2 本、ミルクだけの赤ちゃんはレーンなしと表示されます。
+        </p>
+      </div>
+      <figure class="shot">
+        <img src="/img/apps/kondate/branch.png" alt="作る画面のフローチャート。「塩と醤油を入れる前に赤ちゃん分をよそう」という取り分けノードから、子どもの列（後期と幼児食のレーン）と大人 2 人分の列に分岐している" width="720" height="1068" loading="lazy" />
+      </figure>
+    </section>
+
+    <section class="feature">
+      <div class="feature-text">
+        <span class="eyebrow">下拵え</span>
+        <h2>前もってできることと、当日やることを分ける</h2>
+        <p>
+          根菜の下茹でやだしをとるような前もってできる下拵えと、当日にやることを分けて示します。
+          前夜に下拵えを済ませておけば、当日は材料を確かめてフローチャートを追うだけです。
+        </p>
+        <p>
+          作りながら疑問が出たら、その料理について AI に聞けます。
+        </p>
+      </div>
+      <figure class="shot">
+        <img src="/img/apps/kondate/prep.png" alt="下拵えの一覧。大人向けに「根菜を下茹で」、子ども（後期）向けに「だしをとる」、当日の項目として「ひき肉は当日買う」が並ぶ" width="720" height="610" loading="lazy" />
+      </figure>
+    </section>
+
+    <section class="feature feature-wide">
+      <div class="feature-text">
+        <span class="eyebrow">買い物と記録</span>
+        <h2>買い物リストと、できあがりの記録</h2>
+        <p>
+          複数日分の食材は買い物リストにまとまり、どの日に使うか、「冷凍でもよい」「なければ小ねぎ」のような補足が添えられます。
+          買ったものはチェックして消していきます。
+        </p>
+        <p>
+          作ったら、できあがりの写真と「また作る」までの 3 段階の評価、メモを記録します。
+          カレンダーには写真と評価が並ぶので、次の献立を考えるときの手がかりになります。
+        </p>
+      </div>
+      <div class="shot-pair">
+        <figure class="shot">
+          <img src="/img/apps/kondate/shopping.png" alt="買い物リスト。鶏ひき肉と大根はチェック済み、生たら・絹豆腐・三つ葉・牛乳が残っていて、それぞれ使う日と補足が書かれている" width="720" height="1207" loading="lazy" />
+          <figcaption>買い物リスト</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="/img/apps/kondate/calendar.png" alt="週のカレンダー。9/13 から 9/16 に献立が入り、9/14 はできあがりの写真と星 3 つの評価付き。9/17 以降は空いている" width="720" height="1207" loading="lazy" />
+          <figcaption>写真と評価が並ぶカレンダー</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="app-cta card">
+      <h2>家族で使いはじめる</h2>
+      <p>
+        共通の AfterAI アカウント(Google でサインイン)で使えます。
+        家族と子どもの生年月日は <a href="https://account.afterai.dev" target="_blank" rel="noopener">account.afterai.dev</a> で登録すると、kondate が月齢から離乳食の段階を決めます。
+      </p>
+      <a class="btn" href={app.url} target="_blank" rel="noopener">kondate を開く &rarr;</a>
+    </section>
+  </article>
+</Base>
+
