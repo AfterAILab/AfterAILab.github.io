@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 
 const title = 'AfterAI VPP — 蓄電池を、VPPリソースに変える';
 const description =
-  '蓄電池の現場とアグリゲーターをつなぐVPPプラットフォーム「AfterAI VPP」。ゲートウェイ機器とサーバ側の制御ソフトウェアをセットで提供します。工場の試験設備で実機の蓄電池を動かした PoC 結果も再生できます。';
+  '蓄電池の現場とアグリゲーターをつなぐVPPプラットフォーム「AfterAI VPP」。ゲートウェイ機器とサーバ側の制御ソフトウェアをセットで提供します。現在は高圧の一次調整力向けに開発中。工場の試験設備で実機の蓄電池を動かした PoC 結果も再生できます。';
 ---
 <Base title={title} description={description} current="/vpp/">
   <!-- Hero -->
@@ -14,6 +14,7 @@ const description =
       <p class="vpp-hero-description">
         AfterAI VPP は、蓄電池の現場とアグリゲーターをつなぐ VPP（仮想発電所）プラットフォームです。
         蓄電池側に設置するゲートウェイ機器と、サーバ側の制御ソフトウェアをセットで提供します。
+        現在は高圧の一次調整力向けに開発を進めています。
       </p>
       <div class="vpp-hero-actions">
         <a href="mailto:info@afterai.dev" class="btn">お問い合わせ &rarr;</a>
@@ -78,122 +79,97 @@ const description =
     </div>
   </section>
 
-  <!-- Market tailwind -->
-  <section class="vpp-section">
-    <div class="vpp-split">
-      <div class="vpp-split-text">
-        <h2>2026年度、需給調整市場が小規模蓄電池に開かれました</h2>
-        <p>
-          2026年度から、低圧の小規模蓄電池も需給調整市場
-          （電力の需給バランスを保つための調整力を売買する市場）に参加できるようになりました。
-          ただし蓄電池が単体で市場に参加できるわけではなく、
-          <strong>アグリゲーターが複数のリソースを束ねて一定規模以上にすること</strong>が前提です。
-        </p>
-        <p>
-          つまり、遠隔制御・アグリゲーションに対応した「市場とつながる準備ができている蓄電池」と
-          そうでない蓄電池とで、提供できる価値に差がつく時代が始まっています。
-          AfterAI VPP は、その「つながる準備」を担うプラットフォームです。
-        </p>
-      </div>
-      <div class="vpp-illust" aria-hidden="true">
-        <!-- 需給バランス：蓄電池と電力を載せた天秤 -->
-        <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="60" cy="22" r="4"/>
-          <line x1="60" y1="26" x2="60" y2="94"/>
-          <path d="M52 94 l-5 8 M68 94 l5 8"/>
-          <line x1="42" y1="102" x2="78" y2="102"/>
-          <line x1="26" y1="34" x2="94" y2="34"/>
-          <path d="M26 34 l-10 20 M26 34 l10 20"/>
-          <path d="M12 54 a14 14 0 0 0 28 0"/>
-          <path d="M94 34 l-10 20 M94 34 l10 20"/>
-          <path d="M80 54 a14 14 0 0 0 28 0"/>
-          <rect x="17" y="42" width="14" height="9" rx="2" stroke-width="2.2"/>
-          <line x1="33" y1="44.5" x2="33" y2="48.5" stroke-width="2.2"/>
-          <path d="M96 36 l-7 9 h5 l-4 9 11 -11 h-5 l4 -7 z" stroke-width="2.2"/>
-        </svg>
-      </div>
-    </div>
-  </section>
-
-  <!-- Battery side -->
-  <section class="vpp-section">
+  <!-- System architecture -->
+  <section class="vpp-section" id="system">
     <div class="section-head">
-      <h2>蓄電池側で担うこと</h2>
-      <p>蓄電池を、遠隔制御・アグリゲーション対応に</p>
+      <h2>システム構成</h2>
+      <p>サーバ側の制御ソフトウェア DERMS と、蓄電池側に置くゲートウェイ EMS の 2 層で動きます</p>
     </div>
 
-    <div class="vpp-audience-card vpp-split">
-      <div class="vpp-split-text">
-        <p>
-          需給調整市場やアグリゲーター連携への対応には、
-          通信制御・市場の仕組み・運用ノウハウが必要です。
-          AfterAI VPP は、蓄電池側に設置するゲートウェイ機器とサーバ側の制御ソフトウェアにより、
-          蓄電池を遠隔制御・アグリゲーション対応にします。
-        </p>
+    <div class="vpp-arch" role="img" aria-label="周波数信号を受けた DERMS が各拠点の EMS に割当を配分し、EMS が蓄電池を充放電させる構成図">
+      <div class="vpp-arch-input">
+        <span class="vpp-arch-input-label">周波数信号</span>
+        <span class="vpp-arch-input-sub">系統周波数（PoC では模擬信号）</span>
+      </div>
+      <div class="vpp-arch-stub"></div>
+
+      <div class="vpp-arch-box vpp-arch-box--core">
+        <div class="vpp-arch-kicker">サーバ側</div>
+        <div class="vpp-arch-title">DERMS</div>
+        <div class="vpp-arch-desc">フリート制御・割当配分・運用コンソール</div>
+      </div>
+
+      <div class="vpp-arch-bus"></div>
+
+      <div class="vpp-arch-sites">
+        <div class="vpp-arch-site">
+          <div class="vpp-arch-stub"></div>
+          <div class="vpp-arch-box">
+            <div class="vpp-arch-kicker">拠点側ゲートウェイ</div>
+            <div class="vpp-arch-title">EMS</div>
+            <div class="vpp-arch-desc">割当を充放電指令に変換</div>
+          </div>
+          <div class="vpp-arch-stub"></div>
+          <div class="vpp-arch-box vpp-arch-box--battery">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="7" width="17" height="10" rx="2"/>
+              <line x1="22" y1="10.5" x2="22" y2="13.5"/>
+              <line x1="6" y1="10.5" x2="6" y2="13.5"/>
+              <line x1="9.5" y1="10.5" x2="9.5" y2="13.5"/>
+              <line x1="13" y1="10.5" x2="13" y2="13.5"/>
+            </svg>
+            <span>蓄電池 A</span>
+          </div>
+        </div>
+
+        <div class="vpp-arch-site">
+          <div class="vpp-arch-stub"></div>
+          <div class="vpp-arch-box">
+            <div class="vpp-arch-kicker">拠点側ゲートウェイ</div>
+            <div class="vpp-arch-title">EMS</div>
+            <div class="vpp-arch-desc">割当を充放電指令に変換</div>
+          </div>
+          <div class="vpp-arch-stub"></div>
+          <div class="vpp-arch-box vpp-arch-box--battery">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="7" width="17" height="10" rx="2"/>
+              <line x1="22" y1="10.5" x2="22" y2="13.5"/>
+              <line x1="6" y1="10.5" x2="6" y2="13.5"/>
+              <line x1="9.5" y1="10.5" x2="9.5" y2="13.5"/>
+              <line x1="13" y1="10.5" x2="13" y2="13.5"/>
+            </svg>
+            <span>蓄電池 B</span>
+          </div>
+        </div>
+      </div>
+      <p class="vpp-arch-caption">拠点は追加できます。各拠点の実出力は EMS から DERMS に集約され、フリート合計として扱われます。</p>
+    </div>
+
+    <div class="vpp-roles">
+      <div class="vpp-role-card">
+        <h3>DERMS（サーバ側）</h3>
         <ul class="vpp-points">
-          <li>蓄電池側のゲートウェイ機器とサーバ側制御ソフトをセットで提供</li>
-          <li>蓄電池本体の設計を変えずに「VPP対応」を実現</li>
-          <li>アグリゲーターとの連携を見据えた運用が可能に</li>
+          <li>周波数を受け、登録カーブどおりにフリート全体の出力を決める</li>
+          <li>各拠点の供出可能量に応じて割当を配分する</li>
+          <li>拠点の停止を検知すると、残りの拠点に割当を振り直してフリート出力を保つ</li>
+          <li>フリート概要とスケジュールを扱う運用コンソール</li>
         </ul>
       </div>
-      <div class="vpp-illust" aria-hidden="true">
-        <!-- メーカー：工場と蓄電池製品 -->
-        <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="10" y1="102" x2="110" y2="102"/>
-          <rect x="20" y="72" width="72" height="30"/>
-          <path d="M20 72 V58 L36 72 V58 L52 72 V58 L68 72"/>
-          <path d="M76 72 V42 h10 V72"/>
-          <path d="M78 34 a4 4 0 0 1 8 0" opacity="0.5" stroke-width="2.4"/>
-          <rect x="30" y="80" width="26" height="14" rx="3" stroke-width="2.4"/>
-          <line x1="59" y1="84" x2="59" y2="90" stroke-width="2.4"/>
-          <line x1="36" y1="84" x2="36" y2="90" stroke-width="2.4"/>
-          <line x1="42" y1="84" x2="42" y2="90" stroke-width="2.4"/>
-          <line x1="48" y1="84" x2="48" y2="90" stroke-width="2.4"/>
-        </svg>
-      </div>
-    </div>
-  </section>
-
-  <!-- Aggregator side -->
-  <section class="vpp-section">
-    <div class="section-head">
-      <h2>アグリゲーター側で担うこと</h2>
-      <p>多様な蓄電池を、ひとつの仕組みで制御</p>
-    </div>
-
-    <div class="vpp-audience-card vpp-split">
-      <div class="vpp-split-text">
-        <p>
-          メーカーごとに異なる蓄電池の通信仕様。リソースを増やすたびに発生する個別対応。
-          AfterAI VPP は機種ごとの違いを吸収し、多様な蓄電池をまとめて制御できる
-          プラットフォームを目指しています。
-        </p>
+      <div class="vpp-role-card">
+        <h3>EMS（拠点側ゲートウェイ）</h3>
         <ul class="vpp-points">
-          <li>機種差を吸収する共通の制御基盤</li>
-          <li>リソース追加時の個別開発を削減</li>
+          <li>蓄電池のそばに設置し、DERMS からの割当を充放電指令に変換する</li>
+          <li>実出力を計測し、DERMS に報告する</li>
+          <li>EMS が停止した場合は、蓄電池側のウォッチドッグが出力を止める</li>
         </ul>
       </div>
-      <div class="vpp-illust" aria-hidden="true">
-        <!-- アグリゲーター：多様な蓄電池を束ねるハブ -->
-        <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="60" cy="64" r="13"/>
-          <circle cx="60" cy="64" r="3.5" fill="currentColor" stroke="none"/>
-          <line x1="60" y1="51" x2="60" y2="32"/>
-          <line x1="71" y1="57" x2="86" y2="46"/>
-          <line x1="71" y1="71" x2="86" y2="82"/>
-          <line x1="49" y1="71" x2="34" y2="82"/>
-          <line x1="49" y1="57" x2="34" y2="46"/>
-          <rect x="48" y="14" width="21" height="13" rx="3" stroke-width="2.4"/>
-          <line x1="71.5" y1="18" x2="71.5" y2="23" stroke-width="2.4"/>
-          <rect x="86" y="32" width="21" height="13" rx="3" stroke-width="2.4"/>
-          <line x1="109.5" y1="36" x2="109.5" y2="41" stroke-width="2.4"/>
-          <rect x="86" y="82" width="21" height="13" rx="3" stroke-width="2.4"/>
-          <line x1="109.5" y1="86" x2="109.5" y2="91" stroke-width="2.4"/>
-          <rect x="13" y="82" width="21" height="13" rx="3" stroke-width="2.4"/>
-          <line x1="36.5" y1="86" x2="36.5" y2="91" stroke-width="2.4"/>
-          <rect x="13" y="32" width="21" height="13" rx="3" stroke-width="2.4"/>
-          <line x1="36.5" y1="36" x2="36.5" y2="41" stroke-width="2.4"/>
-        </svg>
+      <div class="vpp-role-card">
+        <h3>対象範囲</h3>
+        <ul class="vpp-points">
+          <li>現在の対象は<strong>高圧の一次調整力</strong>（周波数に応じた応動）</li>
+          <li>二次・三次調整力などの他商品や接続区分は、制御パラメータのカスタマイズで対応</li>
+          <li>実機 PoC では 2 拠点・拠点あたり 15 kW（登録量 30 kW）で動作を確認（<a href="#poc">記録を見る</a>）</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -418,15 +394,110 @@ const description =
   .vpp-illust { flex-shrink: 0; color: var(--color-primary); }
   .vpp-illust svg { display: block; width: 170px; height: 170px; }
 
-  .vpp-audience-card {
+  /* ─── System architecture diagram ───────────────────────────────────── */
+  .vpp-arch {
+    --arch-line: color-mix(in oklch, var(--color-border), var(--color-text-secondary) 45%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
     box-shadow: var(--shadow-card);
-    padding: 32px;
+    padding: 28px 24px 20px;
     margin: 24px 0;
   }
-  .vpp-audience-card p { color: var(--color-text); line-height: 1.8; }
+  .vpp-arch-input { text-align: center; }
+  .vpp-arch-input-label { display: block; font-size: 0.9rem; font-weight: 600; color: var(--color-text); }
+  .vpp-arch-input-sub { display: block; font-size: 0.75rem; color: var(--color-text-secondary); margin-top: 2px; }
+  .vpp-arch-stub {
+    width: 2px;
+    height: 18px;
+    background: var(--arch-line);
+    position: relative;
+  }
+  .vpp-arch-stub::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid var(--arch-line);
+  }
+  .vpp-arch-box {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+  }
+  .vpp-arch-box--core {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+    max-width: 360px;
+  }
+  .vpp-arch-kicker { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.75; }
+  .vpp-arch-title { font-size: 1.15rem; font-weight: 700; margin-top: 2px; }
+  .vpp-arch-desc { font-size: 0.8rem; margin-top: 4px; opacity: 0.85; line-height: 1.5; }
+  .vpp-arch-box--battery {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: transparent;
+  }
+  .vpp-arch-box--battery svg { width: 22px; height: 22px; color: var(--color-primary); }
+  /* Bus: a horizontal line spanning the two site centres, fed from DERMS. */
+  .vpp-arch-bus {
+    width: 50%;
+    height: 2px;
+    background: var(--arch-line);
+    position: relative;
+    margin-top: 18px;
+  }
+  .vpp-arch-bus::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -18px;
+    width: 2px;
+    height: 18px;
+    background: var(--arch-line);
+    transform: translateX(-50%);
+  }
+  .vpp-arch-sites {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .vpp-arch-site { display: flex; flex-direction: column; align-items: center; }
+  .vpp-arch-caption {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+    margin-top: 20px;
+    max-width: none;
+  }
+
+  .vpp-roles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+  .vpp-role-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    padding: 24px;
+  }
+  .vpp-role-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+  .vpp-role-card strong { color: var(--color-primary); }
   .vpp-points { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 10px; }
   .vpp-points li {
     font-size: 0.95rem;
@@ -534,7 +605,9 @@ const description =
     .vpp-illust svg { width: 130px; height: 130px; }
     .vpp-hero-title { font-size: 2.1rem; }
     .vpp-flow { width: 200px; }
-    .vpp-audience-card { padding: 24px 20px; }
+    .vpp-roles { grid-template-columns: 1fr; }
+    .vpp-arch { padding: 20px 16px 16px; }
+    .vpp-arch-sites { gap: 12px; }
     .demo-card { padding: 16px; }
   }
   @media (max-width: 480px) {
