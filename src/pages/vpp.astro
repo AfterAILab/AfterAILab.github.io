@@ -86,17 +86,11 @@ const description =
       <p>サーバ側の制御ソフトウェア DERMS と、蓄電池側に置くゲートウェイ EMS の 2 層で動きます</p>
     </div>
 
-    <div class="vpp-arch" role="img" aria-label="周波数信号を受けた DERMS が各拠点の EMS に割当を配分し、EMS が蓄電池を充放電させる構成図">
-      <div class="vpp-arch-input">
-        <span class="vpp-arch-input-label">周波数信号</span>
-        <span class="vpp-arch-input-sub">系統周波数（PoC では模擬信号）</span>
-      </div>
-      <div class="vpp-arch-stub"></div>
-
+    <div class="vpp-arch" role="img" aria-label="DERMS が各拠点の EMS に出力上限を割り当てて死活監視し、各 EMS が周波数を受けて蓄電池を充放電させる構成図">
       <div class="vpp-arch-box vpp-arch-box--core">
         <div class="vpp-arch-kicker">サーバ側</div>
         <div class="vpp-arch-title">DERMS</div>
-        <div class="vpp-arch-desc">フリート制御・割当配分・運用コンソール</div>
+        <div class="vpp-arch-desc">出力上限の割当・死活監視・運用コンソール</div>
       </div>
 
       <div class="vpp-arch-bus"></div>
@@ -107,7 +101,8 @@ const description =
           <div class="vpp-arch-box">
             <div class="vpp-arch-kicker">拠点側ゲートウェイ</div>
             <div class="vpp-arch-title">EMS</div>
-            <div class="vpp-arch-desc">割当を充放電指令に変換</div>
+            <div class="vpp-arch-desc">周波数を受けて充放電指令</div>
+            <div class="vpp-arch-freq">周波数信号 &rarr;</div>
           </div>
           <div class="vpp-arch-stub"></div>
           <div class="vpp-arch-box vpp-arch-box--battery">
@@ -127,7 +122,8 @@ const description =
           <div class="vpp-arch-box">
             <div class="vpp-arch-kicker">拠点側ゲートウェイ</div>
             <div class="vpp-arch-title">EMS</div>
-            <div class="vpp-arch-desc">割当を充放電指令に変換</div>
+            <div class="vpp-arch-desc">周波数を受けて充放電指令</div>
+            <div class="vpp-arch-freq">周波数信号 &rarr;</div>
           </div>
           <div class="vpp-arch-stub"></div>
           <div class="vpp-arch-box vpp-arch-box--battery">
@@ -142,24 +138,23 @@ const description =
           </div>
         </div>
       </div>
-      <p class="vpp-arch-caption">拠点は追加できます。各拠点の実出力は EMS から DERMS に集約され、フリート合計として扱われます。</p>
+      <p class="vpp-arch-caption">周波数（PoC では模擬信号）は各拠点の EMS が受けます。DERMS は各 EMS に出力上限を割り当て、死活監視を行います。拠点は追加できます。</p>
     </div>
 
     <div class="vpp-roles">
       <div class="vpp-role-card">
         <h3>DERMS（サーバ側）</h3>
         <ul class="vpp-points">
-          <li>周波数を受け、登録カーブどおりにフリート全体の出力を決める</li>
-          <li>各拠点の供出可能量に応じて割当を配分する</li>
-          <li>拠点の停止を検知すると、残りの拠点に割当を振り直してフリート出力を保つ</li>
+          <li>各拠点の EMS に出力上限（割当）を配る</li>
+          <li>EMS を死活監視し、停止を検知すると残りの拠点に割当を振り直してフリート出力を保つ</li>
           <li>フリート概要とスケジュールを扱う運用コンソール</li>
         </ul>
       </div>
       <div class="vpp-role-card">
         <h3>EMS（拠点側ゲートウェイ）</h3>
         <ul class="vpp-points">
-          <li>蓄電池のそばに設置し、DERMS からの割当を充放電指令に変換する</li>
-          <li>実出力を計測し、DERMS に報告する</li>
+          <li>蓄電池のそばに設置し、周波数を受けて登録カーブどおりに充放電指令を出す</li>
+          <li>出力は DERMS から割り当てられた上限の範囲内</li>
           <li>EMS が停止した場合は、蓄電池側のウォッチドッグが出力を止める</li>
         </ul>
       </div>
@@ -407,9 +402,16 @@ const description =
     padding: 28px 24px 20px;
     margin: 24px 0;
   }
-  .vpp-arch-input { text-align: center; }
-  .vpp-arch-input-label { display: block; font-size: 0.9rem; font-weight: 600; color: var(--color-text); }
-  .vpp-arch-input-sub { display: block; font-size: 0.75rem; color: var(--color-text-secondary); margin-top: 2px; }
+  .vpp-arch-freq {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    border: 1px dashed var(--color-primary);
+    border-radius: 100px;
+    padding: 2px 10px;
+  }
   .vpp-arch-stub {
     width: 2px;
     height: 18px;
