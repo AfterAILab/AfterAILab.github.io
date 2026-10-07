@@ -102,7 +102,6 @@ const description =
             <div class="vpp-arch-kicker">拠点側ゲートウェイ</div>
             <div class="vpp-arch-title">EMS</div>
             <div class="vpp-arch-desc">周波数を受けて充放電指令</div>
-            <div class="vpp-arch-freq">周波数信号 &rarr;</div>
           </div>
           <div class="vpp-arch-stub"></div>
           <div class="vpp-arch-box vpp-arch-box--battery">
@@ -123,7 +122,6 @@ const description =
             <div class="vpp-arch-kicker">拠点側ゲートウェイ</div>
             <div class="vpp-arch-title">EMS</div>
             <div class="vpp-arch-desc">周波数を受けて充放電指令</div>
-            <div class="vpp-arch-freq">周波数信号 &rarr;</div>
           </div>
           <div class="vpp-arch-stub"></div>
           <div class="vpp-arch-box vpp-arch-box--battery">
@@ -162,8 +160,7 @@ const description =
         <h3>対象範囲</h3>
         <ul class="vpp-points">
           <li>現在の対象は<strong>高圧の一次調整力</strong>（周波数に応じた応動）</li>
-          <li>二次・三次調整力などの他商品や接続区分は、制御パラメータのカスタマイズで対応</li>
-          <li>実機 PoC では 2 拠点・拠点あたり 15 kW（登録量 30 kW）で動作を確認（<a href="#poc">記録を見る</a>）</li>
+          <li>二次・三次調整力などの他商品や接続区分への対応は、制御ソフトウェアの追加開発が必要</li>
         </ul>
       </div>
     </div>
@@ -173,7 +170,7 @@ const description =
   <section class="vpp-section vpp-poc" id="poc">
     <div class="section-head">
       <h2>実機 PoC 結果</h2>
-      <p>工場の試験設備で、AfterAI VPP の制御ソフトウェアが周波数（模擬信号）に応じて実機の蓄電池 2 拠点を動かした記録です。ブラウザでは計算せず、記録値をそのまま再生します。</p>
+      <p>工場の試験設備で、AfterAI VPP の制御ソフトウェアが周波数（模擬信号）に応じて実機の蓄電池 2 拠点を動かした記録です。ブラウザでは計算せず、記録値をそのまま再生しています。</p>
     </div>
 
     <div class="vpp-note" role="note">
@@ -184,7 +181,7 @@ const description =
       </svg>
       <p>
         この PoC は、需給調整市場の<strong>一次調整力</strong>（高圧）向けの応動を対象に実施しました。
-        他の商品（二次・三次調整力など）や接続区分にも、制御パラメータのカスタマイズで対応できます。
+        他の商品（二次・三次調整力など）や接続区分への対応は、制御ソフトウェアの追加開発が必要です。
       </p>
     </div>
 
@@ -401,16 +398,6 @@ const description =
     box-shadow: var(--shadow-card);
     padding: 28px 24px 20px;
     margin: 24px 0;
-  }
-  .vpp-arch-freq {
-    display: inline-block;
-    margin-top: 8px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--color-primary);
-    border: 1px dashed var(--color-primary);
-    border-radius: 100px;
-    padding: 2px 10px;
   }
   .vpp-arch-stub {
     width: 2px;
