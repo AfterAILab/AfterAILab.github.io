@@ -16,7 +16,7 @@ pnpm check     # 型チェック
 
 | パス | 内容 |
 |---|---|
-| `src/pages/index.astro` | トップ(アプリ 3 枚、AfterAI VPP、Weekly 最新号、お問い合わせ) |
+| `src/pages/index.astro` | トップ(アプリ 3 枚、Weekly 最新号、お問い合わせ) |
 | `src/pages/apps.astro` + `src/data/apps.ts` | アプリ一覧。アプリの説明文・URL・アイコンは `apps.ts` を編集 |
 | `src/pages/vpp.astro` | AfterAI VPP の紹介と実機 PoC 結果(`#poc`)。プレイヤーは `public/vpp-demo/` |
 | `src/pages/weekly/` + `src/content/weekly/` | AfterAI Weekly のアーカイブ |
