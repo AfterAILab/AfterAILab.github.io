@@ -1,5 +1,0 @@
-run_id,phase,freq_mhz,epoch_ms
-freq-prequal-a-run-1787294316,baseline,50000,1787294316189
-freq-prequal-a-run-1787294316,abnormal-step,49700,1787294376192
-freq-prequal-a-run-1787294316,back-to-nominal,50000,1787294706207
-freq-prequal-a-run-1787294316,back-at-nominal-hold,50000,1787294766218

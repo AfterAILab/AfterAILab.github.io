@@ -5,46 +5,21 @@
     "use strict";
 
     var BASE = window.VPP_DEMO_BASE || "/assets/vpp-demo/";
-    var SPEEDS = [1, 10, 60];
-    var SITE_COLORS = ["#2a78d6", "#008300", "#d55181", "#c98500"];
+    // Bumped with each bundle export, so a cached page never mixes old and new data.
+    var BUNDLE_VERSION = "2026-10-07";
+    var SPEED = 60;
+    // A sample further than this from the cursor is not shown as current
+    // (the runs are 10 Hz, so 0.5 s means a missing row, not jitter).
+    var SAMPLE_TOL_DS = 5;
     var FLEET_COLOR = "#7a4fd1";
-    var PHASES = {
-        "baseline": "基準（50.00 Hz）",
-        "abnormal-step": "異常時ステップ",
-        "back-to-nominal": "基準へ復帰",
-        "hold-both-healthy": "保持（両拠点正常）",
-        "back-at-nominal-hold": "基準で保持"
-    };
-    var VERDICTS = {
-        within: "2 秒以内",
-        exceeds: "2 秒超",
-        inconclusive: "判定不能（区間が 2 秒をまたぐ）",
-        unmeasured: "遅れ時間を測定できず"
-    };
+    var DOWN_COLOR = "#c98500";
 
-    function verdictLabel(d) {
-        if (d.verdict === "no-output-change") {
-            return Math.abs(d.freq_mhz - 50000) <= 10 ? "出力変化なし（不感帯の内側）" : "出力変化なし";
-        }
-        return VERDICTS[d.verdict];
-    }
-
-    // Pattern b's phases are named for the step: over-30 / down-50 /
-    // nominal-after-….
-    function phaseLabel(phase) {
-        if (PHASES[phase]) { return PHASES[phase]; }
-        var m = /^(over|down)-(\d+)$/.exec(phase);
-        if (m) { return (m[1] === "over" ? "+" : "−") + m[2] + " mHz"; }
-        if (/^nominal-after-/.test(phase)) { return "基準へ復帰"; }
-        return phase;
-    }
-
-    var state = { run: null, cursor: 0, playing: false, speed: 10, last: null, charts: [], generation: 0 };
+    var state = { run: null, cursor: 0, start: 0, playing: false, scrubbing: false, last: null, raf: null, charts: [], generation: 0 };
 
     // ---- data access -------------------------------------------------------
 
     function fetchJson(path) {
-        return fetch(BASE + path).then(function (r) {
+        return fetch(BASE + path + "?v=" + BUNDLE_VERSION).then(function (r) {
             if (!r.ok) { throw new Error(path + ": " + r.status); }
             return r.json();
         });
@@ -60,51 +35,22 @@
         return ans;
     }
 
-    function stepValue(steps, t) {
-        var v = null;
-        for (var i = 0; i < steps.length && steps[i][0] <= t; i++) { v = steps[i]; }
-        return v;
+    // The recorded value at the cursor, or null when there is none close
+    // enough (a stopped EMS, or rows that never arrived).
+    function valueAt(times, values, t) {
+        var i = floorIndex(times, t);
+        if (i < 0 || t - times[i] > SAMPLE_TOL_DS) { return null; }
+        return values[i];
     }
 
-    // A site's recorded sample at the cursor, or null when there is none close
-    // enough (a stopped EMS, or rows that never arrived).
-    function sampleAt(site, t, tolDs) {
-        var s = site.series;
-        var i = floorIndex(s.t_ds, t);
-        if (i < 0 || t - s.t_ds[i] > tolDs) { return null; }
-        return {
-            freq: s.freq_mhz[i], requested: s.requested_w[i], actual: s.actual_w[i],
-            soc: s.soc_pml[i], avail: s.p_avail_w[i]
-        };
+    function stimulusAt(run, t) {
+        var v = run.stimulus[0][1];
+        for (var i = 0; i < run.stimulus.length && run.stimulus[i][0] <= t; i++) { v = run.stimulus[i][1]; }
+        return v;
     }
 
     function inDown(run, siteId, t) {
         return run.downs.some(function (d) { return d.site === siteId && d.start_ds < t && t < d.end_ds; });
-    }
-
-    // Recorded runs carry DERMS's published assignments; field runs carry
-    // values read back from the curve, null where they cannot be told.
-    // Field runs carry the inference as change points over every sample, so
-    // a step holds exactly while its samples can be inferred; with no sample
-    // at the cursor there is nothing to infer from.
-    function assignmentAt(run, site, t) {
-        if (run.assignment_source === "recorded") {
-            var a = stepValue(site.assignment, t);
-            return a ? { value: a[1], inferred: false } : null;
-        }
-        if (!sampleAt(site, t, 5)) { return { value: null, inferred: true }; }
-        var step = stepValue(site.assignment_inferred, t);
-        return { value: step ? step[1] : null, inferred: true };
-    }
-
-    function cutWindow(run, siteId) {
-        if (!run.events) { return null; }
-        var cut = null, restore = null;
-        run.events.forEach(function (e) {
-            if (e[1] === "cut " + siteId) { cut = e[0]; }
-            if (e[1] === "restore " + siteId) { restore = e[0]; }
-        });
-        return cut === null ? null : [cut, restore === null ? Infinity : restore];
     }
 
     // ---- formatting --------------------------------------------------------
@@ -165,10 +111,10 @@
         });
         niceTicks(0, s.duration / 600, 6).forEach(function (min) {
             var x = self.x(min * 600);
-            c.fillText(clock(min * 600), x - 12, self.h - 6);
+            c.fillText(clock(min * 600), Math.min(x - 12, self.w - c.measureText(clock(min * 600)).width - 2), self.h - 6);
         });
         (s.shades || []).forEach(function (r) {
-            c.fillStyle = "rgba(128,128,128,0.18)";
+            c.fillStyle = "rgba(201,133,0,0.16)";
             c.fillRect(self.x(r[0]), self.pad.t, self.x(r[1]) - self.x(r[0]), self.h - self.pad.t - self.pad.b);
         });
         (s.bands || []).forEach(function (b) {
@@ -181,18 +127,10 @@
             c.beginPath(); c.moveTo(x0, self.y(b.lo)); c.lineTo(x1, self.y(b.lo)); c.stroke();
             c.setLineDash([]);
         });
-        (s.markers || []).forEach(function (m) {
-            var x = self.x(m.t);
-            c.strokeStyle = text; c.setLineDash([2, 3]);
-            c.beginPath(); c.moveTo(x, self.pad.t); c.lineTo(x, self.h - self.pad.b); c.stroke();
-            c.setLineDash([]);
-            c.fillStyle = text; c.fillText(m.label, x + 3, self.pad.t + 10);
-        });
         s.series.forEach(function (ser) {
-            c.strokeStyle = ser.color; c.lineWidth = ser.width || 1.5;
-            c.setLineDash(ser.dash || []);
+            // A theme token ("--color-text") resolves here, so a re-theme redraws it.
+            c.strokeStyle = ser.color.indexOf("--") === 0 ? css(ser.color) : ser.color; c.lineWidth = ser.width || 1.5;
             drawLine(c, self, ser.points, ser.step, ser.gapDs);
-            c.setLineDash([]);
         });
     };
 
@@ -247,72 +185,48 @@
 
     // ---- run view ----------------------------------------------------------
 
+    // The output panel shows the fleet sum against the band only: per-site
+    // lines overlap too much to read, and the schematic carries them.
     function buildCharts(run, host) {
         var dur = run.duration_ds;
-        var siteTol = run.kind === "field" ? 5 : 15;
-        var stimulus = run.stimulus.map(function (s) { return [s[0], s[1]]; });
-
-        var freqSeries = [{ points: stimulus, color: css("--color-text"), width: 1.6, step: true }];
-        var freqVals = stimulus.map(function (s) { return s[1]; });
-        var fr = range(freqVals.concat([50000]), 0.15);
+        var stimulus = run.stimulus;
+        var fr = range(stimulus.map(function (s) { return s[1]; }).concat([50000]), 0.15);
         if (fr[1] - fr[0] < 60) { fr = [fr[0] - 30, fr[1] + 30]; }
 
-        var outSeries = [], outVals = [];
-        run.sites.forEach(function (site, i) {
-            var pts = site.series.t_ds.map(function (t, j) { return [t, site.series.actual_w[j]]; });
-            outSeries.push({ points: pts, color: SITE_COLORS[i % SITE_COLORS.length], width: 1.3, gapDs: siteTol * 2 });
-            outVals = outVals.concat(site.series.actual_w);
+        var outVals = run.fleet.map(function (p) { return p[1]; });
+        var bands = run.band.map(function (b, i) {
+            outVals.push(b[1], b[2]);
+            return { t0: b[0], t1: i + 1 < run.band.length ? run.band[i + 1][0] : dur, lo: b[1], hi: b[2] };
         });
-        outSeries.push({ points: run.fleet, color: FLEET_COLOR, width: 2, gapDs: siteTol * 2 });
-        outVals = outVals.concat(run.fleet.map(function (p) { return p[1]; }));
-        var bands = [];
-        if (run.band) {
-            run.band.forEach(function (b, i) {
-                var t1 = i + 1 < run.band.length ? run.band[i + 1][0] : dur;
-                bands.push({ t0: b[0], t1: t1, lo: b[1], hi: b[2] });
-                outVals.push(b[1], b[2]);
-            });
-        }
-        if (run.fleet_ideal_w !== undefined) {
-            outSeries.push({ points: [[0, run.fleet_ideal_w], [dur, run.fleet_ideal_w]], color: FLEET_COLOR, width: 1, dash: [5, 4] });
-            outVals.push(run.fleet_ideal_w);
-        }
-        var shades = run.downs.map(function (d) { return [d.start_ds, d.end_ds]; });
-        var markers = (run.events || []).filter(function (e) { return e[1] !== "steady" && e[1] !== "end"; })
-            .map(function (e) { return { t: e[0], label: eventLabel(e[1]) }; });
         var or = range(outVals.concat([0]), 0.08);
-
-        var socSeries = run.sites.map(function (site, i) {
-            return {
-                points: site.series.t_ds.map(function (t, j) { return [t, site.series.soc_pml[j] / 10]; }),
-                color: SITE_COLORS[i % SITE_COLORS.length], width: 1.3, gapDs: siteTol * 2
-            };
-        });
+        var shades = run.downs.map(function (d) { return [d.start_ds, d.end_ds]; });
+        var downSites = run.downs.map(function (d) { return d.site; })
+            .filter(function (s, i, all) { return all.indexOf(s) === i; });
 
         var defs = [
-            { title: "周波数", legend: [["記録された刺激（模擬信号）", css("--color-text")]],
-              spec: { duration: dur, ymin: fr[0], ymax: fr[1], fmt: function (v) { return (v / 1000).toFixed(2); }, series: freqSeries, markers: markers } },
-            { title: "出力（正 = 放電、負 = 充電）", tall: true,
-              legend: run.sites.map(function (s, i) { return [s.id + " 実測", SITE_COLORS[i % SITE_COLORS.length]]; })
-                .concat([["フリート合計", FLEET_COLOR]])
-                .concat(run.band ? [["許容範囲" + (run.pattern === "a" ? "（下限のみ）" : ""), "rgba(122,79,209,0.35)"]] : [])
-                .concat(run.fleet_ideal_w !== undefined ? [["登録カーブ上の理論値（フリート）", FLEET_COLOR]] : [])
-                .concat(shades.length ? [["拠点停止中（記録なし）", "rgba(128,128,128,0.4)"]] : []),
-              spec: { duration: dur, ymin: or[0], ymax: or[1], fmt: function (v) { return (v / 1000).toFixed(0) + " kW"; }, series: outSeries, bands: bands, shades: shades, markers: markers } },
-            { title: "蓄電池 SoC", legend: run.sites.map(function (s, i) { return [s.id, SITE_COLORS[i % SITE_COLORS.length]]; }),
-              spec: { duration: dur, ymin: 0, ymax: 100, fmt: function (v) { return v + " %"; }, series: socSeries, markers: markers } }
+            { title: "周波数（模擬信号）", cls: "freq", legend: [],
+              spec: { duration: dur, ymin: fr[0], ymax: fr[1], fmt: function (v) { return (v / 1000).toFixed(2); },
+                      series: [{ points: stimulus, color: "--color-text", width: 1.6, step: true }] } },
+            { title: "フリート出力（正 = 放電）", cls: "out",
+              legend: [["フリート合計（実測）", FLEET_COLOR],
+                       // The margin is 10 % of the fleet's supply capability, a fixed width, not 10 % of the value.
+                       [run.pattern === "a" ? "許容範囲（下限のみ）" : "許容範囲（理論値 ± " + kw(run.registered_w / 10) + "）", "rgba(122,79,209,0.35)"]]
+                  .concat(downSites.map(function (s) { return [s + " 停止中（0 W で合計・残留出力は未記録）", "rgba(201,133,0,0.45)"]; })),
+              spec: { duration: dur, ymin: or[0], ymax: or[1], fmt: function (v) { return (v / 1000).toFixed(0) + " kW"; },
+                      series: [{ points: run.fleet, color: FLEET_COLOR, width: 2, gapDs: 2 * SAMPLE_TOL_DS }],
+                      bands: bands, shades: shades } }
         ];
         state.charts = defs.map(function (d) {
-            host.appendChild(el("div", { "class": "demo-chart-title" }, d.title));
-            var legend = el("div", { "class": "demo-legend" });
+            var head = el("div", { "class": "demo-chart-head" });
+            head.appendChild(el("span", { "class": "demo-chart-title" }, d.title));
             d.legend.forEach(function (l) {
-                var item = el("span");
+                var item = el("span", { "class": "demo-legend" });
                 var sw = el("i"); sw.style.background = l[1];
                 item.appendChild(sw); item.appendChild(document.createTextNode(l[0]));
-                legend.appendChild(item);
+                head.appendChild(item);
             });
-            host.appendChild(legend);
-            var canvas = el("canvas", { "class": "demo-chart" + (d.tall ? " tall" : ""), role: "img", "aria-label": d.title });
+            host.appendChild(head);
+            var canvas = el("canvas", { "class": "demo-chart " + d.cls, role: "img", "aria-label": d.title });
             host.appendChild(canvas);
             var chart = new Chart(canvas, d.spec);
             canvas.addEventListener("click", function (ev) {
@@ -325,59 +239,39 @@
         state.charts.forEach(function (c) { c.layout(); });
     }
 
-    function eventLabel(name) {
-        if (name.indexOf("cut ") === 0) { return name.slice(4) + " 回線断"; }
-        if (name.indexOf("restore ") === 0) { return name.slice(8) + " 回線復旧"; }
-        if (/ empty$/.test(name)) { return name.replace(" empty", "") + " SoC 0%"; }
-        return name;
-    }
-
+    // Frequency feeds every site; the sites sum to the fleet.
     function schematic(run, t) {
-        var tol = run.kind === "field" ? 5 : 15;
-        var stim = stepValue(run.stimulus, t);
-        var freq = stim ? stim[1] : run.stimulus[0][1];
         var text = css("--color-text"), sub = css("--color-text-secondary"), border = css("--color-border");
         var surface = css("--color-surface"), primary = css("--color-primary");
-        var n = run.sites.length, W = 720, rowH = 92, H = Math.max(220, 40 + n * rowH);
-        var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="周波数・拠点・DERMS の現在値">';
-        svg += box(10, H / 2 - 40, 150, 80, surface, border);
-        svg += label(85, H / 2 - 14, "周波数", sub, 12);
-        svg += label(85, H / 2 + 10, hz(freq), text, 18, 700);
-        svg += label(85, H / 2 + 30, run.kind === "field" ? "模擬信号（HTTP）" : "模擬（一定）", sub, 11);
-        svg += box(560, H / 2 - 40, 150, 80, surface, border);
-        svg += label(635, H / 2 - 14, "DERMS", text, 14, 700);
-        svg += label(635, H / 2 + 8, run.assignment_source === "recorded" ? "割当（記録値）" : "割当（推定値）", sub, 11);
+        var W = 240, H = 300, n = run.sites.length, gap = 10;
+        var siteW = (W - 8 - gap * (n - 1)) / n, siteY = 104, siteH = 86;
+        var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="周波数・拠点・フリート合計の現在値">';
+        svg += box(20, 4, 200, 66, surface, border);
+        svg += label(120, 26, "周波数（模擬信号）", sub, 12);
+        svg += label(120, 56, hz(stimulusAt(run, t)), text, 22, 700);
+        var anyDown = false;
         run.sites.forEach(function (site, i) {
-            var y = 20 + i * rowH + (H - 40 - n * rowH) / 2;
-            var color = SITE_COLORS[i % SITE_COLORS.length];
-            var smp = sampleAt(site, t, tol);
-            var cut = cutWindow(run, site.id);
+            var x = 4 + i * (siteW + gap), cx = x + siteW / 2;
+            var down = inDown(run, site.id, t);
+            // A stopped site counts as 0 W in the fleet sum, so it shows no output of its own (ADR-084).
+            var w = down ? null : valueAt(site.series.t_ds, site.series.actual_w, t);
             var status, statusColor = sub;
-            if (inDown(run, site.id, t)) { status = "停止中（記録なし）"; }
-            else if (!smp) { status = "記録なし"; }
-            else if (cut && t >= cut[0] && t < cut[1]) {
-                status = smp.requested === 0 ? "回線断 → 安全停止（AVAIL-01）" : "回線断：最後の割当で応動中";
-                statusColor = "#c98500";
-            } else if (smp.actual === 0 && smp.avail === 0) { status = "SoC 下限：放電可能電力 0"; }
-            else if (smp.actual > 0) { status = "放電"; statusColor = color; }
-            else if (smp.actual < 0) { status = "充電"; statusColor = color; }
+            if (down) { status = "停止中"; statusColor = DOWN_COLOR; anyDown = true; }
+            else if (w === null) { status = "記録なし"; }
+            else if (w > 0) { status = "放電"; statusColor = primary; }
+            else if (w < 0) { status = "充電"; statusColor = primary; }
             else { status = "待機"; }
-            svg += line(160, H / 2, 195, y + 36, border);
-            svg += line(525, y + 36, 560, H / 2, border);
-            svg += box(195, y, 330, 72, surface, color);
-            svg += label(207, y + 18, site.id, text, 13, 700, "start");
-            svg += label(513, y + 18, status, statusColor, 11, 600, "end");
-            svg += label(207, y + 42, "出力 " + kw(smp ? smp.actual : null), text, 15, 600, "start");
-            var soc = smp ? smp.soc / 10 : null;
-            svg += '<rect x="207" y="' + (y + 52) + '" width="200" height="8" rx="4" fill="' + border + '"/>';
-            if (soc !== null) {
-                svg += '<rect x="207" y="' + (y + 52) + '" width="' + (2 * soc).toFixed(1) + '" height="8" rx="4" fill="' + color + '"/>';
-            }
-            svg += label(415, y + 60, "SoC " + (soc === null ? "—" : soc.toFixed(1) + " %"), sub, 11, 400, "start");
-            var a = assignmentAt(run, site, t);
-            var aText = !a || a.value === null ? "不明" : kw(a.value);
-            svg += label(635, H / 2 + 22 + i * 16, site.id + "：" + aText, a && a.value !== null ? primary : sub, 11);
+            svg += line(120, 70, cx, siteY, border);
+            svg += line(cx, siteY + siteH, 120, 224, border);
+            svg += box(x, siteY, siteW, siteH, surface, statusColor === sub ? border : statusColor);
+            svg += label(cx, siteY + 20, site.id, text, 12, 700);
+            svg += label(cx, siteY + 50, kw(w), text, 18, 700);
+            svg += label(cx, siteY + 72, status, statusColor, 11, 600);
         });
+        svg += box(20, 224, 200, 72, surface, FLEET_COLOR);
+        svg += label(120, 244, "フリート合計", sub, 12);
+        svg += label(120, 272, kw(valueAt(state.fleetT, state.fleetW, t)), FLEET_COLOR, 22, 700);
+        if (anyDown) { svg += label(120, 289, "停止中の拠点は 0 W で合計", DOWN_COLOR, 10); }
         return svg + "</svg>";
     }
     function box(x, y, w, h, fill, stroke) {
@@ -386,9 +280,9 @@
     function line(x1, y1, x2, y2, color) {
         return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' + color + '" stroke-width="1.5"/>';
     }
-    function label(x, y, s, color, size, weight, anchor) {
+    function label(x, y, s, color, size, weight) {
         return '<text x="' + x + '" y="' + y + '" fill="' + color + '" font-size="' + size + '" font-weight="' + (weight || 400) +
-            '" text-anchor="' + (anchor || "middle") + '" font-family="Inter, system-ui, sans-serif">' + escapeXml(s) + "</text>";
+            '" text-anchor="middle" font-family="Inter, system-ui, sans-serif">' + escapeXml(s) + "</text>";
     }
     function escapeXml(s) { return String(s).replace(/[<>&"]/g, function (c) { return { "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }[c]; }); }
 
@@ -396,101 +290,55 @@
         var host = document.getElementById("demo-run");
         host.innerHTML = "";
         state.run = run;
-        // Start on the first recorded sample, not the empty lead-in.
-        state.cursor = Math.min.apply(null, run.sites.map(function (x) { return x.series.t_ds[0]; }));
-        state.playing = false;
+        state.fleetT = run.fleet.map(function (p) { return p[0]; });
+        state.fleetW = run.fleet.map(function (p) { return p[1]; });
+        // Start (and loop back to) the first recorded sample, not the empty lead-in.
+        state.start = Math.min.apply(null, run.sites.map(function (x) { return x.series.t_ds[0]; }));
+        state.cursor = state.start;
 
-        host.appendChild(el("h2", { style: "font-size:1.25rem;" }, run.title));
-        host.appendChild(el("p", { "class": "demo-summary" }, run.summary));
-        host.appendChild(el("p", { "class": "demo-meta" },
-            "記録日 " + run.date + "　・　フリート登録量 " + kw(run.registered_w) + "　・　拠点 " + run.sites.length));
-        host.appendChild(el("div", { "class": "demo-provenance" + (run.kind === "sim" ? " sim" : "") }, run.label));
-        var notes = el("ul", { "class": "demo-notes" });
-        notesFor(run).forEach(function (n) { notes.appendChild(el("li", {}, n)); });
-        host.appendChild(notes);
+        host.appendChild(el("p", { "class": "demo-provenance" },
+            run.label + "　記録日 " + run.date + "・フリート登録量 " + kw(run.registered_w) + "・拠点 " + run.sites.length));
 
         var controls = el("div", { "class": "demo-controls" });
-        var play = el("button", { type: "button" }, "再生");
-        play.addEventListener("click", function () { togglePlay(play); });
+        var play = el("button", { type: "button" });
+        play.addEventListener("click", togglePlay);
         controls.appendChild(play);
-        SPEEDS.forEach(function (s) {
-            var b = el("button", { type: "button", "aria-pressed": String(s === state.speed), "data-speed": String(s) }, "×" + s);
-            b.addEventListener("click", function () {
-                state.speed = s;
-                controls.querySelectorAll("[data-speed]").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
-                update();
-            });
-            controls.appendChild(b);
-        });
         var scrub = el("input", { type: "range", min: "0", max: String(run.duration_ds), value: "0", step: "1", "aria-label": "再生位置" });
         scrub.addEventListener("input", function () { seek(Number(scrub.value)); });
+        // While the thumb is held, playback holds too, so the thumb stays under the pointer.
+        scrub.addEventListener("pointerdown", function () { state.scrubbing = true; });
         controls.appendChild(scrub);
         var clk = el("span", { "class": "demo-clock" });
         controls.appendChild(clk);
-        var flag = el("span", { "class": "demo-speed-flag" });
-        controls.appendChild(flag);
+        controls.appendChild(el("span", { "class": "demo-speed-flag" }, "×" + SPEED + " 早送り"));
         host.appendChild(controls);
 
+        var stage = el("div", { "class": "demo-stage" });
         var sch = el("div", { "class": "demo-schematic" });
-        host.appendChild(sch);
-        var charts = el("div");
-        host.appendChild(charts);
+        stage.appendChild(sch);
+        var charts = el("div", { "class": "demo-charts" });
+        stage.appendChild(charts);
+        host.appendChild(stage);
         buildCharts(run, charts);
 
-        if (run.delays && run.delays.length) {
-            host.appendChild(el("div", { "class": "demo-chart-title" }, "遅れ時間（周波数変化から出力変化まで、要件 ≤ 2 秒）"));
-            host.appendChild(el("p", { "class": "demo-meta" },
-                "拠点の時計と刺激側の時計のずれ（誤差幅つき）を考慮した区間で示します。区間が 2 秒をまたぐ場合は判定できません。"));
-            var table = el("table", { "class": "demo-table" });
-            var head = el("tr");
-            ["拠点", "変化", "周波数", "遅れ時間の区間", "判定"].forEach(function (h) { head.appendChild(el("th", {}, h)); });
-            table.appendChild(head);
-            run.delays.forEach(function (d) {
-                var tr = el("tr");
-                tr.appendChild(el("td", {}, d.site));
-                tr.appendChild(el("td", {}, phaseLabel(d.phase)));
-                tr.appendChild(el("td", { "class": "num" }, hz(d.freq_mhz)));
-                tr.appendChild(el("td", { "class": "num" }, d.lo_ms === null ? "—" : (d.lo_ms / 1000).toFixed(2) + "〜" + (d.hi_ms / 1000).toFixed(2) + " 秒"));
-                tr.appendChild(el("td", {}, verdictLabel(d)));
-                table.appendChild(tr);
-            });
-            host.appendChild(table);
-        }
+        var notes = el("ul", { "class": "demo-notes" });
+        notes.appendChild(el("li", {}, run.summary));
+        notesFor(run).forEach(function (n) { notes.appendChild(el("li", {}, n)); });
+        host.appendChild(notes);
 
-        var dl = el("p", { "class": "demo-downloads", style: "margin-top:14px;" });
-        dl.appendChild(el("span", { "class": "demo-meta", style: "margin-right:10px;" }, "記録データ（CSV）："));
-        run.downloads.forEach(function (p) {
-            var a = el("a", { href: BASE + p, download: "" }, p.split("/").pop());
-            dl.appendChild(a);
-        });
-        host.appendChild(dl);
-
-        state.view = { play: play, scrub: scrub, clock: clk, flag: flag, schematic: sch };
+        state.view = { play: play, scrub: scrub, clock: clk, schematic: sch };
+        state.playing = true;
+        state.last = null;
+        startLoop();
         update();
     }
 
     function notesFor(run) {
-        var notes = [];
-        if (run.kind === "field") {
-            notes.push("グラフの値は記録そのものです。拠点ごとの時刻は、刺激側の時計とのずれを補正しています。");
-            if (run.pattern === "a") { notes.push("異常時の許容範囲は「供出可能量 − 10%」以上の下限だけです（上限はありません）。"); }
-            else { notes.push("許容範囲は、登録カーブ上の理論値 ± 供出可能量の 10% です。不感帯（±10 mHz）の内側は評価の対象外で、その区間の帯は参考表示です。"); }
-            notes.push("DERMS の割当は記録されていないため、指令値から逆算した推定値です。不感帯の内側や出力の上限に達しているときは「不明」と表示します。");
-        } else {
-            notes.push("電池は emu-mock のモデル（100 kWh、損失なし、指令どおりに即時応答）で、実機ではありません。");
-            notes.push("DERMS の割当は、DERMS が実際に配信した記録値です。");
-        }
+        var notes = ["グラフの値は記録そのものです。拠点の時刻は、刺激側の時計とのずれを補正しています。"];
+        if (run.pattern === "a") { notes.push("許容範囲は、周波数が 0.2 Hz を超えて低下している間だけの下限（供出可能量 − 10%）です。"); }
+        else { notes.push("許容範囲は、登録カーブ上の理論値 ± 供出可能量の 10% です。不感帯（±10 mHz）の内側は参考表示です。"); }
         if (run.downs.length) {
             notes.push("停止中の拠点はフリート合計で 0 W として扱います。EMS 停止から蓄電池側のウォッチドッグが出力を止めるまでの残留出力は記録されていません。");
-        }
-        if (run.pattern === "cloud-loss") {
-            notes.push("回線断中、DERMS は site-002 の分担を site-001 に移します。一方 site-002 も最後の割当で応動を続けるため、安全停止までの間はフリート合計が理論値を上回ります。");
-            notes.push("site-002 が安全停止したあとは、site-001 が定格 50 kW の分担で応動するため、回線が戻るまでフリート合計は理論値を下回ります。");
-            notes.push("回線断中の site-002 の値は、回線復旧後にさかのぼって送られた記録です。");
-            notes.push("DERMS の欄は DERMS が配信した割当です。回線断中に配信された site-002 の割当 0 W は site-002 に届いておらず、site-002 は最後に受け取った割当で動いています。");
-        }
-        if (run.pattern === "soc-depletion") {
-            notes.push("site-001 が空になると、DERMS はその分担を site-002 に移します。site-002 は定格 50 kW で頭打ちになるため、フリート合計は理論値（60 kW）に届きません。");
         }
         return notes;
     }
@@ -498,9 +346,8 @@
     function update() {
         var run = state.run, v = state.view;
         if (!run || !v) { return; }
-        v.scrub.value = String(Math.round(state.cursor));
+        if (!state.scrubbing) { v.scrub.value = String(Math.round(state.cursor)); }
         v.clock.textContent = clock(state.cursor) + " / " + clock(run.duration_ds);
-        v.flag.textContent = state.speed === 1 ? "" : "×" + state.speed + " 早送り";
         v.play.textContent = state.playing ? "一時停止" : "再生";
         v.schematic.innerHTML = schematic(run, state.cursor);
         state.charts.forEach(function (c) { c.draw(state.cursor); });
@@ -509,22 +356,28 @@
     function seek(t) { state.cursor = t; update(); }
 
     function togglePlay() {
-        if (state.cursor >= state.run.duration_ds) { state.cursor = 0; }
         state.playing = !state.playing;
         state.last = null;
-        if (state.playing) { requestAnimationFrame(tick); }
+        startLoop();
         update();
     }
 
+    // One animation loop at most, however often playback is (re)started.
+    function startLoop() {
+        if (state.playing && state.raf === null) { state.raf = requestAnimationFrame(tick); }
+    }
+
     function tick(now) {
+        state.raf = null;
         if (!state.playing) { return; }
-        if (state.last !== null) {
-            state.cursor += ((now - state.last) / 100) * state.speed;
-            if (state.cursor >= state.run.duration_ds) { state.cursor = state.run.duration_ds; state.playing = false; }
+        if (state.last !== null && !state.scrubbing) {
+            // A frame gap (a hidden tab) resumes where it left off instead of jumping.
+            state.cursor += (Math.min(now - state.last, 100) / 100) * SPEED;
+            if (state.cursor >= state.run.duration_ds) { state.cursor = state.start; }
         }
         state.last = now;
         update();
-        if (state.playing) { requestAnimationFrame(tick); }
+        startLoop();
     }
 
     // ---- boot --------------------------------------------------------------
@@ -534,7 +387,6 @@
         fetchJson("index.json").then(function (index) {
             index.runs.forEach(function (r, i) {
                 var b = el("button", { type: "button", role: "tab", "class": "demo-tab", "aria-selected": String(i === 0) }, r.title);
-                b.appendChild(el("span", { "class": "kind" }, r.kind === "field" ? "実機記録" : "模擬"));
                 b.addEventListener("click", function () {
                     tabs.querySelectorAll(".demo-tab").forEach(function (x) { x.setAttribute("aria-selected", String(x === b)); });
                     load(r.id);
@@ -543,11 +395,26 @@
             });
             if (index.runs.length) { load(index.runs[0].id); }
         }).catch(fail);
+        window.addEventListener("pointerup", releaseScrub);
+        window.addEventListener("pointercancel", releaseScrub);
         var resizeTimer = null;
         window.addEventListener("resize", function () {
             clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function () { state.charts.forEach(function (c) { c.layout(); }); update(); }, 150);
+            resizeTimer = setTimeout(relayout, 150);
         });
+        // The layout re-themes the page by time of day; the charts cache its colours.
+        new MutationObserver(relayout).observe(document.body, { attributes: true, attributeFilter: ["data-slot"] });
+    }
+
+    function relayout() {
+        state.charts.forEach(function (c) { c.layout(); });
+        update();
+    }
+
+    function releaseScrub() {
+        if (!state.scrubbing) { return; }
+        state.scrubbing = false;
+        update();
     }
 
     // Only the most recent selection may render: an earlier fetch that
@@ -563,6 +430,9 @@
     }
 
     function fail(err) {
+        state.playing = false;
+        state.charts = [];
+        state.view = null;
         var host = document.getElementById("demo-run");
         host.innerHTML = "";
         host.appendChild(el("p", { "class": "demo-error" }, "記録を読み込めませんでした（" + err.message + "）。"));
