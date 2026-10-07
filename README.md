@@ -24,12 +24,14 @@ pnpm check     # 型チェック
 | `src/layouts/Base.astro` / `src/styles/global.css` | 共通レイアウト、ライト/ダークのデザイントークン |
 | `astro.config.mjs` | 旧 URL(`/ja/*`、`/vpp/demo/` など)からのリダイレクト |
 | `_admin/` | 印刷用など運用メモ(サイトには含まれない) |
+| `scripts/` | 画像の前処理。`weekly-images.sh`(Weekly 画像の縮小・WebP 生成)、`og-images.sh`(/apps/ /vpp/ /about/ の OG 画像を合成) |
 
 ## Weekly に新しい号を追加する
 
 1. 画像を `public/img/weekly/ja/volN-ja.jpg` に置く(無ければ `public/img/weekly/en/volN-en.jpg` が使われる)。
-2. `src/content/weekly/issues.json` に `{ "id": "volN", "number": N, "slug": "volN" }` を追加する。
-3. 文字起こしがあれば `src/content/weekly/transcriptions/volN.md` を置く(任意)。
+2. `scripts/weekly-images.sh volN` を実行する(要 `brew install imagemagick webp`)。JPG を幅 1600px に縮小し、一覧・号ページが使う WebP(400/800/1600px)を隣に生成する。生成物も一緒にコミットする。
+3. `src/content/weekly/issues.json` に `{ "id": "volN", "number": N, "slug": "volN" }` を追加する。
+4. 文字起こしがあれば `src/content/weekly/transcriptions/volN.md` を置く(任意)。
 
 ## デプロイ
 

@@ -1,7 +1,7 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { getTranscription, getWeeklyIssues, type WeeklyIssue } from '../../lib/weekly';
+import { getTranscription, getWeeklyIssues, webpSrcset, type WeeklyIssue } from '../../lib/weekly';
 
 export async function getStaticPaths() {
   const issues = await getWeeklyIssues(); // newest first
@@ -39,10 +39,19 @@ const description = `AIとテクノロジーの手書きニュースレター「
     </header>
 
     <figure class="issue-image">
-      <a href={issue.image} title="画像を開く">
-        <img src={issue.image} alt={issue.title} decoding="async" />
+      <a href={issue.image} title="大きな画像を開く">
+        <img
+          src={issue.webp[800]}
+          srcset={webpSrcset(issue, [800, 1600])}
+          sizes="(max-width: 840px) 100vw, 800px"
+          width="1600"
+          height="2275"
+          alt={issue.title}
+          decoding="async"
+          fetchpriority="high"
+        />
       </a>
-      <figcaption class="muted small">画像をクリックすると原寸で開きます</figcaption>
+      <figcaption class="muted small">画像をクリックすると大きな画像(幅 1600px)で開きます</figcaption>
     </figure>
 
     {Transcription && (
