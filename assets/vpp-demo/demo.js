@@ -6,7 +6,7 @@
 
     var BASE = window.VPP_DEMO_BASE || "/assets/vpp-demo/";
     // Bumped with each bundle export, so a cached page never mixes old and new data.
-    var BUNDLE_VERSION = "2026-10-07";
+    var BUNDLE_VERSION = "2026-10-07.2";
     var SPEED = 60;
     // A sample further than this from the cursor is not shown as current
     // (the runs are 10 Hz, so 0.5 s means a missing row, not jitter).
@@ -296,8 +296,13 @@
         state.start = Math.min.apply(null, run.sites.map(function (x) { return x.series.t_ds[0]; }));
         state.cursor = state.start;
 
-        host.appendChild(el("p", { "class": "demo-provenance" },
-            run.label + "　記録日 " + run.date + "・フリート登録量 " + kw(run.registered_w) + "・拠点 " + run.sites.length));
+        // Each fact stays on one line; the line may break between them.
+        var provenance = el("p", { "class": "demo-provenance" }, run.label + "　");
+        ["記録日 " + run.date, "フリート登録量 " + kw(run.registered_w), "拠点 " + run.sites.length].forEach(function (fact, i) {
+            if (i > 0) { provenance.appendChild(document.createTextNode("・")); }
+            provenance.appendChild(el("span", { "class": "demo-fact" }, fact));
+        });
+        host.appendChild(provenance);
 
         var controls = el("div", { "class": "demo-controls" });
         var play = el("button", { type: "button" });
