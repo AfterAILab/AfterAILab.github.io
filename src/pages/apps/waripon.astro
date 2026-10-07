@@ -1,0 +1,151 @@
+---
+import Base from '../../layouts/Base.astro';
+import { apps } from '../../data/apps';
+
+const app = apps.find((a) => a.id === 'waripon')!;
+---
+<Base
+  title="わりぽん"
+  description="夫婦・カップルのための割り勘アプリ「わりぽん」。払った・受け取ったを書き留めるだけで月末の精算額がわかります。毎月の定期項目だけでなく、特定の月だけ発生する支払いや給付金などの受け取りにも対応。"
+  current="/apps/"
+  ogImage={app.icon}
+>
+  <article class="app-page">
+    <nav class="crumbs small muted" aria-label="パンくず">
+      <a href="/apps/">アプリ</a> <span aria-hidden="true">/</span> わりぽん
+    </nav>
+
+    <header class="app-hero">
+      <img src={app.icon} alt="" width="96" height="96" />
+      <div class="app-hero-text">
+        <span class="eyebrow">ふたり暮らしの割り勘</span>
+        <h1>わりぽん</h1>
+        <p class="lead">{app.tagline}</p>
+        <p>
+          夫婦・カップルのための割り勘アプリです。それぞれが払った生活費を書き留めていくと、
+          月末に「どちらがいくら渡せば折半になるか」を計算します。
+        </p>
+        <div class="app-hero-actions">
+          <a class="btn" href={app.url} target="_blank" rel="noopener">わりぽんを開く &rarr;</a>
+          <span class="small muted">Google でサインイン。ブラウザで開くだけで使えます。</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="feature">
+      <div class="feature-text">
+        <span class="eyebrow">月末の精算</span>
+        <h2>書き留めるだけで、渡す金額がわかる</h2>
+        <p>
+          それぞれが払ったものを「払った」に書いていくと、その月に「誰が誰にいくら渡せば折半になるか」を計算して表示します。
+          相手の分を全額立て替えた項目は「相手の分」として記録でき、折半ではなく全額が相手の負担になります。
+        </p>
+        <p>
+          精算が済んだら「精算する」を押すだけ。精算済みの月はあとから書き換わらないよう保護されます。
+        </p>
+      </div>
+      <figure class="shot">
+        <img src="/img/apps/waripon/settlement.png" alt="2026年9月の精算画面。そらがあおいに 76,880 円渡すと折半になると表示され、その下に払った項目の一覧が並ぶ" width="720" height="683" loading="lazy" />
+      </figure>
+    </section>
+
+    <section class="feature feature-wide">
+      <div class="feature-text">
+        <span class="eyebrow">定期項目</span>
+        <h2>毎月のものも、特定の月だけのものも</h2>
+        <p>
+          家賃やインターネット代のような毎月の支払いは、定期項目として一度登録すれば毎月自動で載ります。
+          金額が月ごとに変わるものは金額を空けておき、請求が来たときに書き込めます。
+        </p>
+        <p>
+          2 か月に一度の水道代、年に数回の保険料や税金のように<strong>特定の月だけ発生する支払い</strong>は、対象の月にチェックを入れるだけ。
+          その月になると自動で項目が作られ、それ以外の月には現れません。
+        </p>
+      </div>
+      <div class="shot-pair">
+        <figure class="shot">
+          <img src="/img/apps/waripon/recurring-list.png" alt="定期項目の一覧。家賃・電気代・インターネットは毎月、水道代は 1月・3月・5月・7月・9月・11月と表示されている" width="720" height="1207" loading="lazy" />
+          <figcaption>定期項目の一覧</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="/img/apps/waripon/recurring-edit.png" alt="定期項目の編集画面。繰り返しを「特定の月」にして、対象月のチェックボックスで 1月・3月・5月・7月・9月・11月を選んでいる" width="720" height="1207" loading="lazy" />
+          <figcaption>対象月を選ぶ</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="feature">
+      <div class="feature-text">
+        <span class="eyebrow">受け取り</span>
+        <h2>給付金や返金も、そのまま折半に</h2>
+        <p>
+          家計に入ってくるお金もあります。給付金、返金、祝い金。
+          「受け取った」に書いておくと、支払いと同じように折半の計算に含まれ、
+          受け取った半分が月末の精算で自然に相手へ渡ります。
+        </p>
+      </div>
+      <figure class="shot">
+        <img src="/img/apps/waripon/received.png" alt="精算画面の「受け取った」欄。給付金 20,000 円をそらが受け取ったと記録されている" width="720" height="446" loading="lazy" />
+      </figure>
+    </section>
+
+    <section class="app-cta card">
+      <h2>ふたりで使いはじめる</h2>
+      <p>
+        共通の AfterAI アカウント(Google でサインイン)で使えます。
+        家族の設定は <a href="https://account.afterai.dev" target="_blank" rel="noopener">account.afterai.dev</a> で登録し、パートナーを招待するとふたりの家計簿がはじまります。
+      </p>
+      <a class="btn" href={app.url} target="_blank" rel="noopener">わりぽんを開く &rarr;</a>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .crumbs { margin-bottom: 20px; }
+  .crumbs a { color: inherit; }
+  .crumbs a:hover { color: var(--color-text); }
+
+  .app-hero { display: flex; align-items: flex-start; gap: 24px; margin-bottom: 48px; }
+  .app-hero > img { width: 96px; height: 96px; border-radius: 24px; box-shadow: var(--shadow-card); flex: none; }
+  .app-hero-text h1 { margin-bottom: 6px; }
+  .lead { font-size: 1.15rem; color: var(--color-text-secondary); margin-bottom: 12px; }
+  .app-hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 20px; }
+
+  .feature {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 40px;
+    align-items: center;
+    padding: 40px 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .feature-wide { grid-template-columns: 1fr 1fr; }
+  .feature-text h2 { margin-bottom: 12px; }
+  .feature-text p + p { margin-top: 1em; }
+  .feature-text strong { color: var(--color-primary); }
+
+  .shot { margin: 0; }
+  .shot img {
+    width: 100%;
+    border-radius: 18px;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    background: #f6f6fb;
+  }
+  .shot figcaption { font-size: 0.82rem; color: var(--color-text-secondary); text-align: center; margin-top: 8px; }
+  .shot-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .app-cta { text-align: center; margin-top: 24px; padding: 40px 24px; }
+  .app-cta h2 { margin-bottom: 10px; }
+  .app-cta p { margin: 0 auto 20px; }
+
+  @media (max-width: 768px) {
+    .app-hero { flex-direction: column; gap: 16px; }
+    .feature, .feature-wide { grid-template-columns: 1fr; gap: 24px; }
+    .shot { max-width: 320px; margin: 0 auto; }
+    .shot-pair { grid-template-columns: 1fr 1fr; max-width: 520px; margin: 0 auto; }
+  }
+  @media (max-width: 480px) {
+    .shot-pair { grid-template-columns: 1fr; }
+  }
+</style>

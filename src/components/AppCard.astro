@@ -14,7 +14,10 @@ const { app, compact = false } = Astro.props;
   {!compact && <p class="desc">{app.description}</p>}
   <div class="app-foot">
     <span class="badge">{app.audience}</span>
-    <a class="btn btn-sm" href={app.url} target="_blank" rel="noopener">{app.name} を開く</a>
+    <span class="app-actions">
+      {app.page && <a class="btn btn-sm btn-outline" href={app.page}>詳しく見る</a>}
+      <a class="btn btn-sm" href={app.url} target="_blank" rel="noopener">{app.name} を開く</a>
+    </span>
   </div>
 </article>
 
@@ -26,4 +29,5 @@ const { app, compact = false } = Astro.props;
   .tagline { color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.5; }
   .desc { font-size: 0.95rem; }
   .app-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .app-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 </style>
