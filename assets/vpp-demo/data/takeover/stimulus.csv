@@ -1,7 +1,0 @@
-run_id,phase,freq_mhz,epoch_ms
-freq-takeover-run-1787551750,baseline,50000,1787551750556
-freq-takeover-run-1787551750,hold-both-healthy,49950,1787551780567
-freq-takeover-run-1787551750,fault-window,49950,1787551960577
-freq-takeover-run-1787551750,recovery-window,49950,1787552380580
-freq-takeover-run-1787551750,back-to-nominal,50000,1787552800594
-freq-takeover-run-1787551750,back-at-nominal-hold,50000,1787552830606
