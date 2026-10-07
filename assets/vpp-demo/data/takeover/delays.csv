@@ -1,0 +1,13 @@
+site,run_id,phase,freq_mhz,stimulus_epoch_ms,detect_ts_ms,detect_delay_lo_ms,detect_delay_hi_ms,requested_ts_ms,output_ts_ms,post_detection_ms,post_detection_lo_ms,post_detection_hi_ms,full_delay_lo_ms,full_delay_hi_ms,verdict
+site-001,freq-takeover-run-1787551750,baseline,50000,1787551750556,,,,,,,,,,,no-change
+site-001,freq-takeover-run-1787551750,hold-both-healthy,49950,1787551780567,1787551780602,-229.6,176.4,1787551780602,1787551781902,1300.0,1200.0,1300.0,1070.4,1476.4,within
+site-001,freq-takeover-run-1787551750,fault-window,49950,1787551960577,,,,,,,,,,,no-change
+site-001,freq-takeover-run-1787551750,recovery-window,49950,1787552380580,,,,,,,,,,,no-change
+site-001,freq-takeover-run-1787551750,back-to-nominal,50000,1787552800594,1787552800702,-156.6,249.4,1787552800702,1787552801802,1100.0,1000.0,1100.0,943.4,1349.4,within
+site-001,freq-takeover-run-1787551750,back-at-nominal-hold,50000,1787552830606,,,,,,,,,,,no-change
+site-002,freq-takeover-run-1787551750,baseline,50000,1787551750556,,,,,,,,,,,no-change
+site-002,freq-takeover-run-1787551750,hold-both-healthy,49950,1787551780567,1787551780574,-250.5,155.9,1787551780574,1787551781374,800.0,701.0,800.0,550.5,955.9,within
+site-002,freq-takeover-run-1787551750,fault-window,49950,1787551960577,,,,,,,,,,,no-change
+site-002,freq-takeover-run-1787551750,recovery-window,49950,1787552380580,,,,,,,,,,,no-change
+site-002,freq-takeover-run-1787551750,back-to-nominal,50000,1787552800594,1787552800610,-242.5,164.9,1787552800610,1787552801309,699.0,599.0,699.0,457.5,863.9,within
+site-002,freq-takeover-run-1787551750,back-at-nominal-hold,50000,1787552830606,,,,,,,,,,,no-change
