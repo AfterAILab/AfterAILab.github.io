@@ -1,0 +1,29 @@
+---
+import type { App } from '../data/apps';
+interface Props { app: App; compact?: boolean }
+const { app, compact = false } = Astro.props;
+---
+<article class:list={['card', 'app-card', { compact }]}>
+  <div class="app-head">
+    <img src={app.icon} alt="" width="64" height="64" loading="lazy" />
+    <div>
+      <h3>{app.name}</h3>
+      <p class="tagline">{app.tagline}</p>
+    </div>
+  </div>
+  {!compact && <p class="desc">{app.description}</p>}
+  <div class="app-foot">
+    <span class="badge">{app.audience}</span>
+    <a class="btn btn-sm" href={app.url} target="_blank" rel="noopener">{app.name} を開く</a>
+  </div>
+</article>
+
+<style>
+  .app-card { display: flex; flex-direction: column; gap: 14px; }
+  .app-head { display: flex; align-items: center; gap: 14px; }
+  .app-head img { width: 64px; height: 64px; border-radius: 16px; flex: none; box-shadow: var(--shadow-card); }
+  .app-head h3 { margin: 0; }
+  .tagline { color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.5; }
+  .desc { font-size: 0.95rem; }
+  .app-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+</style>

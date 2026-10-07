@@ -1,6 +1,107 @@
 ---
 import Base from '../layouts/Base.astro';
+import AppCard from '../components/AppCard.astro';
+import { apps } from '../data/apps';
+import { getLatestIssue } from '../lib/weekly';
+
+const latest = await getLatestIssue();
 ---
-<Base title="AfterAI" description="placeholder">
-  <h1>placeholder</h1>
+<Base
+  title="AfterAI"
+  description="暮らしの中で使う Web アプリ(わりぽん・kondate・CapySteps)と、蓄電池を VPP リソースに変える AfterAI VPP。AfterAI株式会社。"
+  ogImage={latest?.image}
+>
+  <section class="hero">
+    <span class="eyebrow">AfterAI</span>
+    <h1>毎日の暮らしに、<br class="sp" />AI のアプリを。</h1>
+    <p class="lead">
+      割り勘、献立、毎日の学び。生活の中の小さな面倒を AI でほどく Web アプリをつくっています。
+      そしてもう一方で、蓄電池を電力市場につなぐ基盤を開発しています。
+    </p>
+    <div class="hero-actions">
+      <a class="btn" href="/apps/">アプリを見る</a>
+      <a class="btn btn-outline" href="/vpp/">AfterAI VPP</a>
+    </div>
+  </section>
+
+  <section class="section" id="apps">
+    <div class="section-head">
+      <span class="eyebrow">Apps</span>
+      <h2>暮らしの中で使うアプリ</h2>
+      <p>ブラウザで開くだけ。ひとつの AfterAI アカウントで、全部使えます。</p>
+    </div>
+    <div class="grid grid-3">
+      {apps.map((app) => <AppCard app={app} />)}
+    </div>
+  </section>
+
+  <section class="section" id="vpp">
+    <div class="card vpp-card">
+      <div class="vpp-text">
+        <span class="eyebrow">Energy</span>
+        <h2>AfterAI VPP</h2>
+        <p class="vpp-sub">蓄電池を、VPP リソースに変える。</p>
+        <p>
+          蓄電池側に置くゲートウェイ機器と、サーバ側の制御ソフトウェアをセットで提供する VPP(仮想発電所)プラットフォームです。
+          工場の試験設備で実機の蓄電池を動かした PoC の記録を公開しています(需給調整市場の一次調整力向け)。
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="/vpp/">AfterAI VPP について</a>
+          <a class="btn btn-outline" href="/vpp/#poc">実機 PoC 結果を見る</a>
+        </div>
+      </div>
+      <a class="vpp-shot" href="/vpp/#poc" aria-label="PoC の運用コンソール画面例">
+        <img src="/vpp-demo/console/overview.png" alt="" loading="lazy" width="960" height="540" />
+      </a>
+    </div>
+  </section>
+
+  {latest && (
+    <section class="section" id="weekly">
+      <div class="card weekly-card">
+        <a class="weekly-thumb" href={latest.url}>
+          <img src={latest.image} alt={latest.title} loading="lazy" width="600" height="800" />
+        </a>
+        <div class="weekly-text">
+          <span class="eyebrow">Weekly</span>
+          <h2>毎週、手書きで。</h2>
+          <p>
+            AI と技術について考えたことを、毎週 1 枚の紙に手で書いています。コードの向こうに生身の人間がいる証です。
+          </p>
+          <p class="muted small">最新号: <a href={latest.url}>{latest.title}</a></p>
+          <a class="btn btn-outline btn-sm" href="/weekly/">バックナンバーを読む</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section" id="contact">
+    <div class="section-head">
+      <h2>お問い合わせ</h2>
+      <p>アプリのこと、AfterAI VPP のこと、開発のご相談。どれも同じ窓口で受け付けています。</p>
+    </div>
+    <a class="btn" href="mailto:info@afterai.dev">info@afterai.dev へメール</a>
+  </section>
 </Base>
+
+<style>
+  .hero { padding: 48px 0 40px; }
+  .hero h1 { margin-bottom: 14px; }
+  .hero .lead { font-size: 1.08rem; color: var(--color-text-secondary); margin-bottom: 24px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .sp { display: none; }
+  .vpp-card { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 28px; align-items: center; }
+  .vpp-card h2 { margin-bottom: 2px; }
+  .vpp-sub { font-weight: 600; color: var(--color-text-secondary); margin-bottom: 12px; }
+  .vpp-text p + p { margin-bottom: 18px; }
+  .vpp-shot img { border-radius: var(--radius-sm); border: 1px solid var(--color-border); box-shadow: var(--shadow-card); }
+  .weekly-card { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 28px; align-items: center; }
+  .weekly-thumb img { border-radius: var(--radius-sm); border: 1px solid var(--color-border); }
+  .weekly-text p { margin-bottom: 10px; }
+  @media (max-width: 760px) {
+    .hero { padding-top: 24px; }
+    .sp { display: inline; }
+    .vpp-card, .weekly-card { grid-template-columns: 1fr; }
+    .weekly-thumb { max-width: 220px; }
+  }
+</style>

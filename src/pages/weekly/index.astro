@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import WeeklyCard from '../../components/WeeklyCard.astro';
+import { getWeeklyIssues } from '../../lib/weekly';
+
+const issues = await getWeeklyIssues();
+const latest = issues[0];
+const description = `AIとテクノロジーについて毎週手書きでお届けしているニュースレター「AfterAI Weekly」のバックナンバー（全${issues.length}号）です。`;
+---
+<Base title="AfterAI Weekly" description={description} current="/weekly/" ogImage={latest?.image}>
+  <section class="section weekly-head">
+    <span class="eyebrow">Newsletter</span>
+    <h1>AfterAI Weekly</h1>
+    <p class="lead">
+      2025年から毎週手書きでお届けしている、AIとテクノロジーのニュースレターのバックナンバーです。一つひとつに、その週ならではのストーリーが詰まっています。
+    </p>
+  </section>
+
+  <div class="weekly-grid">
+    {issues.map((issue, i) => <WeeklyCard issue={issue} latest={i === 0} />)}
+  </div>
+</Base>
+
+<style>
+  .weekly-head {
+    padding-top: 8px;
+    padding-bottom: 28px;
+  }
+  .lead {
+    margin-top: 12px;
+    font-size: 1.08rem;
+    color: var(--color-text-secondary);
+  }
+  .weekly-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+  @media (max-width: 480px) {
+    .weekly-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+  }
+</style>

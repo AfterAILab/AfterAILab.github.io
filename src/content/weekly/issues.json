@@ -1,0 +1,282 @@
+[
+  {
+    "id": "vol1",
+    "number": 1,
+    "slug": "vol1"
+  },
+  {
+    "id": "vol2",
+    "number": 2,
+    "slug": "vol2"
+  },
+  {
+    "id": "vol3",
+    "number": 3,
+    "slug": "vol3"
+  },
+  {
+    "id": "vol4",
+    "number": 4,
+    "slug": "vol4"
+  },
+  {
+    "id": "vol5",
+    "number": 5,
+    "slug": "vol5"
+  },
+  {
+    "id": "vol6",
+    "number": 6,
+    "slug": "vol6"
+  },
+  {
+    "id": "vol7",
+    "number": 7,
+    "slug": "vol7"
+  },
+  {
+    "id": "vol8",
+    "number": 8,
+    "slug": "vol8"
+  },
+  {
+    "id": "vol9",
+    "number": 9,
+    "slug": "vol9"
+  },
+  {
+    "id": "vol10",
+    "number": 10,
+    "slug": "vol10"
+  },
+  {
+    "id": "vol11",
+    "number": 11,
+    "slug": "vol11"
+  },
+  {
+    "id": "vol12",
+    "number": 12,
+    "slug": "vol12"
+  },
+  {
+    "id": "vol13",
+    "number": 13,
+    "slug": "vol13"
+  },
+  {
+    "id": "vol14",
+    "number": 14,
+    "slug": "vol14"
+  },
+  {
+    "id": "vol15",
+    "number": 15,
+    "slug": "vol15"
+  },
+  {
+    "id": "vol16",
+    "number": 16,
+    "slug": "vol16"
+  },
+  {
+    "id": "vol17",
+    "number": 17,
+    "slug": "vol17"
+  },
+  {
+    "id": "vol18",
+    "number": 18,
+    "slug": "vol18"
+  },
+  {
+    "id": "vol19",
+    "number": 19,
+    "slug": "vol19"
+  },
+  {
+    "id": "vol20",
+    "number": 20,
+    "slug": "vol20"
+  },
+  {
+    "id": "vol21",
+    "number": 21,
+    "slug": "vol21"
+  },
+  {
+    "id": "vol22",
+    "number": 22,
+    "slug": "vol22"
+  },
+  {
+    "id": "vol23",
+    "number": 23,
+    "slug": "vol23"
+  },
+  {
+    "id": "vol24",
+    "number": 24,
+    "slug": "vol24"
+  },
+  {
+    "id": "vol25",
+    "number": 25,
+    "slug": "vol25"
+  },
+  {
+    "id": "vol26",
+    "number": 26,
+    "slug": "vol26"
+  },
+  {
+    "id": "vol27",
+    "number": 27,
+    "slug": "vol27"
+  },
+  {
+    "id": "vol28",
+    "number": 28,
+    "slug": "vol28"
+  },
+  {
+    "id": "vol29",
+    "number": 29,
+    "slug": "vol29"
+  },
+  {
+    "id": "vol30",
+    "number": 30,
+    "slug": "vol30"
+  },
+  {
+    "id": "vol31",
+    "number": 31,
+    "slug": "vol31"
+  },
+  {
+    "id": "vol32",
+    "number": 32,
+    "slug": "vol32"
+  },
+  {
+    "id": "vol33",
+    "number": 33,
+    "slug": "vol33"
+  },
+  {
+    "id": "vol34",
+    "number": 34,
+    "slug": "vol34"
+  },
+  {
+    "id": "vol35",
+    "number": 35,
+    "slug": "vol35"
+  },
+  {
+    "id": "vol36",
+    "number": 36,
+    "slug": "vol36"
+  },
+  {
+    "id": "vol37",
+    "number": 37,
+    "slug": "vol37"
+  },
+  {
+    "id": "vol38",
+    "number": 38,
+    "slug": "vol38"
+  },
+  {
+    "id": "vol39",
+    "number": 39,
+    "slug": "vol39"
+  },
+  {
+    "id": "vol40",
+    "number": 40,
+    "slug": "vol40"
+  },
+  {
+    "id": "vol41",
+    "number": 41,
+    "slug": "vol41"
+  },
+  {
+    "id": "vol42",
+    "number": 42,
+    "slug": "vol42"
+  },
+  {
+    "id": "vol43",
+    "number": 43,
+    "slug": "vol43"
+  },
+  {
+    "id": "vol44",
+    "number": 44,
+    "slug": "vol44"
+  },
+  {
+    "id": "vol45",
+    "number": 45,
+    "slug": "vol45"
+  },
+  {
+    "id": "vol46",
+    "number": 46,
+    "slug": "vol46"
+  },
+  {
+    "id": "vol47",
+    "number": 47,
+    "slug": "vol47"
+  },
+  {
+    "id": "vol48",
+    "number": 48,
+    "slug": "vol48"
+  },
+  {
+    "id": "vol49",
+    "number": 49,
+    "slug": "vol49"
+  },
+  {
+    "id": "vol50",
+    "number": 50,
+    "slug": "vol50"
+  },
+  {
+    "id": "vol51",
+    "number": 51,
+    "slug": "vol51"
+  },
+  {
+    "id": "vol52",
+    "number": 52,
+    "slug": "vol52"
+  },
+  {
+    "id": "vol53",
+    "number": 53,
+    "slug": "vol53"
+  },
+  {
+    "id": "vol54",
+    "number": 54,
+    "slug": "vol54"
+  },
+  {
+    "id": "vol55",
+    "number": 55,
+    "slug": "vol55"
+  },
+  {
+    "id": "vol56",
+    "number": 56,
+    "slug": "vol56"
+  }
+]

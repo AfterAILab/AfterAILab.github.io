@@ -4,7 +4,7 @@
 (function () {
     "use strict";
 
-    var BASE = window.VPP_DEMO_BASE || "/assets/vpp-demo/";
+    var BASE = window.VPP_DEMO_BASE || "/vpp-demo/";
     // Bumped with each bundle export, so a cached page never mixes old and new data.
     var BUNDLE_VERSION = "2026-10-07.2";
     var SPEED = 60;
@@ -407,8 +407,8 @@
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(relayout, 150);
         });
-        // The layout re-themes the page by time of day; the charts cache its colours.
-        new MutationObserver(relayout).observe(document.body, { attributes: true, attributeFilter: ["data-slot"] });
+        // The theme toggle flips data-theme on <html>; the charts cache its colours.
+        new MutationObserver(relayout).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
     }
 
     function relayout() {

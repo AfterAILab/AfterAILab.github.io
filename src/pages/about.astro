@@ -1,0 +1,152 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base
+  title="AfterAIについて"
+  description="AfterAI株式会社は、わりぽん・kondate・CapySteps などの Web アプリと、電力市場向けの AfterAI VPP を自社開発している東京のソフトウェア会社です。"
+  current="/about/"
+>
+  <section class="section about-hero">
+    <span class="eyebrow">About</span>
+    <h1>AfterAIについて</h1>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>代表プロフィール</h2>
+    </div>
+    <div class="profile">
+      <img
+        class="profile-photo"
+        src="/img/people/yuji.jpeg"
+        alt="田端勇士"
+        width="140"
+        height="140"
+        loading="lazy"
+      />
+      <div class="prose profile-body">
+        <p class="profile-lead">
+          AfterAI株式会社は、フルスタックエンジニアの<a href="https://www.linkedin.com/in/yuji-tabata/" target="_blank" rel="noopener noreferrer">田端勇士</a>が 2023 年 4 月に設立した、東京拠点のソフトウェア会社です。
+          割り勘アプリ「わりぽん」、献立アプリ「kondate」、AI マイクロラーニングアプリ「CapySteps」といった自社の Web アプリを開発・運営するとともに、電力市場向けのプラットフォーム「AfterAI VPP」の開発に取り組んでいます。
+        </p>
+        <p>
+          代表の田端は元 Tesla ナビゲーションシステムチームのエンジニアで、Web アプリケーション開発と AI の実装を得意としています。
+          会社としては米国・イタリア・日本の Maker Faire にものづくりプロジェクトを出展してきた経歴もあり、ソフトウェアからハードウェアまで一貫して「つくって届ける」ことを大切にしています。
+        </p>
+        <dl class="facts">
+          <div><dt>設立</dt><dd>2023 年 4 月</dd></div>
+          <div><dt>拠点</dt><dd>東京</dd></div>
+          <div><dt>代表</dt><dd>田端勇士（元 Tesla ナビゲーションシステムチーム）</dd></div>
+          <div><dt>出展歴</dt><dd>Maker Faire（米国・イタリア・日本）</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>いま取り組んでいること</h2>
+    </div>
+    <div class="grid grid-2">
+      <article class="card">
+        <span class="badge">アプリ</span>
+        <h3><a href="/apps/">自社開発の Web アプリ</a></h3>
+        <p>
+          わりぽん・kondate・CapySteps など、日常の小さな面倒を解消する Web アプリを自分たちで企画し、開発・運営しています。
+        </p>
+        <a class="btn btn-outline btn-sm" href="/apps/">アプリ一覧を見る</a>
+      </article>
+      <article class="card">
+        <span class="badge">電力</span>
+        <h3><a href="/vpp/">AfterAI VPP</a></h3>
+        <p>
+          蓄電池などの分散型エネルギーリソースを束ねて電力市場に参加するためのプラットフォームを開発しています。
+        </p>
+        <a class="btn btn-outline btn-sm" href="/vpp/">AfterAI VPP について</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>開発のご相談</h2>
+    </div>
+    <p class="prose">
+      Web アプリの開発や AI 機能の組み込みなど、ソフトウェア開発のご相談も受け付けています。お気軽に <a href="mailto:info@afterai.dev">info@afterai.dev</a> までご連絡ください。
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>その他の活動</h2>
+    </div>
+    <ul class="activity-list">
+      <li>
+        <a href="/weekly/">AfterAI Weekly</a>
+        <span class="muted">— AI とテクノロジーをテーマにした手書きのニュースレターを発行しています。</span>
+      </li>
+      <li>
+        <a href="/works/">これまでの活動</a>
+        <span class="muted">— Maker Faire での出展や、AfterAI Flaps などのものづくりプロジェクトの記録です。</span>
+      </li>
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .about-hero { padding-bottom: 8px; }
+  .about-hero h1 { margin-top: 4px; }
+
+  .profile {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+  }
+  .profile-photo {
+    flex: 0 0 140px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--color-border);
+  }
+  .profile-body { flex: 1; min-width: 0; }
+  .profile-lead { font-size: 1.08rem; }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px 20px;
+    margin-top: 1.4em;
+    padding-top: 1.2em;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.95rem;
+  }
+  .facts dt {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+  }
+  .facts dd { margin: 0; }
+
+  .card .badge { margin-bottom: 10px; }
+  .card h3 { margin-bottom: 8px; }
+  .card h3 a { color: var(--color-text); }
+  .card h3 a:hover { color: var(--color-primary); }
+  .card p { margin-bottom: 16px; }
+
+  .activity-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .activity-list a { font-weight: 600; }
+
+  @media (max-width: 640px) {
+    .profile { flex-direction: column; align-items: center; text-align: left; }
+    .profile-photo { flex-basis: auto; }
+  }
+</style>

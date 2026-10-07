@@ -1,0 +1,87 @@
+---
+import Base from '../layouts/Base.astro';
+
+const works = [
+  {
+    href: '/works/flaps/',
+    title: 'AfterAI Flaps',
+    badge: 'ハードウェア',
+    image: '/img/flaps/AfterAI_Flaps_Showing_Make.jpg',
+    alt: 'AfterAI Flaps の展示',
+    body:
+      '自作できるパタパタ式（スプリットフラップ）ディスプレイ。Maker Faire Bay Area 2024 の Editor’s Choice Award、Maker Faire Rome 2024 の Maker of Merit Award を受賞しました。',
+  },
+  {
+    href: '/works/events/',
+    title: 'Maker Faire 出展',
+    badge: '展示',
+    image: '/img/events/MFTokyo2024/MakerFaireTokyo2024Showing.jpg',
+    alt: 'Maker Faire Tokyo 2024 での展示',
+    body: '米国・イタリア・日本の Maker Faire での展示と受賞歴をまとめています。',
+  },
+  {
+    href: '/works/yugioh-life-counter/',
+    title: '遊戯王ライフカウンター',
+    badge: 'DIY',
+    image: '/img/yugioh/YGODeploymentDiagram.png',
+    alt: '遊戯王ライフカウンターの構成図',
+    body: 'AfterAI Flaps と音声認識・LLM を組み合わせて、遊戯王のライフポイント計算と表示を自動化した DIY プロジェクトです。',
+  },
+];
+---
+<Base
+  title="これまでの活動"
+  description="AfterAI の Maker Faire での出展や、AfterAI Flaps をはじめとするものづくりプロジェクトの記録です。"
+>
+  <section class="section works-head">
+    <span class="eyebrow">Works</span>
+    <h1>これまでの活動</h1>
+    <p class="muted lead">Maker Faire での出展や、ものづくりプロジェクトの記録です。</p>
+  </section>
+
+  <section class="section">
+    <div class="grid grid-3">
+      {works.map((w) => (
+        <article class="card work-card">
+          <a href={w.href} class="work-thumb">
+            <img src={w.image} alt={w.alt} loading="lazy" width="640" height="360" />
+          </a>
+          <span class="badge">{w.badge}</span>
+          <h2><a href={w.href}>{w.title}</a></h2>
+          <p>{w.body}</p>
+          <a class="btn btn-outline btn-sm" href={w.href}>詳しく見る</a>
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .works-head { padding-bottom: 8px; }
+  .works-head h1 { margin-top: 4px; }
+  .lead { margin-top: 8px; font-size: 1.05rem; }
+
+  .work-card { display: flex; flex-direction: column; }
+  .work-thumb {
+    display: block;
+    margin: -24px -24px 16px;
+    border-radius: var(--radius) var(--radius) 0 0;
+    overflow: hidden;
+    background: var(--color-surface-2);
+  }
+  .work-thumb img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+  .work-card .badge { align-self: flex-start; margin-bottom: 10px; }
+  .work-card h2 { font-size: 1.2rem; margin-bottom: 8px; }
+  .work-card h2 a { color: var(--color-text); }
+  .work-card h2 a:hover { color: var(--color-primary); }
+  .work-card p { flex: 1; margin-bottom: 16px; }
+  .work-card .btn { align-self: flex-start; }
+
+  @media (max-width: 640px) {
+    .work-thumb { margin: -18px -18px 14px; }
+  }
+</style>

@@ -1,0 +1,99 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const events = [
+  {
+    name: 'Maker Faire Rome 2024',
+    logo: '/img/events/MFRome2024/MakerFaireRome2024Logo.jpg',
+    logoAlt: 'Maker Faire Rome 2024 ロゴ',
+    photo: '/img/events/MFRome2024/MakerFaireRome2024Cover.jpeg',
+    photoAlt: 'Maker Faire Rome 2024 での AfterAI Flaps の展示',
+    award: 'Maker of Merit Award を受賞',
+  },
+  {
+    name: 'Maker Faire Bay Area 2024',
+    logo: '/img/events/MFBayArea2024/makerfaire-bayarea-2023-banner-rectangle-1080x360-1.jpeg',
+    logoAlt: 'Maker Faire Bay Area 2024 ロゴ',
+    photo: '/img/events/MFBayArea2024/EditorsChoiceMakerFaireBayArea2024.jpg',
+    photoAlt: "Maker Faire Bay Area 2024 の Editor's Choice Award",
+    award: "Editor's Choice Award を受賞",
+  },
+  {
+    name: 'Maker Faire Tokyo 2024',
+    logo: '/img/events/MFTokyo2024/Tokyo-MF_logo_outlined_CMed.jpg',
+    logoAlt: 'Maker Faire Tokyo 2024 ロゴ',
+    photo: '/img/events/MFTokyo2024/MakerFaireTokyo2024Showing.jpg',
+    photoAlt: 'Maker Faire Tokyo 2024 での AfterAI Flaps の展示',
+    award: null,
+  },
+];
+---
+<Base
+  title="Maker Faire 出展"
+  description="AfterAI が出展した米国・イタリア・日本の Maker Faire と、AfterAI Flaps の受賞歴をまとめています。"
+  ogImage="/img/events/MFTokyo2024/MakerFaireTokyo2024Showing.jpg"
+>
+  <article class="work">
+    <nav class="crumbs small muted" aria-label="パンくず">
+      <a href="/works/">これまでの活動</a> <span aria-hidden="true">/</span> Maker Faire 出展
+    </nav>
+    <header class="work-head">
+      <span class="eyebrow">Events</span>
+      <h1>Maker Faire 出展</h1>
+      <p class="muted">米国・イタリア・日本の Maker Faire で <a href="/works/flaps/">AfterAI Flaps</a> を展示しました。</p>
+    </header>
+
+    <ul class="event-list">
+      {events.map((ev) => (
+        <li class="card event-item">
+          <div class="event-logo">
+            <img src={ev.logo} alt={ev.logoAlt} loading="lazy" />
+          </div>
+          <div class="event-details">
+            <h2>{ev.name}</h2>
+            <p><a href="/works/flaps/">AfterAI Flaps</a></p>
+            {ev.award && <p class="award"><span class="badge">受賞</span> {ev.award}</p>}
+            <img class="event-photo" src={ev.photo} alt={ev.photoAlt} loading="lazy" />
+          </div>
+        </li>
+      ))}
+    </ul>
+  </article>
+</Base>
+
+<style>
+  .work { max-width: 820px; }
+  .crumbs { margin-bottom: 16px; }
+  .crumbs span { margin: 0 6px; }
+  .work-head { margin-bottom: 24px; }
+  .work-head h1 { margin: 4px 0 8px; }
+
+  .event-list { list-style: none; padding: 0; display: grid; gap: 20px; }
+  .event-item { display: flex; gap: 24px; align-items: flex-start; }
+  .event-logo { flex: 0 0 140px; }
+  .event-logo img {
+    width: 100%;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+  .event-details { flex: 1; min-width: 0; }
+  .event-details h2 { font-size: 1.25rem; margin-bottom: 6px; color: var(--color-primary); }
+  .event-details p { margin-bottom: 4px; }
+  .award { display: flex; align-items: center; gap: 8px; }
+  .event-photo {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+  }
+
+  @media (max-width: 640px) {
+    .event-item { flex-direction: column; align-items: center; text-align: center; }
+    .event-logo { flex: none; width: 120px; }
+    .event-details { width: 100%; }
+    .award { justify-content: center; }
+    .event-photo { max-width: 100%; }
+  }
+</style>
