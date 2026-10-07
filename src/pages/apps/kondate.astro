@@ -7,7 +7,7 @@ const app = apps.find((a) => a.id === 'kondate')!;
 ---
 <Base
   title="kondate"
-  description="離乳食・幼児食の子どもがいる家庭のための献立アプリ「kondate」。AI が献立を提案し、大人用と子ども用に取り分けポイントで分岐するフローチャート、前もってできる下拵え、買い物リストまでまとめて用意します。"
+  description="家族の夕飯のための献立アプリ「kondate」。AI が献立を提案し、レシピ、前もってできる下拵え、買い物リストまでまとめて用意します。離乳食・幼児食の子どもがいれば、手順が大人用と子ども用に取り分けポイントで分岐するフローチャートになります。"
   current="/apps/"
   ogImage={app.icon}
 >
@@ -19,12 +19,12 @@ const app = apps.find((a) => a.id === 'kondate')!;
     <header class="app-hero">
       <img src={app.icon} alt="" width="96" height="96" />
       <div class="app-hero-text">
-        <span class="eyebrow">取り分け献立</span>
+        <span class="eyebrow">夕飯の献立</span>
         <h1>kondate</h1>
         <p class="lead">{app.tagline}</p>
         <p>
-          離乳食・幼児食の子どもがいる家庭のための献立アプリです。
-          大人の夕飯から子どもの分を取り分けて作る前提で、献立の提案からレシピ、下拵え、買い物までをひとつの流れにします。
+          家族の夕飯のための献立アプリです。献立の提案からレシピ、下拵え、買い物までをひとつの流れにします。
+          離乳食・幼児食の子どもがいる家庭では、大人の夕飯から子どもの分を取り分けて作る手順になります。
         </p>
         <div class="app-hero-actions">
           <a class="btn" href={app.url} target="_blank" rel="noopener">kondate を開く &rarr;</a>
@@ -39,10 +39,10 @@ const app = apps.find((a) => a.id === 'kondate')!;
         <h2>空いている日を選んで、AI に提案してもらう</h2>
         <p>
           カレンダーで空いている日を選び、「魚はお休み」「金曜は手早く」のようなリクエストと、余っている食材を伝えると、
-          AI が日ごとの献立を提案します。家族の設定から、大人の人数と子どもの月齢・段階を踏まえた案になります。
+          AI が日ごとの献立を提案します。家族の設定から、大人の人数と、子どもがいればその月齢・段階を踏まえた案になります。
         </p>
         <p>
-          案を決定すると、各日の材料・分量、下拵え、取り分けのフローチャートが作られ、
+          案を決定すると、各日の材料・分量、下拵え、手順のフローチャート(子どもがいれば取り分け付き)が作られ、
           必要な食材は買い物リストにまとめて追加されます。
         </p>
       </div>
@@ -69,6 +69,7 @@ const app = apps.find((a) => a.id === 'kondate')!;
         <p>
           子どもの列は<strong>離乳食の段階ごとのレーン</strong>になります。段階は献立の日付の月齢から自動で決まり、
           後期の赤ちゃんと幼児食の子がいれば 2 本、ミルクだけの赤ちゃんはレーンなしと表示されます。
+          子どもがいない日は分岐せず、大人の手順だけになります。
         </p>
       </div>
       <figure class="shot">
@@ -122,7 +123,7 @@ const app = apps.find((a) => a.id === 'kondate')!;
       <h2>家族で使いはじめる</h2>
       <p>
         共通の AfterAI アカウント(Google でサインイン)で使えます。
-        家族と子どもの生年月日は <a href="https://account.afterai.dev" target="_blank" rel="noopener">account.afterai.dev</a> で登録すると、kondate が月齢から離乳食の段階を決めます。
+        家族の設定は <a href="https://account.afterai.dev" target="_blank" rel="noopener">account.afterai.dev</a> で登録します。子どもの生年月日を入れておくと、kondate が月齢から離乳食の段階を決めます。
       </p>
       <a class="btn" href={app.url} target="_blank" rel="noopener">kondate を開く &rarr;</a>
     </section>
