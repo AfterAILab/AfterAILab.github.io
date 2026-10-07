@@ -1,0 +1,143 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getTranscription, getWeeklyIssues, type WeeklyIssue } from '../../lib/weekly';
+
+export async function getStaticPaths() {
+  const issues = await getWeeklyIssues(); // newest first
+  return issues.map((issue, i) => ({
+    params: { slug: issue.slug },
+    props: { issue, newer: issues[i - 1], older: issues[i + 1] },
+  }));
+}
+
+interface Props {
+  issue: WeeklyIssue;
+  newer?: WeeklyIssue;
+  older?: WeeklyIssue;
+}
+const { issue, newer, older } = Astro.props;
+
+const entry = issue.hasTranscription ? await getTranscription(issue.slug) : undefined;
+const Transcription = entry ? (await render(entry)).Content : undefined;
+
+const description = `AIとテクノロジーの手書きニュースレター「AfterAI Weekly」第${issue.number}号${entry ? '（文字起こし付き）' : ''}です。`;
+---
+<Base title={issue.title} description={description} current="/weekly/" ogImage={issue.image}>
+  <article class="issue">
+    <header class="issue-head">
+      <a class="btn btn-outline btn-sm nav-older" href={older?.url} aria-disabled={older ? undefined : 'true'}>
+        &larr; {older ? `Vol.${older.number}` : '前の号'}
+      </a>
+      <div class="issue-title">
+        <span class="eyebrow">Newsletter</span>
+        <h1>{issue.title}</h1>
+      </div>
+      <a class="btn btn-outline btn-sm nav-newer" href={newer?.url} aria-disabled={newer ? undefined : 'true'}>
+        {newer ? `Vol.${newer.number}` : '次の号'} &rarr;
+      </a>
+    </header>
+
+    <figure class="issue-image">
+      <a href={issue.image} title="画像を開く">
+        <img src={issue.image} alt={issue.title} decoding="async" />
+      </a>
+      <figcaption class="muted small">画像をクリックすると原寸で開きます</figcaption>
+    </figure>
+
+    {Transcription && (
+      <section class="transcription">
+        <h2>文字起こし</h2>
+        <div class="prose">
+          <Transcription />
+        </div>
+      </section>
+    )}
+
+    <nav class="issue-foot" aria-label="号の移動">
+      {older ? <a class="btn btn-outline btn-sm" href={older.url}>&larr; Vol.{older.number}</a> : <span />}
+      <a class="btn btn-sm" href="/weekly/">バックナンバー一覧</a>
+      {newer ? <a class="btn btn-outline btn-sm" href={newer.url}>Vol.{newer.number} &rarr;</a> : <span />}
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .issue-head {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .issue-title {
+    text-align: center;
+  }
+  .issue-title .eyebrow {
+    margin-bottom: 2px;
+  }
+  .issue-head a[aria-disabled='true'] {
+    visibility: hidden;
+  }
+  .issue-image {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .issue-image img {
+    width: 100%;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    background: var(--color-surface);
+    cursor: zoom-in;
+  }
+  .issue-image figcaption {
+    margin-top: 10px;
+  }
+  .transcription {
+    max-width: 720px;
+    margin: 48px auto 0;
+    padding: 28px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+  .transcription h2 {
+    margin-bottom: 16px;
+  }
+  /* Some transcriptions start with their own "# 週刊 AfterAI" heading; keep it below the page title in weight. */
+  .transcription :global(.prose h1) {
+    font-size: 1.3rem;
+    margin: 0 0 0.8em;
+  }
+  .issue-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    max-width: 800px;
+    margin: 40px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border);
+  }
+  @media (max-width: 640px) {
+    .issue-head {
+      grid-template-columns: 1fr 1fr;
+    }
+    .issue-title {
+      grid-column: 1 / -1;
+      order: -1;
+    }
+    .nav-older {
+      justify-self: start;
+    }
+    .nav-newer {
+      justify-self: end;
+    }
+    .transcription {
+      padding: 20px;
+    }
+  }
+</style>

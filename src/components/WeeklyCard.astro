@@ -1,0 +1,51 @@
+---
+import type { WeeklyIssue } from '../lib/weekly';
+
+interface Props {
+  issue: WeeklyIssue;
+  latest?: boolean;
+}
+const { issue, latest = false } = Astro.props;
+---
+<a class="weekly-card" href={issue.url}>
+  <img src={issue.image} alt={issue.title} loading="lazy" decoding="async" />
+  <span class="weekly-card-title">
+    Vol.{issue.number}
+    {latest && <span class="badge">最新</span>}
+  </span>
+</a>
+
+<style>
+  .weekly-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    color: var(--color-text);
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .weekly-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-primary);
+    color: var(--color-text);
+  }
+  .weekly-card img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    object-position: top;
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-2);
+  }
+  .weekly-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    padding: 0 4px 4px;
+  }
+</style>

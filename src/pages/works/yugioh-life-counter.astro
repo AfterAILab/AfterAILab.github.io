@@ -1,0 +1,135 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base
+  title="AfterAI Flapsを使った遊戯王ライフカウンター"
+  description="AfterAI Flaps と音声認識・LLM を組み合わせて、遊戯王のライフポイント計算と表示を自動化した DIY プロジェクトの記録です。"
+  ogImage="/img/yugioh/YGODeploymentDiagram.png"
+>
+  <article class="work">
+    <nav class="crumbs small muted" aria-label="パンくず">
+      <a href="/works/">これまでの活動</a> <span aria-hidden="true">/</span> 遊戯王ライフカウンター
+    </nav>
+    <header class="work-head">
+      <span class="eyebrow">DIY</span>
+      <h1>AfterAI Flaps を使った遊戯王ライフカウンター</h1>
+    </header>
+
+    <div class="prose">
+      <p>
+        子供の頃、遊戯王でライフポイント（LP）を記録するのがいつも面倒でした。そこで今回、<a href="/works/flaps/">AfterAI Flaps</a> を使って LP の計算と表示を自動化してみました。
+      </p>
+
+      <div class="video-container">
+        <iframe
+          src="https://www.youtube.com/embed/Sd2KLeK7nvY"
+          title="AfterAI Flaps を使った遊戯王ライフカウンターのデモ"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>
+
+      <p>GitHub: <a href="https://github.com/AfterAILab/Yu_Gi_Oh_Life_Counter" target="_blank" rel="noopener noreferrer">github.com/AfterAILab/Yu_Gi_Oh_Life_Counter</a></p>
+
+      <h2>構成図</h2>
+      <figure>
+        <img src="/img/yugioh/YGODeploymentDiagram.png" alt="遊戯王ライフカウンターの構成図" loading="lazy" />
+      </figure>
+      <p><strong>使ったもの：</strong></p>
+      <ul>
+        <li><strong>AfterAI Flaps（5 文字）：</strong> どちらのターンかを表示。</li>
+        <li><strong>AfterAI Flaps（9 文字）：</strong> 両プレイヤーのライフポイントを表示。</li>
+        <li><strong>MacBook Pro (M2)：</strong> 全体の処理を担当する頼れる相棒。</li>
+      </ul>
+
+      <h2>PC 側のセットアップ</h2>
+      <p>
+        MacBook Pro (M2) は十分なスペックがあるので、すべての処理をローカルで完結させることにしました。音声認識には <a href="https://alphacephei.com/vosk" target="_blank" rel="noopener noreferrer">Vosk</a> を、テキストからコマンドを抽出する部分では最初 <a href="https://ollama.com/" target="_blank" rel="noopener noreferrer">Ollama</a> 経由の llama3.2 を試しました。<em>ただ、llama3.2（3B）は誤った結果を返すことが多く、最終的に OpenAI の gpt-4o-mini に切り替えました。</em>
+      </p>
+
+      <h2>フローチャート</h2>
+      <figure>
+        <img src="/img/yugioh/YGOFlowChart.png" alt="遊戯王ライフカウンターのフローチャート" loading="lazy" />
+      </figure>
+      <p>
+        たとえば「相手に XXX ダメージ」と発話すると、システムが GET リクエストで相手の現在 LP をディスプレイから取得し、ダメージを計算して POST リクエストで表示を更新します。
+      </p>
+      <p>「俺のターン、ドロー！」の処理はフローチャートでは省略していますが、基本的な流れは同じです。詳しくはコードをご覧ください。</p>
+
+      <h3>プロンプトで苦労した点</h3>
+      <p>最初は llama3.2（3B）に次のようなタスクを任せようとしました。</p>
+      <blockquote>
+        <p><strong>入力：</strong> 現在のターン情報と、音声認識で得たテキスト。</p>
+        <p><strong>出力：</strong> ゲーム状態の変化（ダメージ、回復、ターン交代など）。</p>
+      </blockquote>
+      <p>
+        ところが llama3.2 はうまくいかず、ダメージを与えるべき場面で相手を回復させてしまうことが頻発。他の AI にプロンプト改善を相談してみたものの改善せず、最終的に同じプロンプトを gpt-4o-mini に渡したら一発で正しく動きました。
+      </p>
+
+      <h2>まとめ</h2>
+      <ul>
+        <li>
+          <strong>AfterAI Flaps</strong> は DIY プロジェクトの部品として十分実用的。
+          <ul>
+            <li>必要に応じて v1.2 へのアップグレードも検討を。</li>
+          </ul>
+        </li>
+        <li>
+          <strong>リアルタイム性の改善：</strong> 発話完了を待つより、途中で割り込んで処理を始めた方が体感速度は上がりそう。
+          <ul>
+            <li>音声エンジン側のパラメータで発話完了判定の遅延を調整できると理想的。</li>
+          </ul>
+        </li>
+        <li>
+          <strong>モデルによる性能差が想像以上に大きい：</strong> こんな小さなタスクでも顕著に出る。
+          <ul>
+            <li>llama は有名なモデルだが、この用途での苦戦は意外だった。</li>
+            <li>llama3.2 の 3B より大きいバージョンなら結果が違うかもしれない。</li>
+            <li>gpt-4o-mini のパラメータ数は調べてみたが、公開情報は見つからなかった。</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .work { max-width: 820px; }
+  .crumbs { margin-bottom: 16px; }
+  .crumbs span { margin: 0 6px; }
+  .work-head { margin-bottom: 24px; }
+  .work-head h1 { margin-top: 4px; }
+
+  figure { margin: 1.2em 0; }
+  figure img {
+    width: 100%;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .video-container {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    margin: 1em 0;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--color-surface-2);
+  }
+  .video-container iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--color-primary);
+    padding-left: 16px;
+    margin: 1em 0;
+    color: var(--color-text-secondary);
+  }
+  .prose ul ul { margin-top: 0.3em; }
+</style>

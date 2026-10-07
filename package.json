@@ -12,5 +12,9 @@
     "@astrojs/sitemap": "^3.7.4",
     "astro": "7.3.5"
   },
-  "packageManager": "pnpm@12.8.1"
+  "packageManager": "pnpm@12.8.1",
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
+  }
 }

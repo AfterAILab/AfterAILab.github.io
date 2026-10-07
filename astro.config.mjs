@@ -14,8 +14,17 @@ export default defineConfig({
     '/ja/about/': '/about/',
     '/ja/works/': '/works/',
     '/ja/weekly/': '/weekly/',
-    // '/ja/weekly/[slug]': '/weekly/[slug]', // enabled once the weekly route exists
+    '/ja/weekly/[slug]': '/weekly/[slug]',
     '/ja/yugioh-life-counter/': '/works/yugioh-life-counter/',
     '/yugioh-life-counter/': '/works/yugioh-life-counter/',
+    // Old maker-project pages (served at their file paths under Jekyll).
+    '/ja/works/flaps/': '/works/flaps/',
+    '/ja/works/events/': '/works/events/',
+    '/works/flaps.html': '/works/flaps/',
+    '/works/events.html': '/works/events/',
+    '/ja/works/flaps.html': '/works/flaps/',
+    '/ja/works/events.html': '/works/events/',
+    '/yugioh-life-counter.html': '/works/yugioh-life-counter/',
+    '/ja/yugioh-life-counter.html': '/works/yugioh-life-counter/',
   },
 });
