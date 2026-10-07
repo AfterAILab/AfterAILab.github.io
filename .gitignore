@@ -91,3 +91,7 @@ logs/
 
 # Admin files
 _admin
+
+# Astro
+dist/
+.astro/
