@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import AppCard from '../components/AppCard.astro';
 import { apps } from '../data/apps';
-import { getLatestIssue } from '../lib/weekly';
+import { getLatestIssue, webpSrcset } from '../lib/weekly';
 
 const latest = await getLatestIssue();
 ---
@@ -60,7 +60,15 @@ const latest = await getLatestIssue();
     <section class="section" id="weekly">
       <div class="card weekly-card">
         <a class="weekly-thumb" href={latest.url}>
-          <img src={latest.image} alt={latest.title} loading="lazy" width="600" height="800" />
+          <img
+            src={latest.webp[400]}
+            srcset={webpSrcset(latest, [400, 800])}
+            sizes="220px"
+            alt={latest.title}
+            loading="lazy"
+            width="400"
+            height="569"
+          />
         </a>
         <div class="weekly-text">
           <span class="eyebrow">Weekly</span>

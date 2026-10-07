@@ -1,5 +1,5 @@
 ---
-import type { WeeklyIssue } from '../lib/weekly';
+import { webpSrcset, type WeeklyIssue } from '../lib/weekly';
 
 interface Props {
   issue: WeeklyIssue;
@@ -8,7 +8,16 @@ interface Props {
 const { issue, latest = false } = Astro.props;
 ---
 <a class="weekly-card" href={issue.url}>
-  <img src={issue.image} alt={issue.title} loading="lazy" decoding="async" />
+  <img
+    src={issue.webp[400]}
+    srcset={webpSrcset(issue, [400, 800])}
+    sizes="(max-width: 679px) calc(50vw - 54px), (max-width: 899px) calc(33vw - 50px), (max-width: 1119px) calc(25vw - 54px), 176px"
+    width="400"
+    height="569"
+    alt={issue.title}
+    loading="lazy"
+    decoding="async"
+  />
   <span class="weekly-card-title">
     Vol.{issue.number}
     {latest && <span class="badge">最新</span>}
