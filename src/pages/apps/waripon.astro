@@ -7,7 +7,7 @@ const app = apps.find((a) => a.id === 'waripon')!;
 ---
 <Base
   title="わりぽん"
-  description="一緒に暮らす家族のための割り勘アプリ「わりぽん」。払った・受け取ったを書き留めるだけで、月末に折半の精算額がわかります。毎月の定期項目だけでなく、特定の月だけ発生する支払いや給付金などの受け取りにも対応。"
+  description="一緒に暮らす家族が毎月の家計を折半するためのアプリ「わりぽん」。払った・受け取ったを書き留めるだけで、月末に折半の精算額がわかります。毎月の定期項目だけでなく、特定の月だけ発生する支払いや給付金などの受け取りにも対応。"
   current="/apps/"
   ogImage={app.icon}
 >
@@ -19,11 +19,12 @@ const app = apps.find((a) => a.id === 'waripon')!;
     <header class="app-hero">
       <img src={app.icon} alt="" width="96" height="96" />
       <div class="app-hero-text">
-        <span class="eyebrow">家族の割り勘</span>
+        <span class="eyebrow">家計の折半</span>
         <h1>わりぽん</h1>
         <p class="lead">{app.tagline}</p>
         <p>
-          一緒に暮らす家族のための割り勘アプリです。それぞれが払った生活費を書き留めていくと、
+          一緒に暮らす家族が、毎月の家計を折半するためのアプリです。食事の割り勘のような一回きりの精算ではなく、
+          家賃や光熱費、食費といった日々の生活費を 2 人で分け合い続けるためのものです。それぞれが払った生活費を書き留めていくと、
           月末に「どちらがいくら渡せば折半になるか」を計算します。
         </p>
         <div class="app-hero-actions">
