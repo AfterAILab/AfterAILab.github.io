@@ -1,0 +1,74 @@
+name: Dependabot auto-merge
+
+# This workflow runs after the trusted dependency-checks workflow completes.
+# It never checks out or executes code from the dependency PR.
+on:
+  workflow_run:
+    workflows: [Dependency checks]
+    types: [completed]
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  merge:
+    name: Merge Dependabot update
+    # Every Dependabot PR merges itself once the checks pass: grouped
+    # minor/patch and security updates, individual majors, and GitHub
+    # Actions updates alike. The build is the only gate for this static site.
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      startsWith(github.event.workflow_run.head_branch, 'dependabot/')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Find the successful Dependabot pull request
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        # gh reports the Dependabot app as "app/dependabot", not "dependabot[bot]".
+        run: |
+          set -euo pipefail
+          pr_number="$(gh pr list \
+            --repo "$REPOSITORY" \
+            --state open \
+            --limit 100 \
+            --json number,headRefName,author \
+            --jq '[.[] | select(.headRefName == env.HEAD_BRANCH and .author.login == "app/dependabot") | .number] | first // empty')"
+          if [ -z "$pr_number" ]; then
+            echo "No open Dependabot PR matches $HEAD_BRANCH; nothing to merge."
+            echo "number=" >> "$GITHUB_OUTPUT"
+          else
+            echo "number=$pr_number" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The repository does not allow auto-merge and the checks have already
+      # passed, so merge now — but only the commit those checks ran on.
+      - name: Merge
+        if: steps.pr.outputs.number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: >-
+          gh pr merge "$PR_NUMBER"
+          --repo "$REPOSITORY"
+          --squash
+          --delete-branch
+          --match-head-commit "$HEAD_SHA"
+
+      # A push made with GITHUB_TOKEN does not trigger `on: push` workflows,
+      # so the Pages deploy would otherwise skip this merge. workflow_dispatch
+      # is the documented exception, so start the deploy explicitly.
+      - name: Deploy the merged site
+        if: steps.pr.outputs.number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: gh workflow run deploy.yml --repo "$REPOSITORY" --ref main
