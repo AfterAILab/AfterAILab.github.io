@@ -7,6 +7,8 @@ export default defineConfig({
   integrations: [sitemap()],
   build: { format: 'directory' },
   redirects: {
+    // The app list now lives on the top page.
+    '/apps/': '/#apps',
     // Old VPP demo page is folded into /vpp/.
     '/vpp/demo/': '/vpp/#poc',
     // The site is Japanese only now; the former /ja/ mirror collapses onto the root.

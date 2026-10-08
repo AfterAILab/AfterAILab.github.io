@@ -13,23 +13,22 @@ import { apps } from '../data/apps';
     <h1>暮らしに、ちゃんと<br class="sp" /><span class="phrase">フィットする</span><span class="phrase">アプリを。</span></h1>
     <p class="lead">
       家計の折半、献立、毎日の学び。自分たちが普段から使いたくなる Web アプリをつくっています。
-      一方で、蓄電池を電力市場につなぐ基盤を開発しています。
+      また、蓄電池を電力市場につなぐ基盤も開発しています。
     </p>
-    <div class="hero-actions">
-      <a class="btn" href="/apps/">アプリを見る</a>
-      <a class="btn btn-outline" href="/vpp/">AfterAI VPP</a>
-    </div>
   </section>
 
   <section class="section" id="apps">
     <div class="section-head">
       <span class="eyebrow">Apps</span>
       <h2>暮らしの中で使うアプリ</h2>
-      <p>ブラウザで開くだけ。ひとつの AfterAI アカウントで、全部使えます。</p>
+      <p>ブラウザで開くだけで使え、スマートフォンのホーム画面にも追加できます。</p>
     </div>
     <div class="grid grid-3">
       {apps.map((app) => <AppCard app={app} />)}
     </div>
+    <p class="apps-note">
+      3 つのアプリは、<a href="https://account.afterai.dev" target="_blank" rel="noopener">account.afterai.dev</a> で管理する共通の <strong>AfterAI アカウント</strong>で使えます。
+    </p>
   </section>
 
   <section class="section" id="vpp">
@@ -56,8 +55,8 @@ import { apps } from '../data/apps';
 <style>
   .hero { padding: 48px 0 40px; }
   .hero h1 { margin-bottom: 14px; }
-  .hero .lead { font-size: 1.08rem; color: var(--color-text-secondary); margin-bottom: 24px; }
-  .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hero .lead { font-size: 1.08rem; color: var(--color-text-secondary); margin-bottom: 0; }
+  .apps-note { margin-top: 20px; color: var(--color-text-secondary); font-size: 0.95rem; }
   .sp { display: none; }
   .phrase { display: inline-block; }
   @media (max-width: 760px) {
