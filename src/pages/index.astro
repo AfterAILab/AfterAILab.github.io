@@ -2,14 +2,11 @@
 import Base from '../layouts/Base.astro';
 import AppCard from '../components/AppCard.astro';
 import { apps } from '../data/apps';
-import { getLatestIssue, webpSrcset } from '../lib/weekly';
-
-const latest = await getLatestIssue();
 ---
 <Base
   title="AfterAI"
   description="暮らしの中で使う Web アプリ(わりぽん・kondate・CapySteps)と、蓄電池を VPP リソースに変える AfterAI VPP。AfterAI株式会社。"
-  ogImage={latest?.image}
+  ogImage="/img/og/apps.png"
 >
   <section class="hero">
     <span class="eyebrow">AfterAI</span>
@@ -35,33 +32,6 @@ const latest = await getLatestIssue();
     </div>
   </section>
 
-  {latest && (
-    <section class="section" id="weekly">
-      <div class="card weekly-card">
-        <a class="weekly-thumb" href={latest.url}>
-          <img
-            src={latest.webp[400]}
-            srcset={webpSrcset(latest, [400, 800])}
-            sizes="220px"
-            alt={latest.title}
-            loading="lazy"
-            width="400"
-            height="569"
-          />
-        </a>
-        <div class="weekly-text">
-          <span class="eyebrow">Weekly</span>
-          <h2>毎週、手書きで。</h2>
-          <p>
-            AI と技術について考えたことを、毎週 1 枚の紙に手で書いています。コードの向こうに生身の人間がいる証です。
-          </p>
-          <p class="muted small">最新号: <a href={latest.url}>{latest.title}</a></p>
-          <a class="btn btn-outline btn-sm" href="/weekly/">バックナンバーを読む</a>
-        </div>
-      </div>
-    </section>
-  )}
-
   <section class="section" id="contact">
     <div class="section-head">
       <h2>お問い合わせ</h2>
@@ -78,12 +48,8 @@ const latest = await getLatestIssue();
   .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
   .sp { display: none; }
   .phrase { display: inline-block; }
-  .weekly-card { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 28px; align-items: center; }
-  .weekly-thumb img { border-radius: var(--radius-sm); border: 1px solid var(--color-border); }
-  .weekly-text p { margin-bottom: 10px; }
   @media (max-width: 760px) {
     .hero { padding-top: 24px; }
     .sp { display: inline; }
-    .weekly-thumb { max-width: 220px; }
   }
 </style>
