@@ -6,7 +6,7 @@
 
     var BASE = window.VPP_DEMO_BASE || "/vpp-demo/";
     // Bumped with each bundle export, so a cached page never mixes old and new data.
-    var BUNDLE_VERSION = "2026-10-07.2";
+    var BUNDLE_VERSION = "2026-10-08";
     var SPEED = 60;
     // A sample further than this from the cursor is not shown as current
     // (the runs are 10 Hz, so 0.5 s means a missing row, not jitter).
