@@ -1,0 +1,41 @@
+version: 2
+updates:
+  # Dependabot uses the `npm` ecosystem name for pnpm manifests and lockfiles.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Asia/Tokyo
+    open-pull-requests-limit: 10
+    versioning-strategy: increase
+    # Security updates are exempt from this release-age delay and weekly schedule.
+    cooldown:
+      default-days: 3
+    groups:
+      compatible-dependencies:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: [minor, patch]
+      security-dependencies:
+        applies-to: security-updates
+        patterns: ["*"]
+    # Major version updates remain individual PRs; none are ignored.
+    commit-message:
+      prefix: chore
+      include: scope
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Asia/Tokyo
+    groups:
+      github-actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: chore
+      include: scope
