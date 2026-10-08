@@ -11,8 +11,10 @@
     // A sample further than this from the cursor is not shown as current
     // (the runs are 10 Hz, so 0.5 s means a missing row, not jitter).
     var SAMPLE_TOL_DS = 5;
-    var FLEET_COLOR = "#7a4fd1";
-    var DOWN_COLOR = "#c98500";
+    // Chart colours live in CSS (--demo-*) so each theme picks its own; the
+    // band in particular needs a lighter purple and a denser fill on dark.
+    function fleetColor() { return css("--demo-fleet"); }
+    function downColor() { return css("--demo-down"); }
 
     var state = { run: null, cursor: 0, start: 0, playing: false, scrubbing: false, last: null, raf: null, charts: [], generation: 0 };
 
@@ -114,17 +116,20 @@
             c.fillText(clock(min * 600), Math.min(x - 12, self.w - c.measureText(clock(min * 600)).width - 2), self.h - 6);
         });
         (s.shades || []).forEach(function (r) {
-            c.fillStyle = "rgba(201,133,0,0.16)";
+            c.fillStyle = css("--demo-down-fill");
             c.fillRect(self.x(r[0]), self.pad.t, self.x(r[1]) - self.x(r[0]), self.h - self.pad.t - self.pad.b);
         });
         (s.bands || []).forEach(function (b) {
             if (b.lo === null) { return; }
             var x0 = self.x(b.t0), x1 = self.x(b.t1);
             var top = b.hi === null ? self.pad.t : self.y(b.hi);
-            c.fillStyle = "rgba(122,79,209,0.13)";
+            c.fillStyle = css("--demo-band-fill");
             c.fillRect(x0, top, x1 - x0, self.y(b.lo) - top);
-            c.strokeStyle = FLEET_COLOR; c.setLineDash([4, 3]);
-            c.beginPath(); c.moveTo(x0, self.y(b.lo)); c.lineTo(x1, self.y(b.lo)); c.stroke();
+            // Both edges are dashed, so the band reads as a corridor even where the fill is faint.
+            c.strokeStyle = css("--demo-band-edge"); c.setLineDash([4, 3]);
+            c.beginPath(); c.moveTo(x0, self.y(b.lo)); c.lineTo(x1, self.y(b.lo));
+            if (b.hi !== null) { c.moveTo(x0, top); c.lineTo(x1, top); }
+            c.stroke();
             c.setLineDash([]);
         });
         s.series.forEach(function (ser) {
@@ -208,20 +213,21 @@
               spec: { duration: dur, ymin: fr[0], ymax: fr[1], fmt: function (v) { return (v / 1000).toFixed(2); },
                       series: [{ points: stimulus, color: "--color-text", width: 1.6, step: true }] } },
             { title: "フリート出力（正 = 放電）", cls: "out",
-              legend: [["フリート合計（実測）", FLEET_COLOR],
+              legend: [["フリート合計（実測）", "fleet"],
                        // The margin is 10 % of the fleet's supply capability, a fixed width, not 10 % of the value.
-                       [run.pattern === "a" ? "許容範囲（下限のみ）" : "許容範囲（理論値 ± " + kw(run.registered_w / 10) + "）", "rgba(122,79,209,0.35)"]]
-                  .concat(downSites.map(function (s) { return [s + " 停止中（0 W で合計・残留出力は未記録）", "rgba(201,133,0,0.45)"]; })),
+                       [run.pattern === "a" ? "許容範囲（下限のみ）" : "許容範囲（理論値 ± " + kw(run.registered_w / 10) + "）", "band"]]
+                  .concat(downSites.map(function (s) { return [s + " 停止中（0 W で合計・残留出力は未記録）", "down"]; })),
               spec: { duration: dur, ymin: or[0], ymax: or[1], fmt: function (v) { return (v / 1000).toFixed(0) + " kW"; },
-                      series: [{ points: run.fleet, color: FLEET_COLOR, width: 2, gapDs: 2 * SAMPLE_TOL_DS }],
+                      series: [{ points: run.fleet, color: "--demo-fleet", width: 2, gapDs: 2 * SAMPLE_TOL_DS }],
                       bands: bands, shades: shades } }
         ];
         state.charts = defs.map(function (d) {
             var head = el("div", { "class": "demo-chart-head" });
             head.appendChild(el("span", { "class": "demo-chart-title" }, d.title));
             d.legend.forEach(function (l) {
-                var item = el("span", { "class": "demo-legend" });
-                var sw = el("i"); sw.style.background = l[1];
+                // The swatch is styled by CSS (.demo-legend-*), so a re-theme recolours it too.
+                var item = el("span", { "class": "demo-legend demo-legend-" + l[1] });
+                var sw = el("i");
                 item.appendChild(sw); item.appendChild(document.createTextNode(l[0]));
                 head.appendChild(item);
             });
@@ -256,7 +262,7 @@
             // A stopped site counts as 0 W in the fleet sum, so it shows no output of its own (ADR-084).
             var w = down ? null : valueAt(site.series.t_ds, site.series.actual_w, t);
             var status, statusColor = sub;
-            if (down) { status = "停止中"; statusColor = DOWN_COLOR; anyDown = true; }
+            if (down) { status = "停止中"; statusColor = downColor(); anyDown = true; }
             else if (w === null) { status = "記録なし"; }
             else if (w > 0) { status = "放電"; statusColor = primary; }
             else if (w < 0) { status = "充電"; statusColor = primary; }
@@ -268,10 +274,10 @@
             svg += label(cx, siteY + 50, kw(w), text, 18, 700);
             svg += label(cx, siteY + 72, status, statusColor, 11, 600);
         });
-        svg += box(20, 224, 200, 72, surface, FLEET_COLOR);
+        svg += box(20, 224, 200, 72, surface, fleetColor());
         svg += label(120, 244, "フリート合計", sub, 12);
-        svg += label(120, 272, kw(valueAt(state.fleetT, state.fleetW, t)), FLEET_COLOR, 22, 700);
-        if (anyDown) { svg += label(120, 289, "停止中の拠点は 0 W で合計", DOWN_COLOR, 10); }
+        svg += label(120, 272, kw(valueAt(state.fleetT, state.fleetW, t)), fleetColor(), 22, 700);
+        if (anyDown) { svg += label(120, 289, "停止中の拠点は 0 W で合計", downColor(), 10); }
         return svg + "</svg>";
     }
     function box(x, y, w, h, fill, stroke) {
