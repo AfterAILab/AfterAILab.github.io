@@ -15,13 +15,17 @@ permissions:
 jobs:
   merge:
     name: Merge Dependabot update
-    # Every Dependabot PR merges itself once the checks pass: grouped
-    # minor/patch and security updates, individual majors, and GitHub
-    # Actions updates alike. The build is the only gate for this static site.
+    # The grouped npm minor/patch and security updates and every GitHub
+    # Actions update merge themselves. npm majors (one PR each) wait for a
+    # person: a breaking change that takes the company site down is not worth
+    # the speed, whereas a broken Actions update only fails the deploy and
+    # leaves the published site as it was.
     if: >-
       github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.conclusion == 'success' &&
-      startsWith(github.event.workflow_run.head_branch, 'dependabot/')
+      (startsWith(github.event.workflow_run.head_branch, 'dependabot/npm_and_yarn/compatible-dependencies-') ||
+       startsWith(github.event.workflow_run.head_branch, 'dependabot/npm_and_yarn/security-dependencies-') ||
+       startsWith(github.event.workflow_run.head_branch, 'dependabot/github_actions/'))
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
