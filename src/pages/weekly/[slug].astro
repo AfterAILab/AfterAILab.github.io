@@ -21,7 +21,7 @@ const { issue, newer, older } = Astro.props;
 const entry = issue.hasTranscription ? await getTranscription(issue.slug) : undefined;
 const Transcription = entry ? (await render(entry)).Content : undefined;
 
-const description = `AIとテクノロジーの手書きニュースレター「AfterAI Weekly」第${issue.number}号${entry ? '（文字起こし付き）' : ''}です。`;
+const description = `AI 以後の世界でどのように生きるべきかを、悩みながら 1 枚の紙に手書きしてきた「週刊 AfterAI」第${issue.number}号${entry ? '（文字起こし付き）' : ''}です。`;
 ---
 <Base title={issue.title} description={description} current="/weekly/" ogImage={issue.image}>
   <article class="issue">
