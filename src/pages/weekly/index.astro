@@ -5,14 +5,14 @@ import { getWeeklyIssues } from '../../lib/weekly';
 
 const issues = await getWeeklyIssues();
 const latest = issues[0];
-const description = `AIとテクノロジーについて毎週手書きでお届けしているニュースレター「AfterAI Weekly」のバックナンバー（全${issues.length}号）です。`;
+const description = `AI 以後の世界でどのように生きるべきかを、悩みながら 1 枚の紙に手書きしてきた「AfterAI Weekly」のバックナンバー（全${issues.length}号）です。`;
 ---
 <Base title="AfterAI Weekly" description={description} current="/weekly/" ogImage={latest?.image}>
   <section class="section weekly-head">
     <span class="eyebrow">Newsletter</span>
     <h1>AfterAI Weekly</h1>
     <p class="lead">
-      2025年から毎週手書きでお届けしている、AIとテクノロジーのニュースレターのバックナンバーです。一つひとつに、その週ならではのストーリーが詰まっています。
+      AI 以後の世界でどのように生きるべきか。2025年から、悩みながら考えたことを 1 枚の紙に手で書いてきました。そのバックナンバーです。
     </p>
   </section>
 
