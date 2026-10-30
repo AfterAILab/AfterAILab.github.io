@@ -13,6 +13,7 @@ const siteName = 'AfterAI';
 const fullTitle = title === siteName ? siteName : `${title} | ${siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const nav = [
+  { href: '/#apps', label: 'アプリ' },
   { href: '/vpp/', label: 'VPP' },
   { href: '/weekly/', label: '週刊 AfterAI' },
   { href: '/about/', label: 'About' },
