@@ -2,7 +2,7 @@ import { defineCollection } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-/** The list of AfterAI Weekly issues (number + slug), newest appended last. */
+/** The list of 週刊 AfterAI issues (number + slug), newest appended last. */
 const weekly = defineCollection({
   loader: file('./src/content/weekly/issues.json'),
   schema: z.object({

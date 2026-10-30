@@ -5,7 +5,7 @@ import { getCollection, getEntry } from 'astro:content';
 export interface WeeklyIssue {
   number: number;
   slug: string;
-  /** e.g. "AfterAI Weekly Vol.12" */
+  /** e.g. "週刊 AfterAI Vol.12" */
   title: string;
   /**
    * Site-relative path of the 1600px JPG, e.g. "/img/weekly/ja/vol12-ja.jpg".
@@ -59,7 +59,7 @@ export function getWeeklyIssues(): Promise<WeeklyIssue[]> {
       .map(({ data }) => ({
         number: data.number,
         slug: data.slug,
-        title: `AfterAI Weekly Vol.${data.number}`,
+        title: `週刊 AfterAI Vol.${data.number}`,
         ...resolveImage(data.slug),
         url: `/weekly/${data.slug}/`,
         hasTranscription: withTranscription.has(data.slug),
