@@ -1,11 +1,25 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { getCollection, getEntry } from 'astro:content';
+import { m4aDurationSeconds } from './m4a';
+
+/** The audio supplement of an issue (an episode of AfterAI Weekly). */
+export interface WeeklyAudio {
+  /** Site-relative URL of the m4a, e.g. "/audio/weekly/vol58.m4a". */
+  url: string;
+  bytes: number;
+  /** Length in whole seconds. */
+  seconds: number;
+  /** Publication date, "YYYY-MM-DD". */
+  date: string;
+  title: string;
+  description: string;
+}
 
 export interface WeeklyIssue {
   number: number;
   slug: string;
-  /** e.g. "週刊 AfterAI Vol.12" */
+  /** e.g. "AfterAI Weekly Vol.12" */
   title: string;
   /** Issue date, "YYYY-MM-DD" (handwritten on the page). */
   date: string;
@@ -19,6 +33,7 @@ export interface WeeklyIssue {
   /** Site-relative page URL, e.g. "/weekly/vol12/". */
   url: string;
   hasTranscription: boolean;
+  audio?: WeeklyAudio;
 }
 
 /** Resolved from the project root: at build time this module is bundled elsewhere, so import.meta.url is useless here. */
@@ -42,6 +57,51 @@ function resolveImage(slug: string): Pick<WeeklyIssue, 'image' | 'webp'> {
   return { image: `${base}.jpg`, webp };
 }
 
+const AUDIO_DIR = '/audio/weekly';
+
+type AudioMeta = { date: string; title?: string; description?: string };
+
+/**
+ * An issue's audio comes from public/audio/weekly/volN.m4a plus the `audio` entry in issues.json.
+ * Having only one of the two fails the build, so a file is never silently left out of the feed.
+ */
+function resolveAudio(slug: string, number: number, meta: AudioMeta | undefined): WeeklyAudio | undefined {
+  const url = `${AUDIO_DIR}/${slug}.m4a`;
+  const file = path.join(PUBLIC_DIR, url);
+  const hasFile = existsSync(file);
+  if (!meta && !hasFile) return undefined;
+  if (!meta) throw new Error(`public${url} exists but issues.json has no "audio" entry for ${slug}`);
+  if (!hasFile) throw new Error(`issues.json has "audio" for ${slug} but public${url} is missing (run scripts/weekly-audio.sh ${slug} <録音>)`);
+  const data = readFileSync(file);
+  let seconds: number;
+  try {
+    seconds = Math.round(m4aDurationSeconds(data));
+  } catch (e) {
+    throw new Error(`Cannot read the length of public${url}: ${(e as Error).message}`);
+  }
+  return {
+    url,
+    bytes: data.length,
+    seconds,
+    date: meta.date,
+    title: meta.title ?? `AfterAI Weekly Vol.${number}`,
+    description: meta.description ?? `手書きのニュースレター「AfterAI Weekly」第${number}号について話しました。`,
+  };
+}
+
+/** Stray files in public/audio/weekly/ (wrong name, not in issues.json) fail the build too. */
+function checkAudioFiles(slugs: Set<string>): void {
+  const dir = path.join(PUBLIC_DIR, AUDIO_DIR);
+  if (!existsSync(dir)) return;
+  for (const name of readdirSync(dir)) {
+    if (name.startsWith('.')) continue;
+    const slug = name.replace(/\.m4a$/, '');
+    if (slug === name || !slugs.has(slug)) {
+      throw new Error(`Unexpected file public${AUDIO_DIR}/${name} (expected volN.m4a for an issue in issues.json)`);
+    }
+  }
+}
+
 /** "2025-06-04" → "2025年6月4日" */
 export function formatIssueDate(date: string): string {
   const [y, m, d] = date.split('-').map(Number);
@@ -63,15 +123,17 @@ export function getWeeklyIssues(): Promise<WeeklyIssue[]> {
       getCollection('weeklyTranscriptions'),
     ]);
     const withTranscription = new Set(transcriptions.map((t) => t.id));
+    checkAudioFiles(new Set(issues.map(({ data }) => data.slug)));
     return issues
       .map(({ data }) => ({
         number: data.number,
         slug: data.slug,
-        title: `週刊 AfterAI Vol.${data.number}`,
+        title: `AfterAI Weekly Vol.${data.number}`,
         date: data.date,
         ...resolveImage(data.slug),
         url: `/weekly/${data.slug}/`,
         hasTranscription: withTranscription.has(data.slug),
+        audio: resolveAudio(data.slug, data.number, data.audio),
       }))
       .sort((a, b) => b.number - a.number);
   })();

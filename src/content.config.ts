@@ -2,7 +2,7 @@ import { defineCollection } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-/** The list of 週刊 AfterAI issues (number + slug), newest appended last. */
+/** The list of AfterAI Weekly issues (number + slug), newest appended last. */
 const weekly = defineCollection({
   loader: file('./src/content/weekly/issues.json'),
   schema: z.object({
@@ -10,6 +10,20 @@ const weekly = defineCollection({
     slug: z.string().regex(/^vol\d+$/),
     /** Issue date as handwritten in the top-right corner of the page, e.g. "2025-06-04". */
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    /**
+     * The issue's audio supplement (AfterAI Weekly), when it has one. The file itself is
+     * public/audio/weekly/volN.m4a (made by scripts/weekly-audio.sh); size and length are read from it at build time.
+     */
+    audio: z
+      .object({
+        /** Publication date of the episode, e.g. "2026-11-18". Becomes the podcast feed's pubDate. */
+        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+        /** Episode title; defaults to the issue title. */
+        title: z.string().optional(),
+        /** Show notes for podcast apps; defaults to a one-line description of the issue. */
+        description: z.string().optional(),
+      })
+      .optional(),
   }),
 });
 
