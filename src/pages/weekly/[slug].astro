@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { getTranscription, getWeeklyIssues, webpSrcset, type WeeklyIssue } from '../../lib/weekly';
+import { PODCAST } from '../../lib/podcast';
 
 export async function getStaticPaths() {
   const issues = await getWeeklyIssues(); // newest first
@@ -21,9 +22,13 @@ const { issue, newer, older } = Astro.props;
 const entry = issue.hasTranscription ? await getTranscription(issue.slug) : undefined;
 const Transcription = entry ? (await render(entry)).Content : undefined;
 
-const description = `AI 以後の世界でどのように生きるべきかを、悩みながら 1 枚の紙に手書きしてきた「週刊 AfterAI」第${issue.number}号${entry ? '（文字起こし付き）' : ''}です。`;
+const extras = [issue.audio && '音声', entry && '文字起こし'].filter(Boolean).join('・');
+const description = `AI 以後の世界でどのように生きるべきかを、悩みながら 1 枚の紙に手書きしてきた「AfterAI Weekly」第${issue.number}号${extras ? `（${extras}付き）` : ''}です。`;
+const audio = issue.audio;
+const minutes = audio && `${Math.floor(audio.seconds / 60)}分${String(audio.seconds % 60).padStart(2, '0')}秒`;
 ---
 <Base title={issue.title} description={description} current="/weekly/" ogImage={issue.image}>
+  <link slot="head" rel="alternate" type="application/rss+xml" title={PODCAST.title} href={PODCAST.feedPath} />
   <article class="issue">
     <header class="issue-head">
       <a class="btn btn-outline btn-sm nav-older" href={older?.url} aria-disabled={older ? undefined : 'true'}>
@@ -53,6 +58,20 @@ const description = `AI 以後の世界でどのように生きるべきかを�
       </a>
       <figcaption class="muted small">画像をクリックすると大きな画像(幅 1600px)で開きます</figcaption>
     </figure>
+
+    {audio && (
+      <section class="audio" aria-label="音声">
+        <h2>音声</h2>
+        <p class="muted small">この号について話した音声です({minutes})。ポッドキャスト「{PODCAST.title}」でも配信しています。</p>
+        <audio controls preload="metadata" src={audio.url}>
+          <a href={audio.url}>音声ファイル(m4a)</a>
+        </audio>
+        <p class="small audio-links">
+          <a href={audio.url} download={`AfterAI-Weekly-${issue.slug}.m4a`}>ダウンロード</a>
+          <a href={PODCAST.feedPath}>ポッドキャスト(RSS)</a>
+        </p>
+      </section>
+    )}
 
     {Transcription && (
       <section class="transcription">
@@ -104,6 +123,28 @@ const description = `AI 以後の世界でどのように生きるべきかを�
   .issue-image figcaption {
     margin-top: 10px;
   }
+  .audio {
+    max-width: 720px;
+    margin: 40px auto 0;
+    padding: 24px 28px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+  .audio h2 {
+    font-size: 1.15rem;
+    margin-bottom: 4px;
+  }
+  .audio audio {
+    display: block;
+    width: 100%;
+    margin: 14px 0 10px;
+  }
+  .audio-links {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
   .transcription {
     max-width: 720px;
     margin: 48px auto 0;
@@ -145,7 +186,8 @@ const description = `AI 以後の世界でどのように生きるべきかを�
     .nav-newer {
       justify-self: end;
     }
-    .transcription {
+    .transcription,
+    .audio {
       padding: 20px;
     }
   }
