@@ -8,6 +8,8 @@ const weekly = defineCollection({
   schema: z.object({
     number: z.number().int().positive(),
     slug: z.string().regex(/^vol\d+$/),
+    /** Issue date as handwritten in the top-right corner of the page, e.g. "2025-06-04". */
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   }),
 });
 
