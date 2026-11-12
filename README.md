@@ -30,7 +30,7 @@ pnpm check     # 型チェック
 
 1. 画像を `public/img/weekly/ja/volN-ja.jpg` に置く(無ければ `public/img/weekly/en/volN-en.jpg` が使われる)。
 2. `scripts/weekly-images.sh volN` を実行する(要 `brew install imagemagick webp`)。JPG を幅 1600px に縮小し、一覧・号ページが使う WebP(400/800/1600px)を隣に生成する。生成物も一緒にコミットする。
-3. `src/content/weekly/issues.json` に `{ "id": "volN", "number": N, "slug": "volN" }` を追加する。
+3. `src/content/weekly/issues.json` に `{ "id": "volN", "number": N, "slug": "volN", "date": "YYYY-MM-DD" }` を追加する(`date` は紙面右上に手書きした発行日。一覧のカードに出る)。
 4. 文字起こしがあれば `src/content/weekly/transcriptions/volN.md` を置く(任意)。
 
 ## デプロイ

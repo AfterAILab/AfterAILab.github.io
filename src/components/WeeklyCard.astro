@@ -1,5 +1,5 @@
 ---
-import { webpSrcset, type WeeklyIssue } from '../lib/weekly';
+import { formatIssueDate, webpSrcset, type WeeklyIssue } from '../lib/weekly';
 
 interface Props {
   issue: WeeklyIssue;
@@ -22,6 +22,7 @@ const { issue, latest = false } = Astro.props;
     Vol.{issue.number}
     {latest && <span class="badge">最新</span>}
   </span>
+  <time class="weekly-card-date" datetime={issue.date}>{formatIssueDate(issue.date)}</time>
 </a>
 
 <style>
@@ -55,6 +56,12 @@ const { issue, latest = false } = Astro.props;
     align-items: center;
     gap: 8px;
     font-weight: 600;
+    padding: 0 4px;
+  }
+  .weekly-card-date {
+    margin-top: -8px;
     padding: 0 4px 4px;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
   }
 </style>

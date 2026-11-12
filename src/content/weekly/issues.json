@@ -2,286 +2,343 @@
   {
     "id": "vol1",
     "number": 1,
-    "slug": "vol1"
+    "slug": "vol1",
+    "date": "2025-06-04"
   },
   {
     "id": "vol2",
     "number": 2,
-    "slug": "vol2"
+    "slug": "vol2",
+    "date": "2025-06-11"
   },
   {
     "id": "vol3",
     "number": 3,
-    "slug": "vol3"
+    "slug": "vol3",
+    "date": "2025-06-18"
   },
   {
     "id": "vol4",
     "number": 4,
-    "slug": "vol4"
+    "slug": "vol4",
+    "date": "2025-06-25"
   },
   {
     "id": "vol5",
     "number": 5,
-    "slug": "vol5"
+    "slug": "vol5",
+    "date": "2025-07-02"
   },
   {
     "id": "vol6",
     "number": 6,
-    "slug": "vol6"
+    "slug": "vol6",
+    "date": "2025-07-09"
   },
   {
     "id": "vol7",
     "number": 7,
-    "slug": "vol7"
+    "slug": "vol7",
+    "date": "2025-07-16"
   },
   {
     "id": "vol8",
     "number": 8,
-    "slug": "vol8"
+    "slug": "vol8",
+    "date": "2025-07-23"
   },
   {
     "id": "vol9",
     "number": 9,
-    "slug": "vol9"
+    "slug": "vol9",
+    "date": "2025-07-30"
   },
   {
     "id": "vol10",
     "number": 10,
-    "slug": "vol10"
+    "slug": "vol10",
+    "date": "2025-08-06"
   },
   {
     "id": "vol11",
     "number": 11,
-    "slug": "vol11"
+    "slug": "vol11",
+    "date": "2025-08-13"
   },
   {
     "id": "vol12",
     "number": 12,
-    "slug": "vol12"
+    "slug": "vol12",
+    "date": "2025-08-20"
   },
   {
     "id": "vol13",
     "number": 13,
-    "slug": "vol13"
+    "slug": "vol13",
+    "date": "2025-08-27"
   },
   {
     "id": "vol14",
     "number": 14,
-    "slug": "vol14"
+    "slug": "vol14",
+    "date": "2025-09-03"
   },
   {
     "id": "vol15",
     "number": 15,
-    "slug": "vol15"
+    "slug": "vol15",
+    "date": "2025-09-10"
   },
   {
     "id": "vol16",
     "number": 16,
-    "slug": "vol16"
+    "slug": "vol16",
+    "date": "2025-09-17"
   },
   {
     "id": "vol17",
     "number": 17,
-    "slug": "vol17"
+    "slug": "vol17",
+    "date": "2025-09-25"
   },
   {
     "id": "vol18",
     "number": 18,
-    "slug": "vol18"
+    "slug": "vol18",
+    "date": "2025-10-01"
   },
   {
     "id": "vol19",
     "number": 19,
-    "slug": "vol19"
+    "slug": "vol19",
+    "date": "2025-10-08"
   },
   {
     "id": "vol20",
     "number": 20,
-    "slug": "vol20"
+    "slug": "vol20",
+    "date": "2025-10-15"
   },
   {
     "id": "vol21",
     "number": 21,
-    "slug": "vol21"
+    "slug": "vol21",
+    "date": "2025-10-22"
   },
   {
     "id": "vol22",
     "number": 22,
-    "slug": "vol22"
+    "slug": "vol22",
+    "date": "2025-10-29"
   },
   {
     "id": "vol23",
     "number": 23,
-    "slug": "vol23"
+    "slug": "vol23",
+    "date": "2025-11-05"
   },
   {
     "id": "vol24",
     "number": 24,
-    "slug": "vol24"
+    "slug": "vol24",
+    "date": "2025-11-12"
   },
   {
     "id": "vol25",
     "number": 25,
-    "slug": "vol25"
+    "slug": "vol25",
+    "date": "2025-11-19"
   },
   {
     "id": "vol26",
     "number": 26,
-    "slug": "vol26"
+    "slug": "vol26",
+    "date": "2025-11-26"
   },
   {
     "id": "vol27",
     "number": 27,
-    "slug": "vol27"
+    "slug": "vol27",
+    "date": "2025-12-03"
   },
   {
     "id": "vol28",
     "number": 28,
-    "slug": "vol28"
+    "slug": "vol28",
+    "date": "2025-12-10"
   },
   {
     "id": "vol29",
     "number": 29,
-    "slug": "vol29"
+    "slug": "vol29",
+    "date": "2025-12-17"
   },
   {
     "id": "vol30",
     "number": 30,
-    "slug": "vol30"
+    "slug": "vol30",
+    "date": "2025-12-26"
   },
   {
     "id": "vol31",
     "number": 31,
-    "slug": "vol31"
+    "slug": "vol31",
+    "date": "2026-01-01"
   },
   {
     "id": "vol32",
     "number": 32,
-    "slug": "vol32"
+    "slug": "vol32",
+    "date": "2026-01-08"
   },
   {
     "id": "vol33",
     "number": 33,
-    "slug": "vol33"
+    "slug": "vol33",
+    "date": "2026-01-18"
   },
   {
     "id": "vol34",
     "number": 34,
-    "slug": "vol34"
+    "slug": "vol34",
+    "date": "2026-01-25"
   },
   {
     "id": "vol35",
     "number": 35,
-    "slug": "vol35"
+    "slug": "vol35",
+    "date": "2026-02-01"
   },
   {
     "id": "vol36",
     "number": 36,
-    "slug": "vol36"
+    "slug": "vol36",
+    "date": "2026-02-07"
   },
   {
     "id": "vol37",
     "number": 37,
-    "slug": "vol37"
+    "slug": "vol37",
+    "date": "2026-02-15"
   },
   {
     "id": "vol38",
     "number": 38,
-    "slug": "vol38"
+    "slug": "vol38",
+    "date": "2026-02-22"
   },
   {
     "id": "vol39",
     "number": 39,
-    "slug": "vol39"
+    "slug": "vol39",
+    "date": "2026-03-01"
   },
   {
     "id": "vol40",
     "number": 40,
-    "slug": "vol40"
+    "slug": "vol40",
+    "date": "2026-03-07"
   },
   {
     "id": "vol41",
     "number": 41,
-    "slug": "vol41"
+    "slug": "vol41",
+    "date": "2026-03-15"
   },
   {
     "id": "vol42",
     "number": 42,
-    "slug": "vol42"
+    "slug": "vol42",
+    "date": "2026-03-20"
   },
   {
     "id": "vol43",
     "number": 43,
-    "slug": "vol43"
+    "slug": "vol43",
+    "date": "2026-03-29"
   },
   {
     "id": "vol44",
     "number": 44,
-    "slug": "vol44"
+    "slug": "vol44",
+    "date": "2026-04-05"
   },
   {
     "id": "vol45",
     "number": 45,
-    "slug": "vol45"
+    "slug": "vol45",
+    "date": "2026-04-12"
   },
   {
     "id": "vol46",
     "number": 46,
-    "slug": "vol46"
+    "slug": "vol46",
+    "date": "2026-04-19"
   },
   {
     "id": "vol47",
     "number": 47,
-    "slug": "vol47"
+    "slug": "vol47",
+    "date": "2026-04-26"
   },
   {
     "id": "vol48",
     "number": 48,
-    "slug": "vol48"
+    "slug": "vol48",
+    "date": "2026-05-04"
   },
   {
     "id": "vol49",
     "number": 49,
-    "slug": "vol49"
+    "slug": "vol49",
+    "date": "2026-05-10"
   },
   {
     "id": "vol50",
     "number": 50,
-    "slug": "vol50"
+    "slug": "vol50",
+    "date": "2026-05-17"
   },
   {
     "id": "vol51",
     "number": 51,
-    "slug": "vol51"
+    "slug": "vol51",
+    "date": "2026-05-24"
   },
   {
     "id": "vol52",
     "number": 52,
-    "slug": "vol52"
+    "slug": "vol52",
+    "date": "2026-05-30"
   },
   {
     "id": "vol53",
     "number": 53,
-    "slug": "vol53"
+    "slug": "vol53",
+    "date": "2026-06-07"
   },
   {
     "id": "vol54",
     "number": 54,
-    "slug": "vol54"
+    "slug": "vol54",
+    "date": "2026-06-14"
   },
   {
     "id": "vol55",
     "number": 55,
-    "slug": "vol55"
+    "slug": "vol55",
+    "date": "2026-06-22"
   },
   {
     "id": "vol56",
     "number": 56,
-    "slug": "vol56"
+    "slug": "vol56",
+    "date": "2026-06-29"
   },
   {
     "id": "vol57",
     "number": 57,
-    "slug": "vol57"
+    "slug": "vol57",
+    "date": "2026-11-11"
   }
 ]

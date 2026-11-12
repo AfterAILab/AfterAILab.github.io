@@ -7,6 +7,8 @@ export interface WeeklyIssue {
   slug: string;
   /** e.g. "週刊 AfterAI Vol.12" */
   title: string;
+  /** Issue date, "YYYY-MM-DD" (handwritten on the page). */
+  date: string;
   /**
    * Site-relative path of the 1600px JPG, e.g. "/img/weekly/ja/vol12-ja.jpg".
    * Used for the "open full size" link and as the OG image (crawlers want JPG/PNG).
@@ -40,6 +42,12 @@ function resolveImage(slug: string): Pick<WeeklyIssue, 'image' | 'webp'> {
   return { image: `${base}.jpg`, webp };
 }
 
+/** "2025-06-04" → "2025年6月4日" */
+export function formatIssueDate(date: string): string {
+  const [y, m, d] = date.split('-').map(Number);
+  return `${y}年${m}月${d}日`;
+}
+
 /** `srcset` value for the given widths, e.g. "…-400.webp 400w, …-800.webp 800w". */
 export function webpSrcset(issue: WeeklyIssue, widths: (400 | 800 | 1600)[]): string {
   return widths.map((w) => `${issue.webp[w]} ${w}w`).join(', ');
@@ -60,6 +68,7 @@ export function getWeeklyIssues(): Promise<WeeklyIssue[]> {
         number: data.number,
         slug: data.slug,
         title: `週刊 AfterAI Vol.${data.number}`,
+        date: data.date,
         ...resolveImage(data.slug),
         url: `/weekly/${data.slug}/`,
         hasTranscription: withTranscription.has(data.slug),
