@@ -6,7 +6,10 @@ interface Props {
   latest?: boolean;
 }
 const { issue, latest = false } = Astro.props;
+const audio = issue.audio;
+const length = audio && `${Math.floor(audio.seconds / 60)}分${String(audio.seconds % 60).padStart(2, '0')}秒`;
 ---
+<div class="weekly-item">
 <a class="weekly-card" href={issue.url}>
   <img
     src={issue.webp[400]}
@@ -24,9 +27,33 @@ const { issue, latest = false } = Astro.props;
   </span>
   <time class="weekly-card-date" datetime={issue.date}>{formatIssueDate(issue.date)}</time>
 </a>
+{audio && (
+  <a
+    class="weekly-audio"
+    href={`${issue.url}#audio`}
+    aria-label={`Vol.${issue.number} の音声を聞く(${length})`}
+    title={`音声あり(${length})`}
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3a9 9 0 0 0-9 9v6a3 3 0 0 0 3 3h1a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H5v-1a7 7 0 0 1 14 0v1h-2a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h1a3 3 0 0 0 3-3v-6a9 9 0 0 0-9-9z" />
+    </svg>
+  </a>
+)}
+</div>
 
 <style>
+  /* The card is a link, so the audio link sits beside it in this wrapper rather than inside it (links can't nest). */
+  .weekly-item {
+    position: relative;
+    /* Lets the audio link find the thumbnail's bottom edge in cqw (the image is 3:4 and fills the card's width). */
+    container-type: inline-size;
+    transition: transform 0.15s ease;
+  }
+  .weekly-item:hover {
+    transform: translateY(-2px);
+  }
   .weekly-card {
+    height: 100%;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -36,10 +63,9 @@ const { issue, latest = false } = Astro.props;
     border-radius: var(--radius);
     box-shadow: var(--shadow-card);
     color: var(--color-text);
-    transition: transform 0.15s ease, border-color 0.15s ease;
+    transition: border-color 0.15s ease;
   }
-  .weekly-card:hover {
-    transform: translateY(-2px);
+  .weekly-item:hover .weekly-card {
     border-color: var(--color-primary);
     color: var(--color-text);
   }
@@ -63,5 +89,36 @@ const { issue, latest = false } = Astro.props;
     padding: 0 4px 4px;
     font-size: 0.85rem;
     color: var(--color-text-secondary);
+  }
+  .weekly-audio {
+    position: absolute;
+    /* Bottom-right corner of the thumbnail: card border 1px + padding 12px, image height = width × 4/3, 8px inset. */
+    top: calc(13px + (100cqw - 26px) * 4 / 3 - 48px);
+    right: 21px;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: var(--color-primary-contrast);
+    box-shadow: var(--shadow-card);
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .weekly-audio:hover {
+    background: var(--color-primary-hover);
+    color: var(--color-primary-contrast);
+    transform: scale(1.06);
+  }
+  .weekly-audio:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+  .weekly-audio svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
   }
 </style>
