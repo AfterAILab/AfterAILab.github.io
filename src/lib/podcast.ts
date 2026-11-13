@@ -15,6 +15,8 @@ export const PODCAST = {
   /** Square, 1400–3000px, JPG or PNG (Apple Podcasts requirement). */
   coverPath: '/img/podcast/cover.jpg',
   feedPath: '/weekly/podcast.xml',
+  /** The show on Spotify (submitted from this feed via Spotify for Creators). */
+  spotifyUrl: 'https://open.spotify.com/show/0vCoTOQ87A6zBSC5mrIwbA',
   /** Apple Podcasts categories: https://podcasters.apple.com/support/1691-apple-podcasts-categories */
   category: 'Society & Culture',
   subcategory: 'Personal Journals',

@@ -68,6 +68,7 @@ const minutes = audio && `${Math.floor(audio.seconds / 60)}分${String(audio.sec
         </audio>
         <p class="small audio-links">
           <a href={audio.url} download={`AfterAI-Weekly-${issue.slug}.m4a`}>ダウンロード</a>
+          <a href={PODCAST.spotifyUrl} rel="noopener">Spotify で聞く</a>
           <a href={PODCAST.feedPath}>ポッドキャスト(RSS)</a>
         </p>
       </section>
