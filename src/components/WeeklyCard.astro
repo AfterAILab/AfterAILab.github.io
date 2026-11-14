@@ -6,7 +6,8 @@ interface Props {
   latest?: boolean;
 }
 const { issue, latest = false } = Astro.props;
-const audio = issue.audio;
+// Only issues whose episode is on Spotify show audio on their page (see weekly/[slug].astro).
+const audio = issue.audio?.spotifyEpisodeId ? issue.audio : undefined;
 const length = audio && `${Math.floor(audio.seconds / 60)}分${String(audio.seconds % 60).padStart(2, '0')}秒`;
 ---
 <div class="weekly-item">

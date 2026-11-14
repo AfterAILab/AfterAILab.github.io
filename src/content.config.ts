@@ -22,6 +22,15 @@ const weekly = defineCollection({
         title: z.string().optional(),
         /** Show notes for podcast apps; defaults to a one-line description of the issue. */
         description: z.string().optional(),
+        /**
+         * Spotify episode ID (the part after open.spotify.com/episode/), added once Spotify has picked the
+         * episode up from the feed. The issue page plays the episode in Spotify's widget; until the ID is
+         * set the page shows no audio (the episode is still in the feed).
+         */
+        spotify: z
+          .string()
+          .regex(/^[A-Za-z0-9]{22}$/)
+          .optional(),
       })
       .optional(),
   }),

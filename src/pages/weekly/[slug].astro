@@ -1,7 +1,7 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { getTranscription, getWeeklyIssues, webpSrcset, type WeeklyIssue } from '../../lib/weekly';
+import { getTranscription, getWeeklyIssues, spotifyEmbedUrl, webpSrcset, type WeeklyIssue } from '../../lib/weekly';
 import { PODCAST } from '../../lib/podcast';
 
 export async function getStaticPaths() {
@@ -22,9 +22,10 @@ const { issue, newer, older } = Astro.props;
 const entry = issue.hasTranscription ? await getTranscription(issue.slug) : undefined;
 const Transcription = entry ? (await render(entry)).Content : undefined;
 
-const extras = [issue.audio && '音声', entry && '文字起こし'].filter(Boolean).join('・');
+// The audio is shown as Spotify's widget, so only once the episode's Spotify ID is in issues.json.
+const audio = issue.audio?.spotifyEpisodeId ? issue.audio : undefined;
+const extras = [audio && '音声', entry && '文字起こし'].filter(Boolean).join('・');
 const description = `AI 以後の世界でどのように生きるべきかを、悩みながら 1 枚の紙に手書きしてきた「AfterAI Weekly」第${issue.number}号${extras ? `（${extras}付き）` : ''}です。`;
-const audio = issue.audio;
 const minutes = audio && `${Math.floor(audio.seconds / 60)}分${String(audio.seconds % 60).padStart(2, '0')}秒`;
 ---
 <Base title={issue.title} description={description} current="/weekly/" ogImage={issue.image}>
@@ -62,13 +63,18 @@ const minutes = audio && `${Math.floor(audio.seconds / 60)}分${String(audio.sec
     {audio && (
       <section class="audio" id="audio" aria-label="音声">
         <h2>音声</h2>
-        <p class="muted small">この号について話した音声です({minutes})。ポッドキャスト「{PODCAST.title}」でも配信しています。</p>
-        <audio controls preload="metadata" src={audio.url}>
-          <a href={audio.url}>音声ファイル(m4a)</a>
-        </audio>
+        <p class="muted small">この号について話した音声です({minutes})。ポッドキャスト「{PODCAST.title}」として配信しています。</p>
+        <iframe
+          class="spotify-embed"
+          src={spotifyEmbedUrl(audio.spotifyEpisodeId!)}
+          width="100%"
+          height="232"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+          title={`${audio.title}(Spotify)`}
+        ></iframe>
         <p class="small audio-links">
-          <a href={audio.url} download={`AfterAI-Weekly-${issue.slug}.m4a`}>ダウンロード</a>
-          <a href={PODCAST.spotifyUrl} rel="noopener">Spotify で聞く</a>
+          <a href={PODCAST.spotifyUrl} rel="noopener">Spotify の番組ページ</a>
           <a href={PODCAST.feedPath}>ポッドキャスト(RSS)</a>
         </p>
       </section>
@@ -138,10 +144,13 @@ const minutes = audio && `${Math.floor(audio.seconds / 60)}分${String(audio.sec
     font-size: 1.15rem;
     margin-bottom: 4px;
   }
-  .audio audio {
+  .spotify-embed {
     display: block;
     width: 100%;
+    height: 232px;
     margin: 14px 0 10px;
+    border: 0;
+    border-radius: 12px;
   }
   .audio-links {
     display: flex;
