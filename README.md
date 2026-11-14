@@ -39,7 +39,8 @@ pnpm check     # 型チェック
 1. iPhone のボイスメモなどで録音し、Mac に送る。
 2. `scripts/weekly-audio.sh volN <録音ファイル>` を実行する。AAC 64kbps モノラルに変換して `public/audio/weekly/volN.m4a` に置く(macOS 標準の afconvert を使う)。
 3. `src/content/weekly/issues.json` の該当号に `"audio": { "date": "YYYY-MM-DD" }` を足す。`"title"`(既定は「AfterAI Weekly Vol.N」)と `"description"`(番組ノート)も書ける。
-4. push すると号ページにプレイヤーが出て、`/weekly/podcast.xml` にエピソードが増える。Apple Podcasts などはこの RSS を読みに来る。
+4. push すると `/weekly/podcast.xml` にエピソードが増える。Spotify(https://open.spotify.com/show/0vCoTOQ87A6zBSC5mrIwbA)はこの RSS から取り込む(数時間かかることがある)。
+5. Spotify にエピソードが出たら「共有 → リンクをコピー」で URL を取り、`open.spotify.com/episode/` の後ろの ID を `"audio"` に `"spotify": "…"` として足して push する。ここで初めて号ページに Spotify のプレイヤーが出て、一覧にヘッドホンの印が付く。Substack の号にも同じ URL を貼れば埋め込まれる。
 
 音声ファイルと `audio` の片方だけがあるとビルドが失敗する。公開したエピソードを別の号に付け替えないこと(エピソードの ID が号から作られるので、アプリで新しいエピソードとして出し直される)。
 

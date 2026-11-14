@@ -14,6 +14,8 @@ export interface WeeklyAudio {
   date: string;
   title: string;
   description: string;
+  /** Spotify episode ID; the site shows the audio (as Spotify's widget) only once this is known. */
+  spotifyEpisodeId?: string;
 }
 
 export interface WeeklyIssue {
@@ -59,7 +61,7 @@ function resolveImage(slug: string): Pick<WeeklyIssue, 'image' | 'webp'> {
 
 const AUDIO_DIR = '/audio/weekly';
 
-type AudioMeta = { date: string; title?: string; description?: string };
+type AudioMeta = { date: string; title?: string; description?: string; spotify?: string };
 
 /**
  * An issue's audio comes from public/audio/weekly/volN.m4a plus the `audio` entry in issues.json.
@@ -86,6 +88,7 @@ function resolveAudio(slug: string, number: number, meta: AudioMeta | undefined)
     date: meta.date,
     title: meta.title ?? `AfterAI Weekly Vol.${number}`,
     description: meta.description ?? `手書きのニュースレター「AfterAI Weekly」第${number}号について話しました。`,
+    spotifyEpisodeId: meta.spotify,
   };
 }
 
@@ -106,6 +109,11 @@ function checkAudioFiles(slugs: Set<string>): void {
 export function formatIssueDate(date: string): string {
   const [y, m, d] = date.split('-').map(Number);
   return `${y}年${m}月${d}日`;
+}
+
+/** Embed URL of Spotify's episode widget. */
+export function spotifyEmbedUrl(episodeId: string): string {
+  return `https://open.spotify.com/embed/episode/${episodeId}`;
 }
 
 /** `srcset` value for the given widths, e.g. "…-400.webp 400w, …-800.webp 800w". */
