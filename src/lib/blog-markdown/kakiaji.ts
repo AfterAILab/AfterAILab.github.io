@@ -1,10 +1,14 @@
 /**
  * Entry point of the renderer bundle Kakiaji runs in JavaScriptCore (built by scripts/build-blog-renderer.mjs).
- * Kakiaji calls `BlogMarkdown.render(markdown, imageBase)`; `imageBase` is the URL relative image paths resolve
- * against (the document's folder), or an empty string to leave them as written.
+ *
+ * - `BlogMarkdown.render(markdown, imageBase)` for the preview; `imageBase` is the URL relative image paths
+ *   resolve against (the document's folder), or an empty string to leave them as written.
+ * - `BlogMarkdown.inspect(markdown)` and `BlogMarkdown.rewriteImages(markdown, paths)` for posting a text to the
+ *   blog (./publish.ts).
  */
 // First: JavaScriptCore has no console, and Shiki warns through it while loading grammars.
 import './jsc-console';
+import { inspectPost, rewritePostImages } from './publish';
 import { renderBlogMarkdown } from './render';
 
 const RELATIVE = /^(?![a-z][a-z0-9+.-]*:|\/|#)/i;
@@ -30,4 +34,8 @@ function safeDecode(part: string): string {
   }
 }
 
-(globalThis as { BlogMarkdown?: unknown }).BlogMarkdown = { render };
+(globalThis as { BlogMarkdown?: unknown }).BlogMarkdown = {
+  render,
+  inspect: inspectPost,
+  rewriteImages: rewritePostImages,
+};

@@ -1,0 +1,10 @@
+{
+  "$comment": "What a blog image must be to publish. Read by src/lib/blog-images.ts (the build's check, which also validates this file), by scripts/blog-images.sh (the fixer: maxWidth, jpegQuality and the extensions to look for; it strips all metadata) and, copied by `make sync-renderer` (scripts/build-blog-renderer.mjs), by Kakiaji, which re-encodes the images of a text it posts and checks them against these rules. When the extensions change, also change the image glob in src/pages/blog/[id].astro (import.meta.glob takes only literals) and the per-format handling in scripts/blog-images.sh.",
+  "images": {
+    "maxWidth": 1600,
+    "jpegQuality": 85,
+    "extensions": ["jpg", "jpeg", "png", "webp", "gif", "avif"],
+    "rejectedExtensions": ["heic"],
+    "rejectedMetadata": ["exif", "xmp", "iptc", "icc"]
+  }
+}

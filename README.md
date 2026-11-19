@@ -32,28 +32,31 @@ pnpm test:renderer  # Blog の Markdown 変換のテスト(macOS では JavaScri
 
 ## Blog に記事を書く
 
-1. `src/content/blog/` に `YYYY-MM-DD-slug.md`(例: `2026-11-18-paging.md`)を作る(エディタは何でもよい)。日付が公開日、ファイル名全体が URL(`/blog/2026-11-18-paging/`)になる。
+1. `src/content/blog/` に `YYYY-MM-DD-slug.md`(例: `2026-11-18-paging.md`)を作る(エディタは何でもよい)。日付が公開日、ファイル名(`.md` を除く)が記事の id と URL(`/blog/2026-11-18-paging/`)になる。ただし id はファイル名を GitHub の見出しのアンカーと同じ規則で変換したもの: 英字は小文字になり、空白は `-` になり、`.` やたいていの記号(全角も)は消える(`2026-11-18-v1.2 Release.md` → `/blog/2026-11-18-v12-release/`)。迷わないよう、`slug` の部分は `a-z`・`0-9`・`-` だけで書く。
 2. 本文は `# タイトル` の行から書き始める。その見出しがページのタイトルになる。最初の段落の冒頭が検索結果・リンクプレビュー用の説明文になる。
 3. 名前が `_` で始まるファイルは下書きとして公開されない。公開するときにファイル名から `_` を外す。
 4. push すると Blog の一覧の先頭に出る。記事ページの ← → で前後の記事へ移る。
 
-front matter(`title` / `date` / `description`)を書けば、上の自動の値より優先される。
+front matter(`title` / `date` / `description`)を書けば、上の自動の値より優先される。front matter に `slug` は書かない(書くと変換されずにそのまま id になり、日付で始まらない slug では、front matter に `date` も無ければビルドが失敗する)。
+
+Kakiaji から投稿した記事は、GitHub の API で `main` に直接コミットされる(設計: `../kakiaji/docs/blog-publishing.md`)。手元の clone で作業する前に `git pull` する。
 
 ### 画像
 
 1. 記事ごとのフォルダ `src/content/blog/<記事のファイル名から .md を除いたもの>/` に置き、`![説明](./2026-11-18-paging/写真.jpg)` のように参照する。名前に空白があるときは `![説明](<./2026-11-18-paging/写真 1.jpg>)` と書く。
 2. コミットの前に `scripts/blog-images.sh` を実行する(要 `brew install imagemagick`)。向きを正し、色を sRGB に変換し、幅 1600px まで縮小し、EXIF などのメタデータ(撮影位置・機種・日時)をすべて消して上書きする。HEIC は JPG に変換する(参照は自分で `.jpg` に直す)。
 3. このリポジトリは公開されているので、整っていない画像(幅 1600px 超、メタデータ付き、HEIC)が `src/content/blog/` の下に 1 枚でもあると、記事から参照していなくてもビルドが失敗する(`src/lib/blog-images.ts`)。
+   この規則(最大幅、JPG の品質、使える拡張子、禁じるメタデータ)は `src/lib/blog-rules.json` に書いてあり、ビルドの検査と Kakiaji はそのすべてを、`blog-images.sh` は最大幅・品質・探す拡張子を使う(メタデータは規則にかかわらずすべて消す。GIF と AVIF は直さずに知らせる)。拡張子を変えたら、`src/pages/blog/[id].astro` の画像の glob と、`blog-images.sh` の形式ごとの処理(`case`)も直す。
 4. ページでは 400 / 800 / 1600px の WebP(`srcset`)として配信される。参照先が見つからなければビルドが失敗する。
 
 書き方の決まり: 改行 1 つでは段落を分けない(日本語どうしの行は空白なしでつながる)。`"…"` `--` `...` は “…” – … になる。本文に書いた HTML は出力されない。コードブロックは Shiki で色が付く。
 
 ### Kakiaji との共有
 
-執筆アプリ Kakiaji(`../kakiaji`)のプレビューは、このサイトの変換処理(`src/lib/blog-markdown/`)とスタイル(`src/styles/global.css` + `article.css`)をそのまま JavaScriptCore で動かし、公開ページと同じ見た目にしている。これらを変えたら:
+執筆アプリ Kakiaji(`../kakiaji`)のプレビューは、このサイトの変換処理(`src/lib/blog-markdown/`)とスタイル(`src/styles/global.css` + `article.css`)をそのまま JavaScriptCore で動かし、公開ページと同じ見た目にしている。Blog への投稿でも、同じパーサーで画像の参照を一覧にして書き換え(`src/lib/blog-markdown/publish.ts`)、画像の規則(`src/lib/blog-rules.json`)で検査する。これらを変えたら:
 
 1. `pnpm test:renderer` で、期待どおりの出力になること、JavaScriptCore と V8(Node)で出力が一致することを確かめる。
-2. Kakiaji のリポジトリで `make sync-renderer` を実行し(`pnpm build:renderer` が `Resources/Renderer/` に JS と CSS を書き出す)、Kakiaji 側でコミットする。
+2. Kakiaji のリポジトリで `make sync-renderer` を実行し(`pnpm build:renderer` が `Resources/Renderer/` に JS・CSS・規則の JSON を書き出す)、Kakiaji 側でコミットする。
 
 変換処理は Node 専用・DOM 専用の API を使わないこと(JavaScriptCore で動かなくなる)。
 

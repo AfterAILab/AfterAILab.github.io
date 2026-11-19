@@ -1,14 +1,17 @@
 #!/usr/bin/env node
-// Builds what Kakiaji's preview needs to show a document exactly as a blog post on afterai.dev:
+// Builds what Kakiaji needs to show a document exactly as a blog post on afterai.dev, and to post it there:
 //
 //   blog-markdown.js  the site's Markdown renderer (src/lib/blog-markdown/), one script for JavaScriptCore;
-//                     it defines globalThis.BlogMarkdown.render(markdown, imageBase)
+//                     it defines globalThis.BlogMarkdown: render(markdown, imageBase) for the preview, and
+//                     inspect(markdown) / rewriteImages(markdown, paths) for posting (src/lib/blog-markdown/publish.ts)
 //   blog.css          the site's stylesheet (global.css + article.css) with Inter embedded,
 //                     since the preview runs offline and the site loads Inter from Google Fonts
+//   blog-rules.json   what a blog image must be to publish (src/lib/blog-rules.json); Kakiaji checks the
+//                     images it re-encodes for a post against it
 //
 // Usage: pnpm build:renderer [out-dir]   (default: dist-renderer/). Kakiaji's `make sync-renderer` runs this.
 import { build } from 'esbuild';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -51,4 +54,6 @@ const css = [
 ].join('\n');
 await writeFile(join(out, 'blog.css'), css);
 
-console.log(`wrote ${join(out, 'blog-markdown.js')} and ${join(out, 'blog.css')}`);
+await copyFile(join(root, 'src/lib/blog-rules.json'), join(out, 'blog-rules.json'));
+
+console.log(`wrote ${['blog-markdown.js', 'blog.css', 'blog-rules.json'].map((f) => join(out, f)).join(', ')}`);
