@@ -48,6 +48,9 @@ export interface ResolvedImage {
   src: string;
   width?: number;
   height?: number;
+  /** The site serves each image at several widths; Kakiaji shows the file itself. */
+  srcset?: string;
+  sizes?: string;
 }
 
 export interface RenderOptions {
@@ -147,6 +150,8 @@ function remarkImages(resolve: RenderOptions['resolveImage']) {
         node.url = resolved.src;
         if (resolved.width) properties.width = resolved.width;
         if (resolved.height) properties.height = resolved.height;
+        if (resolved.srcset) properties.srcSet = resolved.srcset;
+        if (resolved.sizes) properties.sizes = resolved.sizes;
       }
       node.data = { ...node.data, hProperties: { ...node.data?.hProperties, ...properties } };
     });

@@ -28,7 +28,7 @@ pnpm test:renderer  # Blog の Markdown 変換のテスト(macOS では JavaScri
 | `astro.config.mjs` | 旧 URL(`/ja/*`、`/vpp/demo/` など)からのリダイレクト |
 | `_admin/` | 印刷用など運用メモ(サイトには含まれない) |
 | `src/lib/podcast.ts` + `src/pages/weekly/podcast.xml.ts` | 音声付録のポッドキャスト「AfterAI Weekly」の番組情報と RSS(`/weekly/podcast.xml`)。カバー画像は `public/img/podcast/cover.jpg` |
-| `scripts/` | 画像と音声の前処理。`weekly-images.sh`(Weekly 画像の縮小・WebP 生成)、`weekly-audio.sh`(音声付録を m4a に変換)、`og-images.sh`(/apps/ /vpp/ /about/ の OG 画像を合成) |
+| `scripts/` | 画像と音声の前処理。`weekly-images.sh`(Weekly 画像の縮小・WebP 生成)、`weekly-audio.sh`(音声付録を m4a に変換)、`og-images.sh`(/apps/ /vpp/ /about/ の OG 画像を合成)、`blog-images.sh`(Blog の画像の縮小・メタデータ除去) |
 
 ## Blog に記事を書く
 
@@ -37,7 +37,14 @@ pnpm test:renderer  # Blog の Markdown 変換のテスト(macOS では JavaScri
 3. 名前が `_` で始まるファイルは下書きとして公開されない。公開するときにファイル名から `_` を外す。
 4. push すると Blog の一覧の先頭に出る。記事ページの ← → で前後の記事へ移る。
 
-front matter(`title` / `date` / `description`)を書けば、上の自動の値より優先される。画像は記事と同じフォルダ(またはその下)に置いて `![説明](./画像.jpg)` で参照する。名前に空白があるときは `![説明](<./画像 1.jpg>)` と書く。画像はビルド時に WebP に変換され、見つからなければビルドが失敗する。
+front matter(`title` / `date` / `description`)を書けば、上の自動の値より優先される。
+
+### 画像
+
+1. 記事ごとのフォルダ `src/content/blog/<記事のファイル名から .md を除いたもの>/` に置き、`![説明](./2026-11-18-paging/写真.jpg)` のように参照する。名前に空白があるときは `![説明](<./2026-11-18-paging/写真 1.jpg>)` と書く。
+2. コミットの前に `scripts/blog-images.sh` を実行する(要 `brew install imagemagick`)。向きを正し、色を sRGB に変換し、幅 1600px まで縮小し、EXIF などのメタデータ(撮影位置・機種・日時)をすべて消して上書きする。HEIC は JPG に変換する(参照は自分で `.jpg` に直す)。
+3. このリポジトリは公開されているので、整っていない画像(幅 1600px 超、メタデータ付き、HEIC)が `src/content/blog/` の下に 1 枚でもあると、記事から参照していなくてもビルドが失敗する(`src/lib/blog-images.ts`)。
+4. ページでは 400 / 800 / 1600px の WebP(`srcset`)として配信される。参照先が見つからなければビルドが失敗する。
 
 書き方の決まり: 改行 1 つでは段落を分けない(日本語どうしの行は空白なしでつながる)。`"…"` `--` `...` は “…” – … になる。本文に書いた HTML は出力されない。コードブロックは Shiki で色が付く。
 

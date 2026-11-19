@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { checkBlogImages } from './blog-images';
 
 /** A blog post: one Markdown file, src/content/blog/YYYY-MM-DD-slug.md. */
 export interface BlogPost {
@@ -43,9 +44,13 @@ function excerpt(body: string, max = 110): string {
 
 let postsCache: Promise<BlogPost[]> | undefined;
 
-/** All published posts, newest first. A post without a date or a title fails the build. */
+/**
+ * All published posts, newest first. A post without a date or a title fails the build, as does an image
+ * not ready to publish (see ./blog-images.ts).
+ */
 export function getBlogPosts(): Promise<BlogPost[]> {
   postsCache ??= (async () => {
+    await checkBlogImages();
     const entries = await getCollection('blog');
     return entries
       .map((entry) => {

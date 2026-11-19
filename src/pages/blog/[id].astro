@@ -3,6 +3,7 @@ import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Base from '../../layouts/Base.astro';
 import { getBlogPosts, type BlogPost } from '../../lib/blog';
+import { BLOG_IMAGE_WIDTHS } from '../../lib/blog-images';
 import { imageSources, renderBlogMarkdown, type ResolvedImage } from '../../lib/blog-markdown/render';
 import { formatIssueDate } from '../../lib/weekly';
 import '../../styles/article.css';
@@ -37,7 +38,7 @@ function safeDecode(src: string): string {
   }
 }
 
-/** Optimizes each image the post refers to by a relative path. A missing image fails the build. */
+/** Optimizes each image the post refers to by a relative path, at several widths. A missing image fails the build. */
 async function resolveImages(entryFile: string, markdown: string): Promise<Map<string, ResolvedImage>> {
   const dir = entryFile.replace(/^\.?\/?/, '/').replace(/\/[^/]*$/, '');
   const resolved = new Map<string, ResolvedImage>();
@@ -50,11 +51,16 @@ async function resolveImages(entryFile: string, markdown: string): Promise<Map<s
     }
     const image = blogImages[parts.join('/')];
     if (!image) throw new Error(`Blog post ${entryFile}: image not found: ${src}`);
-    const optimized = await getImage({ src: image, format: 'webp' });
+    // WebP at 400 / 800 / 1600px (no wider than the file itself); the browser picks by the column's width.
+    const widths = [...new Set(BLOG_IMAGE_WIDTHS.map((w) => Math.min(w, image.width)))];
+    const optimized = await getImage({ src: image, format: 'webp', width: Math.max(...widths), widths });
     resolved.set(src, {
       src: optimized.src,
       width: Number(optimized.attributes.width ?? image.width),
       height: Number(optimized.attributes.height ?? image.height),
+      srcset: optimized.srcSet.attribute,
+      // The body is 700px wide at most, with 20px gutters on narrow screens.
+      sizes: '(max-width: 740px) calc(100vw - 40px), 700px',
     });
   }
   return resolved;
