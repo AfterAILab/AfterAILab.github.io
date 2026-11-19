@@ -95,3 +95,6 @@ _admin
 # Astro
 dist/
 .astro/
+
+# Kakiaji renderer bundle (scripts/build-blog-renderer.mjs)
+dist-renderer/

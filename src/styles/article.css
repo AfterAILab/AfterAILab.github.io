@@ -1,0 +1,81 @@
+/*
+ * A blog post's body: <article class="post"> … <div class="prose post-body">rendered Markdown</div>.
+ * Shared with Kakiaji's preview (scripts/build-blog-renderer.mjs bundles it after global.css), so keep
+ * everything the body's look depends on here, not in the page's scoped <style>.
+ */
+.post {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.post-body {
+  margin-top: 36px;
+  font-size: 1.06rem;
+  line-height: 1.95;
+}
+.post-body > time {
+  display: block;
+}
+.post-body > h1 {
+  margin: 6px 0 28px;
+  font-size: 2rem;
+  line-height: 1.35;
+}
+.post-body img {
+  max-width: 100%;
+  height: auto;
+  margin: 1.2em auto;
+  border-radius: var(--radius-sm);
+}
+.post-body blockquote {
+  margin: 1.2em 0;
+  padding: 0.2em 0 0.2em 1em;
+  border-left: 3px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+.post-body hr {
+  margin: 2.4em auto;
+  width: 30%;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+.post-body :not(pre) > code {
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: var(--color-surface-2);
+}
+.post-body pre {
+  margin: 1.2em 0;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+.post-body pre code {
+  font-size: inherit;
+}
+.post-body li:has(> input[type='checkbox']) {
+  list-style: none;
+  margin-left: -1.4em;
+}
+.post-body input[type='checkbox'] {
+  margin-right: 0.4em;
+  accent-color: var(--color-primary);
+}
+.post-body del {
+  color: var(--color-text-secondary);
+}
+.post-body .footnotes {
+  margin-top: 3em;
+  padding-top: 1em;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.9rem;
+}
+.post-body .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
