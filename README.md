@@ -10,6 +10,7 @@ pnpm dev       # http://localhost:4321
 pnpm build     # dist/ に出力
 pnpm preview   # dist/ をローカル配信
 pnpm check     # 型チェック
+pnpm test:renderer  # Blog の Markdown 変換のテスト(macOS では JavaScriptCore と V8 で出力が一致するかも確かめる)
 ```
 
 ## 構成
@@ -19,6 +20,8 @@ pnpm check     # 型チェック
 | `src/pages/index.astro` | トップ(アプリ 3 枚、Weekly 最新号、お問い合わせ) |
 | `src/pages/apps.astro` + `src/data/apps.ts` | アプリ一覧。アプリの説明文・URL・アイコンは `apps.ts` を編集 |
 | `src/pages/vpp.astro` | AfterAI VPP の紹介と実機 PoC 結果(`#poc`)。プレイヤーは `public/vpp-demo/` |
+| `src/pages/blog/` + `src/content/blog/` + `src/lib/blog.ts` | Blog(トップメニュー)。記事を新しい順に並べた一覧と、記事ページ(← → で前後の記事へ) |
+| `src/lib/blog-markdown/` + `src/styles/article.css` | Blog 記事の Markdown → HTML 変換と本文のスタイル。執筆アプリ Kakiaji のプレビューも同じものを使う(下の「Kakiaji との共有」) |
 | `src/pages/weekly/` + `src/content/weekly/` | AfterAI Weekly のアーカイブ |
 | `src/pages/about.astro` / `src/pages/works/` | 会社概要、これまでの活動(Flaps、Maker Faire、遊戯王ライフカウンター) |
 | `src/layouts/Base.astro` / `src/styles/global.css` | 共通レイアウト、ライト/ダークのデザイントークン |
@@ -26,6 +29,26 @@ pnpm check     # 型チェック
 | `_admin/` | 印刷用など運用メモ(サイトには含まれない) |
 | `src/lib/podcast.ts` + `src/pages/weekly/podcast.xml.ts` | 音声付録のポッドキャスト「AfterAI Weekly」の番組情報と RSS(`/weekly/podcast.xml`)。カバー画像は `public/img/podcast/cover.jpg` |
 | `scripts/` | 画像と音声の前処理。`weekly-images.sh`(Weekly 画像の縮小・WebP 生成)、`weekly-audio.sh`(音声付録を m4a に変換)、`og-images.sh`(/apps/ /vpp/ /about/ の OG 画像を合成) |
+
+## Blog に記事を書く
+
+1. `src/content/blog/` に `YYYY-MM-DD-slug.md`(例: `2026-11-18-paging.md`)を作る(エディタは何でもよい)。日付が公開日、ファイル名全体が URL(`/blog/2026-11-18-paging/`)になる。
+2. 本文は `# タイトル` の行から書き始める。その見出しがページのタイトルになる。最初の段落の冒頭が検索結果・リンクプレビュー用の説明文になる。
+3. 名前が `_` で始まるファイルは下書きとして公開されない。公開するときにファイル名から `_` を外す。
+4. push すると Blog の一覧の先頭に出る。記事ページの ← → で前後の記事へ移る。
+
+front matter(`title` / `date` / `description`)を書けば、上の自動の値より優先される。画像は記事と同じフォルダ(またはその下)に置いて `![説明](./画像.jpg)` で参照する。名前に空白があるときは `![説明](<./画像 1.jpg>)` と書く。画像はビルド時に WebP に変換され、見つからなければビルドが失敗する。
+
+書き方の決まり: 改行 1 つでは段落を分けない(日本語どうしの行は空白なしでつながる)。`"…"` `--` `...` は “…” – … になる。本文に書いた HTML は出力されない。コードブロックは Shiki で色が付く。
+
+### Kakiaji との共有
+
+執筆アプリ Kakiaji(`../kakiaji`)のプレビューは、このサイトの変換処理(`src/lib/blog-markdown/`)とスタイル(`src/styles/global.css` + `article.css`)をそのまま JavaScriptCore で動かし、公開ページと同じ見た目にしている。これらを変えたら:
+
+1. `pnpm test:renderer` で、期待どおりの出力になること、JavaScriptCore と V8(Node)で出力が一致することを確かめる。
+2. Kakiaji のリポジトリで `make sync-renderer` を実行し(`pnpm build:renderer` が `Resources/Renderer/` に JS と CSS を書き出す)、Kakiaji 側でコミットする。
+
+変換処理は Node 専用・DOM 専用の API を使わないこと(JavaScriptCore で動かなくなる)。
 
 ## Weekly に新しい号を追加する
 

@@ -1,0 +1,172 @@
+---
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Base from '../../layouts/Base.astro';
+import { getBlogPosts, type BlogPost } from '../../lib/blog';
+import { imageSources, renderBlogMarkdown, type ResolvedImage } from '../../lib/blog-markdown/render';
+import { formatIssueDate } from '../../lib/weekly';
+import '../../styles/article.css';
+
+export async function getStaticPaths() {
+  const posts = await getBlogPosts();
+  // ← / → page through the blog posts, newest first.
+  return posts.map((post, i) => ({
+    params: { id: post.id },
+    props: { post, older: posts[i + 1], newer: posts[i - 1] },
+  }));
+}
+
+interface Props {
+  post: BlogPost;
+  older?: BlogPost;
+  newer?: BlogPost;
+}
+const { post, older, newer } = Astro.props;
+
+// Images next to the posts, keyed by path from the project root ("/src/content/blog/…").
+const blogImages = import.meta.glob<ImageMetadata>('/src/content/blog/**/*.{jpg,jpeg,png,webp,gif,avif}', {
+  eager: true,
+  import: 'default',
+});
+
+function safeDecode(src: string): string {
+  try {
+    return decodeURI(src);
+  } catch {
+    return src;
+  }
+}
+
+/** Optimizes each image the post refers to by a relative path. A missing image fails the build. */
+async function resolveImages(entryFile: string, markdown: string): Promise<Map<string, ResolvedImage>> {
+  const dir = entryFile.replace(/^\.?\/?/, '/').replace(/\/[^/]*$/, '');
+  const resolved = new Map<string, ResolvedImage>();
+  for (const src of imageSources(markdown)) {
+    if (!src || /^([a-z][a-z0-9+.-]*:|\/|#)/i.test(src)) continue;
+    const parts: string[] = dir.split('/');
+    for (const part of safeDecode(src).split('/')) {
+      if (part === '..') parts.pop();
+      else if (part && part !== '.') parts.push(part);
+    }
+    const image = blogImages[parts.join('/')];
+    if (!image) throw new Error(`Blog post ${entryFile}: image not found: ${src}`);
+    const optimized = await getImage({ src: image, format: 'webp' });
+    resolved.set(src, {
+      src: optimized.src,
+      width: Number(optimized.attributes.width ?? image.width),
+      height: Number(optimized.attributes.height ?? image.height),
+    });
+  }
+  return resolved;
+}
+
+const markdown = post.entry.body ?? '';
+const images = await resolveImages(post.entry.filePath ?? `src/content/blog/${post.id}.md`, markdown);
+const html = renderBlogMarkdown(markdown, { resolveImage: (src) => images.get(src) });
+---
+<Base title={post.title} description={post.description} current="/blog/">
+  {older && <link slot="head" rel="prev" href={older.url} />}
+  {newer && <link slot="head" rel="next" href={newer.url} />}
+  <article class="post">
+    <nav class="pager-top" aria-label="前後の記事">
+      <a class="btn btn-outline btn-sm" href={older?.url} aria-disabled={older ? undefined : 'true'} data-pager="older">&larr; 前へ</a>
+      <a class="blog-link small" href="/blog/">Blog</a>
+      <a class="btn btn-outline btn-sm" href={newer?.url} aria-disabled={newer ? undefined : 'true'} data-pager="newer">次へ &rarr;</a>
+    </nav>
+
+    <div class="prose post-body">
+      <time datetime={post.date} class="muted small">{formatIssueDate(post.date)}</time>
+      {/* A post that opens with "# タイトル" lets that heading serve as the page title. */}
+      {!post.opensWithHeading && <h1>{post.title}</h1>}
+      <Fragment set:html={html} />
+    </div>
+
+    <nav class="pager-bottom" aria-label="前後の記事">
+      {older ? (
+        <a class="pager-card older" href={older.url}>
+          <span class="pager-dir small">&larr; 前の記事</span>
+          <span class="pager-title">{older.title}</span>
+        </a>
+      ) : <span />}
+      {newer ? (
+        <a class="pager-card newer" href={newer.url}>
+          <span class="pager-dir small">次の記事 &rarr;</span>
+          <span class="pager-title">{newer.title}</span>
+        </a>
+      ) : <span />}
+    </nav>
+    <p class="back small"><a href="/blog/">Blog の一覧へ</a> <span class="muted">(キーボードの ← → でも移動できます)</span></p>
+  </article>
+</Base>
+
+<script>
+  // ← / → turn the page, like the buttons. Ignored while typing or with a modifier key held.
+  document.addEventListener('keydown', (e) => {
+    if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    const target = e.target;
+    if (target instanceof HTMLElement && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName))) return;
+    const dir = e.key === 'ArrowLeft' ? 'older' : e.key === 'ArrowRight' ? 'newer' : undefined;
+    const link = dir && document.querySelector<HTMLAnchorElement>(`a[data-pager="${dir}"][href]`);
+    if (link) location.href = link.href;
+  });
+</script>
+
+<style>
+  .pager-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .pager-top a[aria-disabled='true'] {
+    visibility: hidden;
+  }
+  .blog-link {
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .pager-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border);
+  }
+  .pager-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 18px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    color: var(--color-text);
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .pager-card:hover {
+    border-color: var(--color-primary);
+    color: var(--color-text);
+    transform: translateY(-1px);
+  }
+  .pager-card.newer {
+    text-align: right;
+  }
+  .pager-dir {
+    color: var(--color-text-secondary);
+  }
+  .pager-title {
+    font-weight: 600;
+  }
+  .back {
+    margin-top: 24px;
+    text-align: center;
+  }
+  @media (max-width: 560px) {
+    .pager-bottom {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

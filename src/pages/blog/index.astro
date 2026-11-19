@@ -1,0 +1,92 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getBlogPosts } from '../../lib/blog';
+
+const posts = await getBlogPosts();
+const description = 'AfterAI の記事を新しい順に並べています。';
+---
+<Base title="Blog" description={description} current="/blog/">
+  <section class="blog-head">
+    <span class="eyebrow">Blog</span>
+    <h1>Blog</h1>
+    <p class="lead">AfterAI の記事です。新しい順に並べています。</p>
+  </section>
+
+  {posts.length > 0 ? (
+    <ol class="blog-list">
+      {posts.map((post) => (
+        <li>
+          <a href={post.url}>
+            <time datetime={post.date}>{post.date}</time>
+            <span class="title">{post.title}</span>
+            {post.description && <span class="summary">{post.description}</span>}
+          </a>
+        </li>
+      ))}
+    </ol>
+  ) : (
+    <p class="empty muted">まだ記事はありません。</p>
+  )}
+</Base>
+
+<style>
+  .blog-head {
+    max-width: 760px;
+    margin: 8px auto 28px;
+  }
+  .lead {
+    margin-top: 12px;
+    font-size: 1.08rem;
+    color: var(--color-text-secondary);
+  }
+  .blog-list {
+    list-style: none;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .blog-list li {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .blog-list a {
+    display: grid;
+    grid-template-columns: 6.6em minmax(0, 1fr);
+    align-items: baseline;
+    gap: 4px 12px;
+    padding: 14px 8px;
+    color: var(--color-text);
+  }
+  .blog-list a:hover {
+    background: var(--color-surface-2);
+    color: var(--color-text);
+  }
+  .blog-list a:hover .title {
+    color: var(--color-primary);
+  }
+  .blog-list time {
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-secondary);
+    font-size: 0.92rem;
+  }
+  .title {
+    font-weight: 600;
+  }
+  .summary {
+    grid-column: 2;
+    font-size: 0.92rem;
+    color: var(--color-text-secondary);
+  }
+  .empty {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  @media (max-width: 560px) {
+    .blog-list a {
+      grid-template-columns: 1fr;
+    }
+    .summary {
+      grid-column: auto;
+    }
+  }
+</style>

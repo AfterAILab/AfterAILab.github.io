@@ -42,4 +42,22 @@ const weeklyTranscriptions = defineCollection({
   schema: z.object({}).passthrough(),
 });
 
-export const collections = { weekly, weeklyTranscriptions };
+/**
+ * Blog posts, one Markdown file per post (any editor): `YYYY-MM-DD-some-slug.md`.
+ * The date comes from the file name and the title from the `# heading` the body opens with (see src/lib/blog.ts);
+ * front matter may override either. Files whose name starts with `_` are drafts and are not published.
+ */
+const blog = defineCollection({
+  loader: glob({ pattern: ['*.md', '!_*.md'], base: './src/content/blog' }),
+  schema: z.object({
+    title: z.string().optional(),
+    date: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/)
+      .optional(),
+    /** For search engines and link previews; defaults to the opening of the first paragraph. */
+    description: z.string().optional(),
+  }),
+});
+
+export const collections = { weekly, weeklyTranscriptions, blog };
