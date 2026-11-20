@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "build:renderer": "node scripts/build-blog-renderer.mjs",
-    "test:renderer": "node scripts/test-blog-renderer.mjs"
+    "test:renderer": "node scripts/test-blog-renderer.mjs",
+    "test:blog-images": "node scripts/test-blog-images.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

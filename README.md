@@ -11,6 +11,7 @@ pnpm build     # dist/ に出力
 pnpm preview   # dist/ をローカル配信
 pnpm check     # 型チェック
 pnpm test:renderer  # Blog の Markdown 変換のテスト(macOS では JavaScriptCore と V8 で出力が一致するかも確かめる)
+pnpm test:blog-images  # Kakiaji が投稿で作り直した画像の見本(scripts/fixtures/kakiaji-images/)がビルドの画像の検査を通るか(Node 23.6 以上)
 ```
 
 ## 構成
@@ -57,6 +58,7 @@ Kakiaji から投稿した記事は、GitHub の API で `main` に直接コミ�
 
 1. `pnpm test:renderer` で、期待どおりの出力になること、JavaScriptCore と V8(Node)で出力が一致することを確かめる。
 2. Kakiaji のリポジトリで `make sync-renderer` を実行し(`pnpm build:renderer` が `Resources/Renderer/` に JS・CSS・規則の JSON を書き出す)、Kakiaji 側でコミットする。
+3. 画像の規則(`blog-rules.json`)や検査(`blog-images.ts`)を変えたら、同期のあとで Kakiaji をビルドし直して見本を作り直し(`../kakiaji/.build/debug/Kakiaji --blog-samples scripts/fixtures/kakiaji-images`)、`pnpm test:blog-images` を通す(幅の規則を変えたら、テストの期待する大きさも直す)。
 
 変換処理は Node 専用・DOM 専用の API を使わないこと(JavaScriptCore で動かなくなる)。
 

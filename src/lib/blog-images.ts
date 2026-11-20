@@ -1,7 +1,7 @@
 import { readdir } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 import sharp from 'sharp';
-import blogRules from './blog-rules.json';
+import blogRules from './blog-rules.json' with { type: 'json' };
 
 /**
  * ./blog-rules.json, checked when the build loads it: it is the only switch for these checks (and Kakiaji's copy),
@@ -49,7 +49,7 @@ async function walk(dir: string): Promise<string[]> {
 }
 
 /** What is wrong with one image for publishing, if anything. */
-async function problems(file: string): Promise<string[]> {
+export async function problems(file: string): Promise<string[]> {
   const ext = extension(file);
   if (REJECTED_EXTENSIONS.has(ext)) return [`${ext.toUpperCase()}(JPG に変換する)`];
   const meta = await sharp(file).metadata();
