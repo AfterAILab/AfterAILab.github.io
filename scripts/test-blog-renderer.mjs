@@ -186,6 +186,16 @@ const posting = [
     'a rewrite that would change the structure is refused',
     () => throws(() => rewrite('| ![a](a|b.png) |\n| --- |\n| keep | [lost](/Users/me/file) |', { 'a|b.png': './i/01.jpg' })),
   ],
+  [
+    'site ids are the file names as Astro slugs them',
+    () =>
+      same(
+        ['2026-11-19-paging.md', '2026-11-19-Hello World.md', '2026-11-19-v1.2 release.md', '2026-11-19-（全角）？！.md',
+          '2026-11-19-pag\u00ADing.md', '2026-11-19-pag\u200Bing.md', '2026-11-19-a_b.md'].map((n) => context.BlogMarkdown.siteID(n)),
+        ['2026-11-19-paging', '2026-11-19-hello-world', '2026-11-19-v12-release', '2026-11-19-全角', '2026-11-19-paging',
+          '2026-11-19-paging', '2026-11-19-a_b'],
+      ),
+  ],
   ['an image without a written destination cannot be rewritten', () => throws(() => rewrite('![a]()', { '': './i/01.png' }))],
 ];
 let postingFailed = 0;
@@ -226,19 +236,24 @@ if (existsSync(jsc)) {
   console.log(`${inputs.length - mismatched}/${inputs.length} inputs render identically in JavaScriptCore and V8`);
   failed += mismatched;
 
-  // Inspecting and rewriting for posting, too.
+  // Inspecting, rewriting and site ids for posting, too.
+  const names = ['2026-11-19-Hello World.md', '2026-11-19-pag\u00ADing.md', '2026-11-19-（全角）？！.md', '2026-11-19-ガギグ.md'];
   const script = join(work, 'posting.js');
   writeFileSync(
     script,
-    `print(JSON.stringify([BlogMarkdown.inspect(${JSON.stringify(post)}), BlogMarkdown.rewriteImages(${JSON.stringify(post)}, ${JSON.stringify(paths)})]));`,
+    `print(JSON.stringify([BlogMarkdown.inspect(${JSON.stringify(post)}), BlogMarkdown.rewriteImages(${JSON.stringify(post)}, ${JSON.stringify(paths)}), ${JSON.stringify(names)}.map(BlogMarkdown.siteID)]));`,
   );
   const fromJsc = execFileSync(jsc, [join(work, 'blog-markdown.js'), script], { encoding: 'utf8' }).replace(/\n$/, '');
-  const fromV8 = JSON.stringify([context.BlogMarkdown.inspect(post), context.BlogMarkdown.rewriteImages(post, paths)]);
+  const fromV8 = JSON.stringify([
+    context.BlogMarkdown.inspect(post),
+    context.BlogMarkdown.rewriteImages(post, paths),
+    names.map((n) => context.BlogMarkdown.siteID(n)),
+  ]);
   if (fromJsc !== fromV8) {
     failed++;
-    console.error(`✗ JavaScriptCore inspects or rewrites differently from V8:\n  V8:  ${fromV8}\n  JSC: ${fromJsc}`);
+    console.error(`✗ JavaScriptCore inspects, rewrites or slugs differently from V8:\n  V8:  ${fromV8}\n  JSC: ${fromJsc}`);
   } else {
-    console.log('inspecting and rewriting for posting agree in JavaScriptCore and V8');
+    console.log('inspecting, rewriting and site ids for posting agree in JavaScriptCore and V8');
   }
 } else {
   console.log('JavaScriptCore not found (not macOS): skipped the V8 / JavaScriptCore comparison');

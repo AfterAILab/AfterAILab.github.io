@@ -5,9 +5,12 @@
  *   resolve against (the document's folder), or an empty string to leave them as written.
  * - `BlogMarkdown.inspect(markdown)` and `BlogMarkdown.rewriteImages(markdown, paths)` for posting a text to the
  *   blog (./publish.ts).
+ * - `BlogMarkdown.siteID(fileName)`: the id (and URL) the site gives a post's file, so Kakiaji can tell whether a
+ *   new post's id is already some other file's.
  */
 // First: JavaScriptCore has no console, and Shiki warns through it while loading grammars.
 import './jsc-console';
+import { slug } from 'github-slugger';
 import { inspectPost, rewritePostImages } from './publish';
 import { renderBlogMarkdown } from './render';
 
@@ -34,7 +37,17 @@ function safeDecode(part: string): string {
   }
 }
 
+/**
+ * The id Astro's glob loader gives a file in src/content/blog (no `slug` in its front matter): the name without its
+ * extension, through github-slugger (astro/dist/content/utils.js `getContentEntryIdAndSlug`).
+ */
+function siteID(fileName: string): string {
+  const dot = fileName.lastIndexOf('.');
+  return slug(dot > 0 ? fileName.slice(0, dot) : fileName);
+}
+
 (globalThis as { BlogMarkdown?: unknown }).BlogMarkdown = {
+  siteID,
   render,
   inspect: inspectPost,
   rewriteImages: rewritePostImages,
