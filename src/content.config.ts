@@ -43,18 +43,28 @@ const weeklyTranscriptions = defineCollection({
 });
 
 /**
- * Blog posts, one Markdown file per post (any editor): `YYYY-MM-DD-some-slug.md`.
- * The date comes from the file name and the title from the `# heading` the body opens with (see src/lib/blog.ts);
- * front matter may override either. Files whose name starts with `_` are drafts and are not published.
+ * A moment in a post's front matter, with the writer's offset: "2026-11-20T14:03:12+09:00". Quoted: YAML turns
+ * a bare timestamp into a Date, which drops the offset (and with it the writer's day).
+ */
+const moment = z.iso.datetime({
+  offset: true,
+  precision: 0,
+  error: 'write a quoted moment with its offset, e.g. "2026-11-20T14:03:12+09:00"',
+});
+
+/**
+ * Blog posts, one Markdown file per post (any editor): `some-slug.md`, the slug being the post's id and URL.
+ * The title comes from the `# heading` the body opens with (see src/lib/blog.ts) unless front matter sets one.
+ * Files whose name starts with `_` are drafts and are not published.
  */
 const blog = defineCollection({
   loader: glob({ pattern: ['*.md', '!_*.md'], base: './src/content/blog' }),
   schema: z.object({
     title: z.string().optional(),
-    date: z
-      .string()
-      .regex(/^\d{4}-\d{2}-\d{2}$/)
-      .optional(),
+    /** First published. */
+    created_at: moment,
+    /** Last changed; created_at when absent. */
+    updated_at: moment.optional(),
     /** For search engines and link previews; defaults to the opening of the first paragraph. */
     description: z.string().optional(),
   }),

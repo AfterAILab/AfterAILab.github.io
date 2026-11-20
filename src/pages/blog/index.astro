@@ -17,7 +17,7 @@ const description = 'AfterAI の記事を新しい順に並べています。';
       {posts.map((post) => (
         <li>
           <a href={post.url}>
-            <time datetime={post.date}>{post.date}</time>
+            <time datetime={post.createdAt}>{post.publishedDay}</time>
             <span class="title">{post.title}</span>
             {post.description && <span class="summary">{post.description}</span>}
           </a>

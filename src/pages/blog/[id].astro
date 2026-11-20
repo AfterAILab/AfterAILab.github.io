@@ -81,7 +81,10 @@ const html = renderBlogMarkdown(markdown, { resolveImage: (src) => images.get(sr
     </nav>
 
     <div class="prose post-body">
-      <time datetime={post.date} class="muted small">{formatIssueDate(post.date)}</time>
+      <div class="post-dates muted small">
+        <time datetime={post.createdAt}>{formatIssueDate(post.publishedDay)}</time>
+        {post.updatedDay && <>(<time datetime={post.updatedAt}>{formatIssueDate(post.updatedDay)}</time> 更新)</>}
+      </div>
       {/* A post that opens with "# タイトル" lets that heading serve as the page title. */}
       {!post.opensWithHeading && <h1>{post.title}</h1>}
       <Fragment set:html={html} />
