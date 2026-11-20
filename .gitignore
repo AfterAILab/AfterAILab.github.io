@@ -98,3 +98,6 @@ dist/
 
 # Kakiaji renderer bundle (scripts/build-blog-renderer.mjs)
 dist-renderer/
+
+# Claude Code personal settings
+.claude/settings.local.json
