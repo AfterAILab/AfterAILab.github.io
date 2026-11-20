@@ -12,9 +12,9 @@
     "test:blog-images": "node scripts/test-blog-images.mjs"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.4",
+    "@astrojs/sitemap": "^3.7.5",
     "@shikijs/rehype": "^4.6.0",
-    "astro": "7.4.4",
+    "astro": "7.4.12",
     "github-slugger": "^2.0.0",
     "rehype-stringify": "^10.0.1",
     "remark-gfm": "^4.0.1",
