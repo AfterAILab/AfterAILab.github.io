@@ -5,17 +5,18 @@ import { apps } from '../data/apps';
 import { getLatestIssue, webpSrcset } from '../lib/weekly';
 
 const latest = await getLatestIssue();
+const liveApps = apps.filter((app) => !app.ended);
 ---
 <Base
   title="AfterAI"
-  description="暮らしの中で使う Web アプリ(わりぽん・kondate・CapySteps)と、蓄電池を VPP リソースに変える AfterAI VPP。AfterAI株式会社。"
+  description="暮らしの中で使う Web アプリ(わりぽん・kondate)と、蓄電池を VPP リソースに変える AfterAI VPP。AfterAI株式会社。"
   ogImage={latest.image}
 >
   <section class="hero">
     <span class="eyebrow">AfterAI</span>
     <h1>暮らしに、ちゃんと<br class="sp" /><span class="phrase">フィットする</span><span class="phrase">アプリを。</span></h1>
     <p class="lead">
-      家計の折半、献立、毎日の学び。自分たちが普段から使いたくなる Web アプリをつくっています。
+      家計の折半に、毎日の献立。自分たちが普段から使いたくなる Web アプリをつくっています。
       また、蓄電池を電力市場につなぐ基盤も開発しています。
     </p>
   </section>
@@ -26,11 +27,11 @@ const latest = await getLatestIssue();
       <h2>暮らしの中で使うアプリ</h2>
       <p>ブラウザで開くだけで使え、スマートフォンのホーム画面にも追加できます。</p>
     </div>
-    <div class="grid grid-3">
-      {apps.map((app) => <AppCard app={app} />)}
+    <div class="grid grid-2">
+      {liveApps.map((app) => <AppCard app={app} />)}
     </div>
     <p class="apps-note">
-      3 つのアプリは、<a href="https://account.afterai.dev" target="_blank" rel="noopener">account.afterai.dev</a> で管理する共通の <strong>AfterAI アカウント</strong>で使えます。
+      どのアプリも、<a href="https://account.afterai.dev" target="_blank" rel="noopener">account.afterai.dev</a> で管理する共通の <strong>AfterAI アカウント</strong>で使えます。
     </p>
   </section>
 

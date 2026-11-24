@@ -9,6 +9,8 @@ export interface App {
   audience: string;
   /** Detail page on this site, when there is one. */
   page?: string;
+  /** Month the service ended (YYYY-MM). An ended app keeps its detail page as a record but leaves the app list. */
+  ended?: string;
 }
 
 /** Order matters: the first two are the current focus. */
@@ -45,5 +47,6 @@ export const apps: App[] = [
     icon: '/img/apps/capysteps.png',
     audience: '学びを習慣にしたい人',
     page: '/apps/capysteps/',
+    ended: '2026-11',
   },
 ];
