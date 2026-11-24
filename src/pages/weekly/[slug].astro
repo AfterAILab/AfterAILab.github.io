@@ -29,7 +29,7 @@ const description = `AI 以後の世界でどのように生きるべきかを�
 const minutes = audio && `${Math.floor(audio.seconds / 60)}分${String(audio.seconds % 60).padStart(2, '0')}秒`;
 ---
 <Base title={issue.title} description={description} current="/weekly/" ogImage={issue.image}>
-  <link slot="head" rel="alternate" type="application/rss+xml" title={PODCAST.title} href={PODCAST.feedPath} />
+  <link slot="head" rel="alternate" type="application/rss+xml" title={`${PODCAST.title}(音声)`} href={PODCAST.feedPath} />
   <article class="issue">
     <header class="issue-head">
       <a class="btn btn-outline btn-sm nav-older" href={older?.url} aria-disabled={older ? undefined : 'true'}>

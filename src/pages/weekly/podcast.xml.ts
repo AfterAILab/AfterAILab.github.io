@@ -3,6 +3,7 @@ import path from 'node:path';
 import type { APIRoute } from 'astro';
 import { getWeeklyIssues } from '../../lib/weekly';
 import { PODCAST, episodeGuid } from '../../lib/podcast';
+import { esc, rfc822Day } from '../../lib/rss';
 
 /** Podcast RSS for AfterAI Weekly (Apple Podcasts / Spotify compatible). */
 export const GET: APIRoute = async ({ site }) => {
@@ -23,7 +24,7 @@ export const GET: APIRoute = async ({ site }) => {
       <title>${esc(audio.title)}</title>
       <link>${abs(issue.url)}</link>
       <guid isPermaLink="false">${episodeGuid(issue.slug)}</guid>
-      <pubDate>${rfc822(audio.date)}</pubDate>
+      <pubDate>${rfc822Day(audio.date)}</pubDate>
       <description>${esc(`${audio.description}\n\n${issue.title}: ${abs(issue.url)}`)}</description>
       <enclosure url="${abs(audio.url)}" length="${audio.bytes}" type="audio/x-m4a" />
       <itunes:duration>${audio.seconds}</itunes:duration>
@@ -63,12 +64,3 @@ export const GET: APIRoute = async ({ site }) => {
 `;
   return new Response(xml, { headers: { 'Content-Type': 'application/rss+xml; charset=utf-8' } });
 };
-
-function esc(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
-/** "2026-11-18" → "Wed, 18 Nov 2026 03:00:00 GMT" (noon in Japan, so the date is the same in JST and UTC). */
-function rfc822(date: string): string {
-  return new Date(`${date}T12:00:00+09:00`).toUTCString();
-}
